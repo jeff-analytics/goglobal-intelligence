@@ -1,0 +1,4682 @@
+[
+  {
+    "code": "AF",
+    "label": "Afghanistan",
+    "label_zh": "阿富汗",
+    "reporter": "004",
+    "reporter_basis": "m49",
+    "currency": "AFN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "latlng": [
+      33,
+      65
+    ]
+  },
+  {
+    "code": "AL",
+    "label": "Albania",
+    "label_zh": "阿尔巴尼亚",
+    "reporter": "008",
+    "reporter_basis": "m49",
+    "currency": "ALL",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      41,
+      20
+    ]
+  },
+  {
+    "code": "DZ",
+    "label": "Algeria",
+    "label_zh": "阿尔及利亚",
+    "reporter": "012",
+    "reporter_basis": "m49",
+    "currency": "DZD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "latlng": [
+      28,
+      3
+    ]
+  },
+  {
+    "code": "AS",
+    "label": "American Samoa",
+    "label_zh": "美属萨摩亚",
+    "reporter": "016",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "latlng": [
+      -14.33333333,
+      -170
+    ]
+  },
+  {
+    "code": "AD",
+    "label": "Andorra",
+    "label_zh": "安道尔",
+    "reporter": "020",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "AO",
+    "label": "Angola",
+    "label_zh": "安哥拉",
+    "reporter": "024",
+    "reporter_basis": "m49",
+    "currency": "AOA",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "latlng": [
+      -12.5,
+      18.5
+    ]
+  },
+  {
+    "code": "AI",
+    "label": "Anguilla",
+    "label_zh": "安圭拉",
+    "reporter": "660",
+    "reporter_basis": "m49",
+    "currency": "XCD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      18.25,
+      -63.16666666
+    ]
+  },
+  {
+    "code": "AQ",
+    "label": "Antarctica",
+    "label_zh": "南极洲",
+    "reporter": "010",
+    "reporter_basis": "m49",
+    "currency": "XXX",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "AG",
+    "label": "Antigua & Barbuda",
+    "label_zh": "安提瓜和巴布达",
+    "reporter": "028",
+    "reporter_basis": "m49",
+    "currency": "XCD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      17.05,
+      -61.8
+    ]
+  },
+  {
+    "code": "AR",
+    "label": "Argentina",
+    "label_zh": "阿根廷",
+    "reporter": "032",
+    "reporter_basis": "m49",
+    "currency": "ARS",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      -34,
+      -64
+    ]
+  },
+  {
+    "code": "AM",
+    "label": "Armenia",
+    "label_zh": "亚美尼亚",
+    "reporter": "051",
+    "reporter_basis": "m49",
+    "currency": "AMD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      40,
+      45
+    ]
+  },
+  {
+    "code": "AW",
+    "label": "Aruba",
+    "label_zh": "阿鲁巴",
+    "reporter": "533",
+    "reporter_basis": "m49",
+    "currency": "AWG",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      12.5,
+      -69.96666666
+    ]
+  },
+  {
+    "code": "AU",
+    "label": "Australia",
+    "label_zh": "澳大利亚",
+    "reporter": "036",
+    "reporter_basis": "configured",
+    "currency": "AUD",
+    "ebay": "EBAY_AU",
+    "tax_type": "GST",
+    "listing_supported": true,
+    "featured": true,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "latlng": [
+      -27,
+      133
+    ]
+  },
+  {
+    "code": "AT",
+    "label": "Austria",
+    "label_zh": "奥地利",
+    "reporter": "040",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "latlng": [
+      47.33333333,
+      13.33333333
+    ]
+  },
+  {
+    "code": "AZ",
+    "label": "Azerbaijan",
+    "label_zh": "阿塞拜疆",
+    "reporter": "031",
+    "reporter_basis": "m49",
+    "currency": "AZN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      40.5,
+      47.5
+    ]
+  },
+  {
+    "code": "BS",
+    "label": "Bahamas",
+    "label_zh": "巴哈马",
+    "reporter": "044",
+    "reporter_basis": "m49",
+    "currency": "BSD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      24.25,
+      -76
+    ]
+  },
+  {
+    "code": "BH",
+    "label": "Bahrain",
+    "label_zh": "巴林",
+    "reporter": "048",
+    "reporter_basis": "m49",
+    "currency": "BHD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      26,
+      50.55
+    ]
+  },
+  {
+    "code": "BD",
+    "label": "Bangladesh",
+    "label_zh": "孟加拉国",
+    "reporter": "050",
+    "reporter_basis": "m49",
+    "currency": "BDT",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "latlng": [
+      24,
+      90
+    ]
+  },
+  {
+    "code": "BB",
+    "label": "Barbados",
+    "label_zh": "巴巴多斯",
+    "reporter": "052",
+    "reporter_basis": "m49",
+    "currency": "BBD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      13.16666666,
+      -59.53333333
+    ]
+  },
+  {
+    "code": "BY",
+    "label": "Belarus",
+    "label_zh": "白俄罗斯",
+    "reporter": "112",
+    "reporter_basis": "m49",
+    "currency": "BYN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      53,
+      28
+    ]
+  },
+  {
+    "code": "BE",
+    "label": "Belgium",
+    "label_zh": "比利时",
+    "reporter": "056",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "latlng": [
+      50.83333333,
+      4
+    ]
+  },
+  {
+    "code": "BZ",
+    "label": "Belize",
+    "label_zh": "伯利兹",
+    "reporter": "084",
+    "reporter_basis": "m49",
+    "currency": "BZD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Central America",
+    "latlng": [
+      17.25,
+      -88.75
+    ]
+  },
+  {
+    "code": "BJ",
+    "label": "Benin",
+    "label_zh": "贝宁",
+    "reporter": "204",
+    "reporter_basis": "m49",
+    "currency": "XOF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      9.5,
+      2.25
+    ]
+  },
+  {
+    "code": "BM",
+    "label": "Bermuda",
+    "label_zh": "百慕大",
+    "reporter": "060",
+    "reporter_basis": "m49",
+    "currency": "BMD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Northern America",
+    "latlng": [
+      32.33333333,
+      -64.75
+    ]
+  },
+  {
+    "code": "BT",
+    "label": "Bhutan",
+    "label_zh": "不丹",
+    "reporter": "064",
+    "reporter_basis": "m49",
+    "currency": "BTN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "latlng": [
+      27.5,
+      90.5
+    ]
+  },
+  {
+    "code": "BO",
+    "label": "Bolivia",
+    "label_zh": "玻利维亚",
+    "reporter": "068",
+    "reporter_basis": "m49",
+    "currency": "BOB",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      -17,
+      -65
+    ]
+  },
+  {
+    "code": "BA",
+    "label": "Bosnia & Herzegovina",
+    "label_zh": "波斯尼亚和黑塞哥维那",
+    "reporter": "070",
+    "reporter_basis": "m49",
+    "currency": "BAM",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      44,
+      18
+    ]
+  },
+  {
+    "code": "BW",
+    "label": "Botswana",
+    "label_zh": "博茨瓦纳",
+    "reporter": "072",
+    "reporter_basis": "m49",
+    "currency": "BWP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "latlng": [
+      -22,
+      24
+    ]
+  },
+  {
+    "code": "BV",
+    "label": "Bouvet Island",
+    "label_zh": "布韦岛",
+    "reporter": "074",
+    "reporter_basis": "m49",
+    "currency": "NOK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "BR",
+    "label": "Brazil",
+    "label_zh": "巴西",
+    "reporter": "076",
+    "reporter_basis": "m49",
+    "currency": "BRL",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      -10,
+      -55
+    ]
+  },
+  {
+    "code": "IO",
+    "label": "British Indian Ocean Territory",
+    "label_zh": "英属印度洋领地",
+    "reporter": "086",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -6,
+      71.5
+    ]
+  },
+  {
+    "code": "VG",
+    "label": "British Virgin Islands",
+    "label_zh": "英属维尔京群岛",
+    "reporter": "092",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "BN",
+    "label": "Brunei",
+    "label_zh": "文莱",
+    "reporter": "096",
+    "reporter_basis": "m49",
+    "currency": "BND",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "latlng": [
+      4.5,
+      114.66666666
+    ]
+  },
+  {
+    "code": "BG",
+    "label": "Bulgaria",
+    "label_zh": "保加利亚",
+    "reporter": "100",
+    "reporter_basis": "m49",
+    "currency": "BGN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      43,
+      25
+    ]
+  },
+  {
+    "code": "BF",
+    "label": "Burkina Faso",
+    "label_zh": "布基纳法索",
+    "reporter": "854",
+    "reporter_basis": "m49",
+    "currency": "XOF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      13,
+      -2
+    ]
+  },
+  {
+    "code": "BI",
+    "label": "Burundi",
+    "label_zh": "布隆迪",
+    "reporter": "108",
+    "reporter_basis": "m49",
+    "currency": "BIF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -3.5,
+      30
+    ]
+  },
+  {
+    "code": "KH",
+    "label": "Cambodia",
+    "label_zh": "柬埔寨",
+    "reporter": "116",
+    "reporter_basis": "m49",
+    "currency": "KHR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "latlng": [
+      13,
+      105
+    ]
+  },
+  {
+    "code": "CM",
+    "label": "Cameroon",
+    "label_zh": "喀麦隆",
+    "reporter": "120",
+    "reporter_basis": "m49",
+    "currency": "XAF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "latlng": [
+      6,
+      12
+    ]
+  },
+  {
+    "code": "CA",
+    "label": "Canada",
+    "label_zh": "加拿大",
+    "reporter": "124",
+    "reporter_basis": "configured",
+    "currency": "CAD",
+    "ebay": "EBAY_CA",
+    "tax_type": "GST/HST",
+    "listing_supported": true,
+    "featured": true,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Northern America",
+    "latlng": [
+      60,
+      -95
+    ]
+  },
+  {
+    "code": "CV",
+    "label": "Cape Verde",
+    "label_zh": "佛得角",
+    "reporter": "132",
+    "reporter_basis": "m49",
+    "currency": "CVE",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      16,
+      -24
+    ]
+  },
+  {
+    "code": "BQ",
+    "label": "Caribbean Netherlands",
+    "label_zh": "荷属加勒比区",
+    "reporter": "535",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "KY",
+    "label": "Cayman Islands",
+    "label_zh": "开曼群岛",
+    "reporter": "136",
+    "reporter_basis": "m49",
+    "currency": "KYD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      19.5,
+      -80.5
+    ]
+  },
+  {
+    "code": "CF",
+    "label": "Central African Republic",
+    "label_zh": "中非共和国",
+    "reporter": "140",
+    "reporter_basis": "m49",
+    "currency": "XAF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "latlng": [
+      7,
+      21
+    ]
+  },
+  {
+    "code": "TD",
+    "label": "Chad",
+    "label_zh": "乍得",
+    "reporter": "148",
+    "reporter_basis": "m49",
+    "currency": "XAF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "latlng": [
+      15,
+      19
+    ]
+  },
+  {
+    "code": "CL",
+    "label": "Chile",
+    "label_zh": "智利",
+    "reporter": "152",
+    "reporter_basis": "m49",
+    "currency": "CLP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      -30,
+      -71
+    ]
+  },
+  {
+    "code": "CN",
+    "label": "China",
+    "label_zh": "中国",
+    "reporter": "156",
+    "reporter_basis": "m49",
+    "currency": "CNY",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "latlng": [
+      35,
+      105
+    ]
+  },
+  {
+    "code": "CX",
+    "label": "Christmas Island",
+    "label_zh": "圣诞岛",
+    "reporter": "162",
+    "reporter_basis": "m49",
+    "currency": "AUD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "latlng": [
+      -10.5,
+      105.66666666
+    ]
+  },
+  {
+    "code": "CC",
+    "label": "Cocos (Keeling) Islands",
+    "label_zh": "科科斯（基林）群岛",
+    "reporter": "166",
+    "reporter_basis": "m49",
+    "currency": "AUD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "latlng": [
+      -12.5,
+      96.83333333
+    ]
+  },
+  {
+    "code": "CO",
+    "label": "Colombia",
+    "label_zh": "哥伦比亚",
+    "reporter": "170",
+    "reporter_basis": "m49",
+    "currency": "COP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      4,
+      -72
+    ]
+  },
+  {
+    "code": "KM",
+    "label": "Comoros",
+    "label_zh": "科摩罗",
+    "reporter": "174",
+    "reporter_basis": "m49",
+    "currency": "KMF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -12.16666666,
+      44.25
+    ]
+  },
+  {
+    "code": "CG",
+    "label": "Congo - Brazzaville",
+    "label_zh": "刚果（布）",
+    "reporter": "178",
+    "reporter_basis": "m49",
+    "currency": "XAF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "latlng": [
+      -1,
+      15
+    ]
+  },
+  {
+    "code": "CD",
+    "label": "Congo - Kinshasa",
+    "label_zh": "刚果（金）",
+    "reporter": "180",
+    "reporter_basis": "m49",
+    "currency": "CDF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "latlng": [
+      0,
+      25
+    ]
+  },
+  {
+    "code": "CK",
+    "label": "Cook Islands",
+    "label_zh": "库克群岛",
+    "reporter": "184",
+    "reporter_basis": "m49",
+    "currency": "NZD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "latlng": [
+      -21.23333333,
+      -159.76666666
+    ]
+  },
+  {
+    "code": "CR",
+    "label": "Costa Rica",
+    "label_zh": "哥斯达黎加",
+    "reporter": "188",
+    "reporter_basis": "m49",
+    "currency": "CRC",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Central America",
+    "latlng": [
+      10,
+      -84
+    ]
+  },
+  {
+    "code": "HR",
+    "label": "Croatia",
+    "label_zh": "克罗地亚",
+    "reporter": "191",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      45.16666666,
+      15.5
+    ]
+  },
+  {
+    "code": "CU",
+    "label": "Cuba",
+    "label_zh": "古巴",
+    "reporter": "192",
+    "reporter_basis": "m49",
+    "currency": "CUP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      21.5,
+      -80
+    ]
+  },
+  {
+    "code": "CW",
+    "label": "Curaçao",
+    "label_zh": "库拉索",
+    "reporter": "531",
+    "reporter_basis": "m49",
+    "currency": "XCG",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "CY",
+    "label": "Cyprus",
+    "label_zh": "塞浦路斯",
+    "reporter": "196",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      35,
+      33
+    ]
+  },
+  {
+    "code": "CZ",
+    "label": "Czechia",
+    "label_zh": "捷克",
+    "reporter": "203",
+    "reporter_basis": "m49",
+    "currency": "CZK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      49.75,
+      15.5
+    ]
+  },
+  {
+    "code": "CI",
+    "label": "Côte d’Ivoire",
+    "label_zh": "科特迪瓦",
+    "reporter": "384",
+    "reporter_basis": "m49",
+    "currency": "XOF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      8,
+      -5
+    ]
+  },
+  {
+    "code": "DK",
+    "label": "Denmark",
+    "label_zh": "丹麦",
+    "reporter": "208",
+    "reporter_basis": "m49",
+    "currency": "DKK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      56,
+      10
+    ]
+  },
+  {
+    "code": "DJ",
+    "label": "Djibouti",
+    "label_zh": "吉布提",
+    "reporter": "262",
+    "reporter_basis": "m49",
+    "currency": "DJF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      11.5,
+      43
+    ]
+  },
+  {
+    "code": "DM",
+    "label": "Dominica",
+    "label_zh": "多米尼克",
+    "reporter": "212",
+    "reporter_basis": "m49",
+    "currency": "XCD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      15.41666666,
+      -61.33333333
+    ]
+  },
+  {
+    "code": "DO",
+    "label": "Dominican Republic",
+    "label_zh": "多米尼加共和国",
+    "reporter": "214",
+    "reporter_basis": "m49",
+    "currency": "DOP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      19,
+      -70.66666666
+    ]
+  },
+  {
+    "code": "EC",
+    "label": "Ecuador",
+    "label_zh": "厄瓜多尔",
+    "reporter": "218",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      -2,
+      -77.5
+    ]
+  },
+  {
+    "code": "EG",
+    "label": "Egypt",
+    "label_zh": "埃及",
+    "reporter": "818",
+    "reporter_basis": "m49",
+    "currency": "EGP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "latlng": [
+      27,
+      30
+    ]
+  },
+  {
+    "code": "SV",
+    "label": "El Salvador",
+    "label_zh": "萨尔瓦多",
+    "reporter": "222",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Central America",
+    "latlng": [
+      13.83333333,
+      -88.91666666
+    ]
+  },
+  {
+    "code": "GQ",
+    "label": "Equatorial Guinea",
+    "label_zh": "赤道几内亚",
+    "reporter": "226",
+    "reporter_basis": "m49",
+    "currency": "XAF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "latlng": [
+      2,
+      10
+    ]
+  },
+  {
+    "code": "ER",
+    "label": "Eritrea",
+    "label_zh": "厄立特里亚",
+    "reporter": "232",
+    "reporter_basis": "m49",
+    "currency": "ERN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      15,
+      39
+    ]
+  },
+  {
+    "code": "EE",
+    "label": "Estonia",
+    "label_zh": "爱沙尼亚",
+    "reporter": "233",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      59,
+      26
+    ]
+  },
+  {
+    "code": "SZ",
+    "label": "Eswatini",
+    "label_zh": "斯威士兰",
+    "reporter": "748",
+    "reporter_basis": "m49",
+    "currency": "SZL",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "latlng": [
+      -26.5,
+      31.5
+    ]
+  },
+  {
+    "code": "ET",
+    "label": "Ethiopia",
+    "label_zh": "埃塞俄比亚",
+    "reporter": "231",
+    "reporter_basis": "m49",
+    "currency": "ETB",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      8,
+      38
+    ]
+  },
+  {
+    "code": "FK",
+    "label": "Falkland Islands",
+    "label_zh": "福克兰群岛",
+    "reporter": "238",
+    "reporter_basis": "m49",
+    "currency": "FKP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      -51.75,
+      -59
+    ]
+  },
+  {
+    "code": "FO",
+    "label": "Faroe Islands",
+    "label_zh": "法罗群岛",
+    "reporter": "234",
+    "reporter_basis": "m49",
+    "currency": "DKK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      62,
+      -7
+    ]
+  },
+  {
+    "code": "FJ",
+    "label": "Fiji",
+    "label_zh": "斐济",
+    "reporter": "242",
+    "reporter_basis": "m49",
+    "currency": "FJD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "latlng": [
+      -18,
+      175
+    ]
+  },
+  {
+    "code": "FI",
+    "label": "Finland",
+    "label_zh": "芬兰",
+    "reporter": "246",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      64,
+      26
+    ]
+  },
+  {
+    "code": "FR",
+    "label": "France",
+    "label_zh": "法国",
+    "reporter": "250",
+    "reporter_basis": "configured",
+    "currency": "EUR",
+    "ebay": "EBAY_FR",
+    "tax_type": "VAT",
+    "listing_supported": true,
+    "featured": true,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "latlng": [
+      46,
+      2
+    ]
+  },
+  {
+    "code": "GF",
+    "label": "French Guiana",
+    "label_zh": "法属圭亚那",
+    "reporter": "254",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      4,
+      -53
+    ]
+  },
+  {
+    "code": "PF",
+    "label": "French Polynesia",
+    "label_zh": "法属波利尼西亚",
+    "reporter": "258",
+    "reporter_basis": "m49",
+    "currency": "XPF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "latlng": [
+      -15,
+      -140
+    ]
+  },
+  {
+    "code": "TF",
+    "label": "French Southern Territories",
+    "label_zh": "法属南部领地",
+    "reporter": "260",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": [
+      -49.25,
+      69.167
+    ]
+  },
+  {
+    "code": "GA",
+    "label": "Gabon",
+    "label_zh": "加蓬",
+    "reporter": "266",
+    "reporter_basis": "m49",
+    "currency": "XAF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "latlng": [
+      -1,
+      11.75
+    ]
+  },
+  {
+    "code": "GM",
+    "label": "Gambia",
+    "label_zh": "冈比亚",
+    "reporter": "270",
+    "reporter_basis": "m49",
+    "currency": "GMD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      13.46666666,
+      -16.56666666
+    ]
+  },
+  {
+    "code": "GE",
+    "label": "Georgia",
+    "label_zh": "格鲁吉亚",
+    "reporter": "268",
+    "reporter_basis": "m49",
+    "currency": "GEL",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      42,
+      43.5
+    ]
+  },
+  {
+    "code": "DE",
+    "label": "Germany",
+    "label_zh": "德国",
+    "reporter": "276",
+    "reporter_basis": "configured",
+    "currency": "EUR",
+    "ebay": "EBAY_DE",
+    "tax_type": "VAT",
+    "listing_supported": true,
+    "featured": true,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "latlng": [
+      51,
+      9
+    ]
+  },
+  {
+    "code": "GH",
+    "label": "Ghana",
+    "label_zh": "加纳",
+    "reporter": "288",
+    "reporter_basis": "m49",
+    "currency": "GHS",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      8,
+      -2
+    ]
+  },
+  {
+    "code": "GI",
+    "label": "Gibraltar",
+    "label_zh": "直布罗陀",
+    "reporter": "292",
+    "reporter_basis": "m49",
+    "currency": "GIP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      36.13333333,
+      -5.35
+    ]
+  },
+  {
+    "code": "GR",
+    "label": "Greece",
+    "label_zh": "希腊",
+    "reporter": "300",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      39,
+      22
+    ]
+  },
+  {
+    "code": "GL",
+    "label": "Greenland",
+    "label_zh": "格陵兰",
+    "reporter": "304",
+    "reporter_basis": "m49",
+    "currency": "DKK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Northern America",
+    "latlng": [
+      72,
+      -40
+    ]
+  },
+  {
+    "code": "GD",
+    "label": "Grenada",
+    "label_zh": "格林纳达",
+    "reporter": "308",
+    "reporter_basis": "m49",
+    "currency": "XCD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      12.11666666,
+      -61.66666666
+    ]
+  },
+  {
+    "code": "GP",
+    "label": "Guadeloupe",
+    "label_zh": "瓜德罗普",
+    "reporter": "312",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      16.25,
+      -61.583333
+    ]
+  },
+  {
+    "code": "GU",
+    "label": "Guam",
+    "label_zh": "关岛",
+    "reporter": "316",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "latlng": [
+      13.46666666,
+      144.78333333
+    ]
+  },
+  {
+    "code": "GT",
+    "label": "Guatemala",
+    "label_zh": "危地马拉",
+    "reporter": "320",
+    "reporter_basis": "m49",
+    "currency": "GTQ",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Central America",
+    "latlng": [
+      15.5,
+      -90.25
+    ]
+  },
+  {
+    "code": "GG",
+    "label": "Guernsey",
+    "label_zh": "根西岛",
+    "reporter": "831",
+    "reporter_basis": "m49",
+    "currency": "GBP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      49.46666666,
+      -2.58333333
+    ]
+  },
+  {
+    "code": "GN",
+    "label": "Guinea",
+    "label_zh": "几内亚",
+    "reporter": "324",
+    "reporter_basis": "m49",
+    "currency": "GNF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      11,
+      -10
+    ]
+  },
+  {
+    "code": "GW",
+    "label": "Guinea-Bissau",
+    "label_zh": "几内亚比绍",
+    "reporter": "624",
+    "reporter_basis": "m49",
+    "currency": "XOF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      12,
+      -15
+    ]
+  },
+  {
+    "code": "GY",
+    "label": "Guyana",
+    "label_zh": "圭亚那",
+    "reporter": "328",
+    "reporter_basis": "m49",
+    "currency": "GYD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      5,
+      -59
+    ]
+  },
+  {
+    "code": "HT",
+    "label": "Haiti",
+    "label_zh": "海地",
+    "reporter": "332",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      19,
+      -72.41666666
+    ]
+  },
+  {
+    "code": "HM",
+    "label": "Heard & McDonald Islands",
+    "label_zh": "赫德岛和麦克唐纳群岛",
+    "reporter": "334",
+    "reporter_basis": "m49",
+    "currency": "AUD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": [
+      -53.1,
+      72.51666666
+    ]
+  },
+  {
+    "code": "HN",
+    "label": "Honduras",
+    "label_zh": "洪都拉斯",
+    "reporter": "340",
+    "reporter_basis": "m49",
+    "currency": "HNL",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Central America",
+    "latlng": [
+      15,
+      -86.5
+    ]
+  },
+  {
+    "code": "HK",
+    "label": "Hong Kong SAR China",
+    "label_zh": "中国香港特别行政区",
+    "reporter": "344",
+    "reporter_basis": "m49",
+    "currency": "HKD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "latlng": [
+      22.25,
+      114.16666666
+    ]
+  },
+  {
+    "code": "HU",
+    "label": "Hungary",
+    "label_zh": "匈牙利",
+    "reporter": "348",
+    "reporter_basis": "m49",
+    "currency": "HUF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      47,
+      20
+    ]
+  },
+  {
+    "code": "IS",
+    "label": "Iceland",
+    "label_zh": "冰岛",
+    "reporter": "352",
+    "reporter_basis": "m49",
+    "currency": "ISK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      65,
+      -18
+    ]
+  },
+  {
+    "code": "IN",
+    "label": "India",
+    "label_zh": "印度",
+    "reporter": "699",
+    "reporter_basis": "comtrade_custom_area",
+    "currency": "INR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "latlng": [
+      20,
+      77
+    ]
+  },
+  {
+    "code": "ID",
+    "label": "Indonesia",
+    "label_zh": "印度尼西亚",
+    "reporter": "360",
+    "reporter_basis": "m49",
+    "currency": "IDR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "latlng": [
+      -5,
+      120
+    ]
+  },
+  {
+    "code": "IR",
+    "label": "Iran",
+    "label_zh": "伊朗",
+    "reporter": "364",
+    "reporter_basis": "m49",
+    "currency": "IRR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "latlng": [
+      32,
+      53
+    ]
+  },
+  {
+    "code": "IQ",
+    "label": "Iraq",
+    "label_zh": "伊拉克",
+    "reporter": "368",
+    "reporter_basis": "m49",
+    "currency": "IQD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      33,
+      44
+    ]
+  },
+  {
+    "code": "IE",
+    "label": "Ireland",
+    "label_zh": "爱尔兰",
+    "reporter": "372",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      53,
+      -8
+    ]
+  },
+  {
+    "code": "IM",
+    "label": "Isle of Man",
+    "label_zh": "马恩岛",
+    "reporter": "833",
+    "reporter_basis": "m49",
+    "currency": "GBP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      54.25,
+      -4.5
+    ]
+  },
+  {
+    "code": "IL",
+    "label": "Israel",
+    "label_zh": "以色列",
+    "reporter": "376",
+    "reporter_basis": "m49",
+    "currency": "ILS",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      31.5,
+      34.75
+    ]
+  },
+  {
+    "code": "IT",
+    "label": "Italy",
+    "label_zh": "意大利",
+    "reporter": "380",
+    "reporter_basis": "configured",
+    "currency": "EUR",
+    "ebay": "EBAY_IT",
+    "tax_type": "VAT",
+    "listing_supported": true,
+    "featured": true,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      42.83333333,
+      12.83333333
+    ]
+  },
+  {
+    "code": "JM",
+    "label": "Jamaica",
+    "label_zh": "牙买加",
+    "reporter": "388",
+    "reporter_basis": "m49",
+    "currency": "JMD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      18.25,
+      -77.5
+    ]
+  },
+  {
+    "code": "JP",
+    "label": "Japan",
+    "label_zh": "日本",
+    "reporter": "392",
+    "reporter_basis": "configured",
+    "currency": "JPY",
+    "ebay": null,
+    "tax_type": "Consumption tax",
+    "listing_supported": false,
+    "featured": true,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "latlng": [
+      36,
+      138
+    ]
+  },
+  {
+    "code": "JE",
+    "label": "Jersey",
+    "label_zh": "泽西岛",
+    "reporter": "832",
+    "reporter_basis": "m49",
+    "currency": "GBP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      49.25,
+      -2.16666666
+    ]
+  },
+  {
+    "code": "JO",
+    "label": "Jordan",
+    "label_zh": "约旦",
+    "reporter": "400",
+    "reporter_basis": "m49",
+    "currency": "JOD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      31,
+      36
+    ]
+  },
+  {
+    "code": "KZ",
+    "label": "Kazakhstan",
+    "label_zh": "哈萨克斯坦",
+    "reporter": "398",
+    "reporter_basis": "m49",
+    "currency": "KZT",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "latlng": [
+      48,
+      68
+    ]
+  },
+  {
+    "code": "KE",
+    "label": "Kenya",
+    "label_zh": "肯尼亚",
+    "reporter": "404",
+    "reporter_basis": "m49",
+    "currency": "KES",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      1,
+      38
+    ]
+  },
+  {
+    "code": "KI",
+    "label": "Kiribati",
+    "label_zh": "基里巴斯",
+    "reporter": "296",
+    "reporter_basis": "m49",
+    "currency": "AUD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "latlng": [
+      1.41666666,
+      173
+    ]
+  },
+  {
+    "code": "KW",
+    "label": "Kuwait",
+    "label_zh": "科威特",
+    "reporter": "414",
+    "reporter_basis": "m49",
+    "currency": "KWD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      29.5,
+      45.75
+    ]
+  },
+  {
+    "code": "KG",
+    "label": "Kyrgyzstan",
+    "label_zh": "吉尔吉斯斯坦",
+    "reporter": "417",
+    "reporter_basis": "m49",
+    "currency": "KGS",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "latlng": [
+      41,
+      75
+    ]
+  },
+  {
+    "code": "LA",
+    "label": "Laos",
+    "label_zh": "老挝",
+    "reporter": "418",
+    "reporter_basis": "m49",
+    "currency": "LAK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "latlng": [
+      18,
+      105
+    ]
+  },
+  {
+    "code": "LV",
+    "label": "Latvia",
+    "label_zh": "拉脱维亚",
+    "reporter": "428",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      57,
+      25
+    ]
+  },
+  {
+    "code": "LB",
+    "label": "Lebanon",
+    "label_zh": "黎巴嫩",
+    "reporter": "422",
+    "reporter_basis": "m49",
+    "currency": "LBP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      33.83333333,
+      35.83333333
+    ]
+  },
+  {
+    "code": "LS",
+    "label": "Lesotho",
+    "label_zh": "莱索托",
+    "reporter": "426",
+    "reporter_basis": "m49",
+    "currency": "LSL",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "latlng": [
+      -29.5,
+      28.5
+    ]
+  },
+  {
+    "code": "LR",
+    "label": "Liberia",
+    "label_zh": "利比里亚",
+    "reporter": "430",
+    "reporter_basis": "m49",
+    "currency": "LRD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      6.5,
+      -9.5
+    ]
+  },
+  {
+    "code": "LY",
+    "label": "Libya",
+    "label_zh": "利比亚",
+    "reporter": "434",
+    "reporter_basis": "m49",
+    "currency": "LYD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "latlng": [
+      25,
+      17
+    ]
+  },
+  {
+    "code": "LI",
+    "label": "Liechtenstein",
+    "label_zh": "列支敦士登",
+    "reporter": "438",
+    "reporter_basis": "m49",
+    "currency": "CHF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "latlng": [
+      47.26666666,
+      9.53333333
+    ]
+  },
+  {
+    "code": "LT",
+    "label": "Lithuania",
+    "label_zh": "立陶宛",
+    "reporter": "440",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      56,
+      24
+    ]
+  },
+  {
+    "code": "LU",
+    "label": "Luxembourg",
+    "label_zh": "卢森堡",
+    "reporter": "442",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "latlng": [
+      49.75,
+      6.16666666
+    ]
+  },
+  {
+    "code": "MO",
+    "label": "Macao SAR China",
+    "label_zh": "中国澳门特别行政区",
+    "reporter": "446",
+    "reporter_basis": "m49",
+    "currency": "MOP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "latlng": [
+      22.16666666,
+      113.55
+    ]
+  },
+  {
+    "code": "MG",
+    "label": "Madagascar",
+    "label_zh": "马达加斯加",
+    "reporter": "450",
+    "reporter_basis": "m49",
+    "currency": "MGA",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -20,
+      47
+    ]
+  },
+  {
+    "code": "MW",
+    "label": "Malawi",
+    "label_zh": "马拉维",
+    "reporter": "454",
+    "reporter_basis": "m49",
+    "currency": "MWK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -13.5,
+      34
+    ]
+  },
+  {
+    "code": "MY",
+    "label": "Malaysia",
+    "label_zh": "马来西亚",
+    "reporter": "458",
+    "reporter_basis": "m49",
+    "currency": "MYR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "latlng": [
+      2.5,
+      112.5
+    ]
+  },
+  {
+    "code": "MV",
+    "label": "Maldives",
+    "label_zh": "马尔代夫",
+    "reporter": "462",
+    "reporter_basis": "m49",
+    "currency": "MVR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "latlng": [
+      3.25,
+      73
+    ]
+  },
+  {
+    "code": "ML",
+    "label": "Mali",
+    "label_zh": "马里",
+    "reporter": "466",
+    "reporter_basis": "m49",
+    "currency": "XOF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      17,
+      -4
+    ]
+  },
+  {
+    "code": "MT",
+    "label": "Malta",
+    "label_zh": "马耳他",
+    "reporter": "470",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      35.83333333,
+      14.58333333
+    ]
+  },
+  {
+    "code": "MH",
+    "label": "Marshall Islands",
+    "label_zh": "马绍尔群岛",
+    "reporter": "584",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "latlng": [
+      9,
+      168
+    ]
+  },
+  {
+    "code": "MQ",
+    "label": "Martinique",
+    "label_zh": "马提尼克",
+    "reporter": "474",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      14.666667,
+      -61
+    ]
+  },
+  {
+    "code": "MR",
+    "label": "Mauritania",
+    "label_zh": "毛里塔尼亚",
+    "reporter": "478",
+    "reporter_basis": "m49",
+    "currency": "MRU",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      20,
+      -12
+    ]
+  },
+  {
+    "code": "MU",
+    "label": "Mauritius",
+    "label_zh": "毛里求斯",
+    "reporter": "480",
+    "reporter_basis": "m49",
+    "currency": "MUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -20.28333333,
+      57.55
+    ]
+  },
+  {
+    "code": "YT",
+    "label": "Mayotte",
+    "label_zh": "马约特",
+    "reporter": "175",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -12.83333333,
+      45.16666666
+    ]
+  },
+  {
+    "code": "MX",
+    "label": "Mexico",
+    "label_zh": "墨西哥",
+    "reporter": "484",
+    "reporter_basis": "m49",
+    "currency": "MXN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Central America",
+    "latlng": [
+      23,
+      -102
+    ]
+  },
+  {
+    "code": "FM",
+    "label": "Micronesia",
+    "label_zh": "密克罗尼西亚",
+    "reporter": "583",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "latlng": [
+      6.91666666,
+      158.25
+    ]
+  },
+  {
+    "code": "MD",
+    "label": "Moldova",
+    "label_zh": "摩尔多瓦",
+    "reporter": "498",
+    "reporter_basis": "m49",
+    "currency": "MDL",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      47,
+      29
+    ]
+  },
+  {
+    "code": "MC",
+    "label": "Monaco",
+    "label_zh": "摩纳哥",
+    "reporter": "492",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "latlng": [
+      43.73333333,
+      7.4
+    ]
+  },
+  {
+    "code": "MN",
+    "label": "Mongolia",
+    "label_zh": "蒙古",
+    "reporter": "496",
+    "reporter_basis": "m49",
+    "currency": "MNT",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "latlng": [
+      46,
+      105
+    ]
+  },
+  {
+    "code": "ME",
+    "label": "Montenegro",
+    "label_zh": "黑山",
+    "reporter": "499",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "MS",
+    "label": "Montserrat",
+    "label_zh": "蒙特塞拉特",
+    "reporter": "500",
+    "reporter_basis": "m49",
+    "currency": "XCD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      16.75,
+      -62.2
+    ]
+  },
+  {
+    "code": "MA",
+    "label": "Morocco",
+    "label_zh": "摩洛哥",
+    "reporter": "504",
+    "reporter_basis": "m49",
+    "currency": "MAD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "latlng": [
+      32,
+      -5
+    ]
+  },
+  {
+    "code": "MZ",
+    "label": "Mozambique",
+    "label_zh": "莫桑比克",
+    "reporter": "508",
+    "reporter_basis": "m49",
+    "currency": "MZN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -18.25,
+      35
+    ]
+  },
+  {
+    "code": "MM",
+    "label": "Myanmar (Burma)",
+    "label_zh": "缅甸",
+    "reporter": "104",
+    "reporter_basis": "m49",
+    "currency": "MMK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "NA",
+    "label": "Namibia",
+    "label_zh": "纳米比亚",
+    "reporter": "516",
+    "reporter_basis": "m49",
+    "currency": "NAD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "latlng": [
+      -22,
+      17
+    ]
+  },
+  {
+    "code": "NR",
+    "label": "Nauru",
+    "label_zh": "瑙鲁",
+    "reporter": "520",
+    "reporter_basis": "m49",
+    "currency": "AUD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "latlng": [
+      -0.53333333,
+      166.91666666
+    ]
+  },
+  {
+    "code": "NP",
+    "label": "Nepal",
+    "label_zh": "尼泊尔",
+    "reporter": "524",
+    "reporter_basis": "m49",
+    "currency": "NPR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "latlng": [
+      28,
+      84
+    ]
+  },
+  {
+    "code": "NL",
+    "label": "Netherlands",
+    "label_zh": "荷兰",
+    "reporter": "528",
+    "reporter_basis": "configured",
+    "currency": "EUR",
+    "ebay": "EBAY_NL",
+    "tax_type": "VAT",
+    "listing_supported": true,
+    "featured": true,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "latlng": [
+      52.5,
+      5.75
+    ]
+  },
+  {
+    "code": "NC",
+    "label": "New Caledonia",
+    "label_zh": "新喀里多尼亚",
+    "reporter": "540",
+    "reporter_basis": "m49",
+    "currency": "XPF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "latlng": [
+      -21.5,
+      165.5
+    ]
+  },
+  {
+    "code": "NZ",
+    "label": "New Zealand",
+    "label_zh": "新西兰",
+    "reporter": "554",
+    "reporter_basis": "m49",
+    "currency": "NZD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "latlng": [
+      -41,
+      174
+    ]
+  },
+  {
+    "code": "NI",
+    "label": "Nicaragua",
+    "label_zh": "尼加拉瓜",
+    "reporter": "558",
+    "reporter_basis": "m49",
+    "currency": "NIO",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Central America",
+    "latlng": [
+      13,
+      -85
+    ]
+  },
+  {
+    "code": "NE",
+    "label": "Niger",
+    "label_zh": "尼日尔",
+    "reporter": "562",
+    "reporter_basis": "m49",
+    "currency": "XOF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      16,
+      8
+    ]
+  },
+  {
+    "code": "NG",
+    "label": "Nigeria",
+    "label_zh": "尼日利亚",
+    "reporter": "566",
+    "reporter_basis": "m49",
+    "currency": "NGN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      10,
+      8
+    ]
+  },
+  {
+    "code": "NU",
+    "label": "Niue",
+    "label_zh": "纽埃",
+    "reporter": "570",
+    "reporter_basis": "m49",
+    "currency": "NZD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "latlng": [
+      -19.03333333,
+      -169.86666666
+    ]
+  },
+  {
+    "code": "NF",
+    "label": "Norfolk Island",
+    "label_zh": "诺福克岛",
+    "reporter": "574",
+    "reporter_basis": "m49",
+    "currency": "AUD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "latlng": [
+      -29.03333333,
+      167.95
+    ]
+  },
+  {
+    "code": "KP",
+    "label": "North Korea",
+    "label_zh": "朝鲜",
+    "reporter": "408",
+    "reporter_basis": "m49",
+    "currency": "KPW",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "latlng": [
+      40,
+      127
+    ]
+  },
+  {
+    "code": "MK",
+    "label": "North Macedonia",
+    "label_zh": "北马其顿",
+    "reporter": "807",
+    "reporter_basis": "m49",
+    "currency": "MKD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      41.83333333,
+      22
+    ]
+  },
+  {
+    "code": "MP",
+    "label": "Northern Mariana Islands",
+    "label_zh": "北马里亚纳群岛",
+    "reporter": "580",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "latlng": [
+      15.2,
+      145.75
+    ]
+  },
+  {
+    "code": "NO",
+    "label": "Norway",
+    "label_zh": "挪威",
+    "reporter": "579",
+    "reporter_basis": "comtrade_custom_area",
+    "currency": "NOK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      62,
+      10
+    ]
+  },
+  {
+    "code": "OM",
+    "label": "Oman",
+    "label_zh": "阿曼",
+    "reporter": "512",
+    "reporter_basis": "m49",
+    "currency": "OMR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      21,
+      57
+    ]
+  },
+  {
+    "code": "PK",
+    "label": "Pakistan",
+    "label_zh": "巴基斯坦",
+    "reporter": "586",
+    "reporter_basis": "m49",
+    "currency": "PKR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "latlng": [
+      30,
+      70
+    ]
+  },
+  {
+    "code": "PW",
+    "label": "Palau",
+    "label_zh": "帕劳",
+    "reporter": "585",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "latlng": [
+      7.5,
+      134.5
+    ]
+  },
+  {
+    "code": "PS",
+    "label": "Palestinian Territories",
+    "label_zh": "巴勒斯坦领土",
+    "reporter": "275",
+    "reporter_basis": "m49",
+    "currency": "JOD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "PA",
+    "label": "Panama",
+    "label_zh": "巴拿马",
+    "reporter": "591",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Central America",
+    "latlng": [
+      9,
+      -80
+    ]
+  },
+  {
+    "code": "PG",
+    "label": "Papua New Guinea",
+    "label_zh": "巴布亚新几内亚",
+    "reporter": "598",
+    "reporter_basis": "m49",
+    "currency": "PGK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "latlng": [
+      -6,
+      147
+    ]
+  },
+  {
+    "code": "PY",
+    "label": "Paraguay",
+    "label_zh": "巴拉圭",
+    "reporter": "600",
+    "reporter_basis": "m49",
+    "currency": "PYG",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      -23,
+      -58
+    ]
+  },
+  {
+    "code": "PE",
+    "label": "Peru",
+    "label_zh": "秘鲁",
+    "reporter": "604",
+    "reporter_basis": "m49",
+    "currency": "PEN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      -10,
+      -76
+    ]
+  },
+  {
+    "code": "PH",
+    "label": "Philippines",
+    "label_zh": "菲律宾",
+    "reporter": "608",
+    "reporter_basis": "m49",
+    "currency": "PHP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "latlng": [
+      13,
+      122
+    ]
+  },
+  {
+    "code": "PN",
+    "label": "Pitcairn Islands",
+    "label_zh": "皮特凯恩群岛",
+    "reporter": "612",
+    "reporter_basis": "m49",
+    "currency": "NZD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "latlng": [
+      -25.06666666,
+      -130.1
+    ]
+  },
+  {
+    "code": "PL",
+    "label": "Poland",
+    "label_zh": "波兰",
+    "reporter": "616",
+    "reporter_basis": "m49",
+    "currency": "PLN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      52,
+      20
+    ]
+  },
+  {
+    "code": "PT",
+    "label": "Portugal",
+    "label_zh": "葡萄牙",
+    "reporter": "620",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      39.5,
+      -8
+    ]
+  },
+  {
+    "code": "PR",
+    "label": "Puerto Rico",
+    "label_zh": "波多黎各",
+    "reporter": "630",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      18.25,
+      -66.5
+    ]
+  },
+  {
+    "code": "QA",
+    "label": "Qatar",
+    "label_zh": "卡塔尔",
+    "reporter": "634",
+    "reporter_basis": "m49",
+    "currency": "QAR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      25.5,
+      51.25
+    ]
+  },
+  {
+    "code": "RO",
+    "label": "Romania",
+    "label_zh": "罗马尼亚",
+    "reporter": "642",
+    "reporter_basis": "m49",
+    "currency": "RON",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      46,
+      25
+    ]
+  },
+  {
+    "code": "RU",
+    "label": "Russia",
+    "label_zh": "俄罗斯",
+    "reporter": "643",
+    "reporter_basis": "m49",
+    "currency": "RUB",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      60,
+      100
+    ]
+  },
+  {
+    "code": "RW",
+    "label": "Rwanda",
+    "label_zh": "卢旺达",
+    "reporter": "646",
+    "reporter_basis": "m49",
+    "currency": "RWF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -2,
+      30
+    ]
+  },
+  {
+    "code": "RE",
+    "label": "Réunion",
+    "label_zh": "留尼汪",
+    "reporter": "638",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -21.15,
+      55.5
+    ]
+  },
+  {
+    "code": "WS",
+    "label": "Samoa",
+    "label_zh": "萨摩亚",
+    "reporter": "882",
+    "reporter_basis": "m49",
+    "currency": "WST",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "latlng": [
+      -13.58333333,
+      -172.33333333
+    ]
+  },
+  {
+    "code": "SM",
+    "label": "San Marino",
+    "label_zh": "圣马力诺",
+    "reporter": "674",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      43.76666666,
+      12.41666666
+    ]
+  },
+  {
+    "code": "SA",
+    "label": "Saudi Arabia",
+    "label_zh": "沙特阿拉伯",
+    "reporter": "682",
+    "reporter_basis": "m49",
+    "currency": "SAR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      25,
+      45
+    ]
+  },
+  {
+    "code": "SN",
+    "label": "Senegal",
+    "label_zh": "塞内加尔",
+    "reporter": "686",
+    "reporter_basis": "m49",
+    "currency": "XOF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      14,
+      -14
+    ]
+  },
+  {
+    "code": "RS",
+    "label": "Serbia",
+    "label_zh": "塞尔维亚",
+    "reporter": "688",
+    "reporter_basis": "m49",
+    "currency": "RSD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      44.1305021,
+      16.4284181
+    ]
+  },
+  {
+    "code": "SC",
+    "label": "Seychelles",
+    "label_zh": "塞舌尔",
+    "reporter": "690",
+    "reporter_basis": "m49",
+    "currency": "SCR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -4.58333333,
+      55.66666666
+    ]
+  },
+  {
+    "code": "SL",
+    "label": "Sierra Leone",
+    "label_zh": "塞拉利昂",
+    "reporter": "694",
+    "reporter_basis": "m49",
+    "currency": "SLE",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      8.5,
+      -11.5
+    ]
+  },
+  {
+    "code": "SG",
+    "label": "Singapore",
+    "label_zh": "新加坡",
+    "reporter": "702",
+    "reporter_basis": "configured",
+    "currency": "SGD",
+    "ebay": null,
+    "tax_type": "GST",
+    "listing_supported": false,
+    "featured": true,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "latlng": [
+      1.36666666,
+      103.8
+    ]
+  },
+  {
+    "code": "SX",
+    "label": "Sint Maarten",
+    "label_zh": "荷属圣马丁",
+    "reporter": "534",
+    "reporter_basis": "m49",
+    "currency": "XCG",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "SK",
+    "label": "Slovakia",
+    "label_zh": "斯洛伐克",
+    "reporter": "703",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      48.66666666,
+      19.5
+    ]
+  },
+  {
+    "code": "SI",
+    "label": "Slovenia",
+    "label_zh": "斯洛文尼亚",
+    "reporter": "705",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      46.11666666,
+      14.81666666
+    ]
+  },
+  {
+    "code": "SB",
+    "label": "Solomon Islands",
+    "label_zh": "所罗门群岛",
+    "reporter": "090",
+    "reporter_basis": "m49",
+    "currency": "SBD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "latlng": [
+      -8,
+      159
+    ]
+  },
+  {
+    "code": "SO",
+    "label": "Somalia",
+    "label_zh": "索马里",
+    "reporter": "706",
+    "reporter_basis": "m49",
+    "currency": "SOS",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      10,
+      49
+    ]
+  },
+  {
+    "code": "ZA",
+    "label": "South Africa",
+    "label_zh": "南非",
+    "reporter": "710",
+    "reporter_basis": "m49",
+    "currency": "ZAR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "latlng": [
+      -29,
+      24
+    ]
+  },
+  {
+    "code": "GS",
+    "label": "South Georgia & South Sandwich Islands",
+    "label_zh": "南乔治亚和南桑威奇群岛",
+    "reporter": "239",
+    "reporter_basis": "m49",
+    "currency": "GBP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      -54.5,
+      -37
+    ]
+  },
+  {
+    "code": "KR",
+    "label": "South Korea",
+    "label_zh": "韩国",
+    "reporter": "410",
+    "reporter_basis": "configured",
+    "currency": "KRW",
+    "ebay": null,
+    "tax_type": "VAT",
+    "listing_supported": false,
+    "featured": true,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "latlng": [
+      37,
+      127.5
+    ]
+  },
+  {
+    "code": "SS",
+    "label": "South Sudan",
+    "label_zh": "南苏丹",
+    "reporter": "728",
+    "reporter_basis": "m49",
+    "currency": "SSP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "latlng": [
+      7,
+      30
+    ]
+  },
+  {
+    "code": "ES",
+    "label": "Spain",
+    "label_zh": "西班牙",
+    "reporter": "724",
+    "reporter_basis": "configured",
+    "currency": "EUR",
+    "ebay": "EBAY_ES",
+    "tax_type": "VAT",
+    "listing_supported": true,
+    "featured": true,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "latlng": [
+      40,
+      -4
+    ]
+  },
+  {
+    "code": "LK",
+    "label": "Sri Lanka",
+    "label_zh": "斯里兰卡",
+    "reporter": "144",
+    "reporter_basis": "m49",
+    "currency": "LKR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "latlng": [
+      7,
+      81
+    ]
+  },
+  {
+    "code": "BL",
+    "label": "St. Barthélemy",
+    "label_zh": "圣巴泰勒米",
+    "reporter": "652",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "SH",
+    "label": "St. Helena",
+    "label_zh": "圣赫勒拿",
+    "reporter": "654",
+    "reporter_basis": "m49",
+    "currency": "SHP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      -15.95,
+      -5.7
+    ]
+  },
+  {
+    "code": "KN",
+    "label": "St. Kitts & Nevis",
+    "label_zh": "圣基茨和尼维斯",
+    "reporter": "659",
+    "reporter_basis": "m49",
+    "currency": "XCD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      17.33333333,
+      -62.75
+    ]
+  },
+  {
+    "code": "LC",
+    "label": "St. Lucia",
+    "label_zh": "圣卢西亚",
+    "reporter": "662",
+    "reporter_basis": "m49",
+    "currency": "XCD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      13.88333333,
+      -60.96666666
+    ]
+  },
+  {
+    "code": "MF",
+    "label": "St. Martin",
+    "label_zh": "法属圣马丁",
+    "reporter": "663",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "PM",
+    "label": "St. Pierre & Miquelon",
+    "label_zh": "圣皮埃尔和密克隆群岛",
+    "reporter": "666",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Northern America",
+    "latlng": [
+      46.83333333,
+      -56.33333333
+    ]
+  },
+  {
+    "code": "VC",
+    "label": "St. Vincent & Grenadines",
+    "label_zh": "圣文森特和格林纳丁斯",
+    "reporter": "670",
+    "reporter_basis": "m49",
+    "currency": "XCD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      13.25,
+      -61.2
+    ]
+  },
+  {
+    "code": "SD",
+    "label": "Sudan",
+    "label_zh": "苏丹",
+    "reporter": "729",
+    "reporter_basis": "m49",
+    "currency": "SDG",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "latlng": [
+      15,
+      30
+    ]
+  },
+  {
+    "code": "SR",
+    "label": "Suriname",
+    "label_zh": "苏里南",
+    "reporter": "740",
+    "reporter_basis": "m49",
+    "currency": "SRD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      4,
+      -56
+    ]
+  },
+  {
+    "code": "SJ",
+    "label": "Svalbard & Jan Mayen",
+    "label_zh": "斯瓦尔巴和扬马延",
+    "reporter": "744",
+    "reporter_basis": "m49",
+    "currency": "NOK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      78,
+      20
+    ]
+  },
+  {
+    "code": "SE",
+    "label": "Sweden",
+    "label_zh": "瑞典",
+    "reporter": "752",
+    "reporter_basis": "m49",
+    "currency": "SEK",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      62,
+      15
+    ]
+  },
+  {
+    "code": "CH",
+    "label": "Switzerland",
+    "label_zh": "瑞士",
+    "reporter": "757",
+    "reporter_basis": "comtrade_custom_area",
+    "currency": "CHF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "latlng": [
+      47,
+      8
+    ]
+  },
+  {
+    "code": "SY",
+    "label": "Syria",
+    "label_zh": "叙利亚",
+    "reporter": "760",
+    "reporter_basis": "m49",
+    "currency": "SYP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      35,
+      38
+    ]
+  },
+  {
+    "code": "ST",
+    "label": "São Tomé & Príncipe",
+    "label_zh": "圣多美和普林西比",
+    "reporter": "678",
+    "reporter_basis": "m49",
+    "currency": "STN",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Middle Africa",
+    "latlng": [
+      1,
+      7
+    ]
+  },
+  {
+    "code": "TW",
+    "label": "Taiwan",
+    "label_zh": "台湾",
+    "reporter": "158",
+    "reporter_basis": "m49",
+    "currency": "TWD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "latlng": [
+      23.5,
+      121
+    ]
+  },
+  {
+    "code": "TJ",
+    "label": "Tajikistan",
+    "label_zh": "塔吉克斯坦",
+    "reporter": "762",
+    "reporter_basis": "m49",
+    "currency": "TJS",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "latlng": [
+      39,
+      71
+    ]
+  },
+  {
+    "code": "TZ",
+    "label": "Tanzania",
+    "label_zh": "坦桑尼亚",
+    "reporter": "834",
+    "reporter_basis": "m49",
+    "currency": "TZS",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -6,
+      35
+    ]
+  },
+  {
+    "code": "TH",
+    "label": "Thailand",
+    "label_zh": "泰国",
+    "reporter": "764",
+    "reporter_basis": "m49",
+    "currency": "THB",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "latlng": [
+      15,
+      100
+    ]
+  },
+  {
+    "code": "TL",
+    "label": "Timor-Leste",
+    "label_zh": "东帝汶",
+    "reporter": "626",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "latlng": [
+      -8.83333333,
+      125.91666666
+    ]
+  },
+  {
+    "code": "TG",
+    "label": "Togo",
+    "label_zh": "多哥",
+    "reporter": "768",
+    "reporter_basis": "m49",
+    "currency": "XOF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Western Africa",
+    "latlng": [
+      8,
+      1.16666666
+    ]
+  },
+  {
+    "code": "TK",
+    "label": "Tokelau",
+    "label_zh": "托克劳",
+    "reporter": "772",
+    "reporter_basis": "m49",
+    "currency": "NZD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "latlng": [
+      -9,
+      -172
+    ]
+  },
+  {
+    "code": "TO",
+    "label": "Tonga",
+    "label_zh": "汤加",
+    "reporter": "776",
+    "reporter_basis": "m49",
+    "currency": "TOP",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "latlng": [
+      -20,
+      -175
+    ]
+  },
+  {
+    "code": "TT",
+    "label": "Trinidad & Tobago",
+    "label_zh": "特立尼达和多巴哥",
+    "reporter": "780",
+    "reporter_basis": "m49",
+    "currency": "TTD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Caribbean",
+    "latlng": [
+      11,
+      -61
+    ]
+  },
+  {
+    "code": "TN",
+    "label": "Tunisia",
+    "label_zh": "突尼斯",
+    "reporter": "788",
+    "reporter_basis": "m49",
+    "currency": "TND",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "latlng": [
+      34,
+      9
+    ]
+  },
+  {
+    "code": "TM",
+    "label": "Turkmenistan",
+    "label_zh": "土库曼斯坦",
+    "reporter": "795",
+    "reporter_basis": "m49",
+    "currency": "TMT",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "latlng": [
+      40,
+      60
+    ]
+  },
+  {
+    "code": "TC",
+    "label": "Turks & Caicos Islands",
+    "label_zh": "特克斯和凯科斯群岛",
+    "reporter": "796",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "TV",
+    "label": "Tuvalu",
+    "label_zh": "图瓦卢",
+    "reporter": "798",
+    "reporter_basis": "m49",
+    "currency": "AUD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "latlng": [
+      -8,
+      178
+    ]
+  },
+  {
+    "code": "TR",
+    "label": "Türkiye",
+    "label_zh": "土耳其",
+    "reporter": "792",
+    "reporter_basis": "m49",
+    "currency": "TRY",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      39,
+      35
+    ]
+  },
+  {
+    "code": "UM",
+    "label": "U.S. Outlying Islands",
+    "label_zh": "美国本土外小岛屿",
+    "reporter": "581",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "VI",
+    "label": "U.S. Virgin Islands",
+    "label_zh": "美属维尔京群岛",
+    "reporter": "850",
+    "reporter_basis": "m49",
+    "currency": "USD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "UG",
+    "label": "Uganda",
+    "label_zh": "乌干达",
+    "reporter": "800",
+    "reporter_basis": "m49",
+    "currency": "UGX",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      1,
+      32
+    ]
+  },
+  {
+    "code": "UA",
+    "label": "Ukraine",
+    "label_zh": "乌克兰",
+    "reporter": "804",
+    "reporter_basis": "m49",
+    "currency": "UAH",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "latlng": [
+      49,
+      32
+    ]
+  },
+  {
+    "code": "AE",
+    "label": "United Arab Emirates",
+    "label_zh": "阿拉伯联合酋长国",
+    "reporter": "784",
+    "reporter_basis": "m49",
+    "currency": "AED",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      24,
+      54
+    ]
+  },
+  {
+    "code": "UK",
+    "label": "United Kingdom",
+    "label_zh": "英国",
+    "reporter": "826",
+    "reporter_basis": "configured",
+    "currency": "GBP",
+    "ebay": "EBAY_GB",
+    "tax_type": "VAT",
+    "listing_supported": true,
+    "featured": true,
+    "trade_supported": true,
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "latlng": [
+      54,
+      -2
+    ]
+  },
+  {
+    "code": "US",
+    "label": "United States",
+    "label_zh": "美国",
+    "reporter": "842",
+    "reporter_basis": "configured",
+    "currency": "USD",
+    "ebay": "EBAY_US",
+    "tax_type": "Sales tax",
+    "listing_supported": true,
+    "featured": true,
+    "trade_supported": true,
+    "region": "North America",
+    "subregion": "Northern America",
+    "latlng": [
+      38,
+      -97
+    ]
+  },
+  {
+    "code": "UY",
+    "label": "Uruguay",
+    "label_zh": "乌拉圭",
+    "reporter": "858",
+    "reporter_basis": "m49",
+    "currency": "UYU",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      -33,
+      -56
+    ]
+  },
+  {
+    "code": "UZ",
+    "label": "Uzbekistan",
+    "label_zh": "乌兹别克斯坦",
+    "reporter": "860",
+    "reporter_basis": "m49",
+    "currency": "UZS",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "latlng": [
+      41,
+      64
+    ]
+  },
+  {
+    "code": "VU",
+    "label": "Vanuatu",
+    "label_zh": "瓦努阿图",
+    "reporter": "548",
+    "reporter_basis": "m49",
+    "currency": "VUV",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "latlng": [
+      -16,
+      167
+    ]
+  },
+  {
+    "code": "VA",
+    "label": "Vatican City",
+    "label_zh": "梵蒂冈",
+    "reporter": "336",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  },
+  {
+    "code": "VE",
+    "label": "Venezuela",
+    "label_zh": "委内瑞拉",
+    "reporter": "862",
+    "reporter_basis": "m49",
+    "currency": "VES",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "South America",
+    "subregion": "South America",
+    "latlng": [
+      8,
+      -66
+    ]
+  },
+  {
+    "code": "VN",
+    "label": "Vietnam",
+    "label_zh": "越南",
+    "reporter": "704",
+    "reporter_basis": "m49",
+    "currency": "VND",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "latlng": [
+      16.16666666,
+      107.83333333
+    ]
+  },
+  {
+    "code": "WF",
+    "label": "Wallis & Futuna",
+    "label_zh": "瓦利斯和富图纳",
+    "reporter": "876",
+    "reporter_basis": "m49",
+    "currency": "XPF",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "latlng": [
+      -13.3,
+      -176.2
+    ]
+  },
+  {
+    "code": "EH",
+    "label": "Western Sahara",
+    "label_zh": "西撒哈拉",
+    "reporter": "732",
+    "reporter_basis": "m49",
+    "currency": "MAD",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "latlng": [
+      24.5,
+      -13
+    ]
+  },
+  {
+    "code": "YE",
+    "label": "Yemen",
+    "label_zh": "也门",
+    "reporter": "887",
+    "reporter_basis": "m49",
+    "currency": "YER",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      15,
+      48
+    ]
+  },
+  {
+    "code": "ZM",
+    "label": "Zambia",
+    "label_zh": "赞比亚",
+    "reporter": "894",
+    "reporter_basis": "m49",
+    "currency": "ZMW",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -15,
+      30
+    ]
+  },
+  {
+    "code": "ZW",
+    "label": "Zimbabwe",
+    "label_zh": "津巴布韦",
+    "reporter": "716",
+    "reporter_basis": "m49",
+    "currency": "ZWG",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Africa",
+    "subregion": "Eastern Africa",
+    "latlng": [
+      -20,
+      30
+    ]
+  },
+  {
+    "code": "AX",
+    "label": "Åland Islands",
+    "label_zh": "奥兰群岛",
+    "reporter": "248",
+    "reporter_basis": "m49",
+    "currency": "EUR",
+    "ebay": null,
+    "tax_type": null,
+    "listing_supported": false,
+    "featured": false,
+    "trade_supported": true,
+    "region": "Other",
+    "subregion": "",
+    "latlng": null
+  }
+]
