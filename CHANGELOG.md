@@ -2,7 +2,7 @@
 
 ## v5.4.1 — Advanced Algorithms + AI Provider Reliability
 
-Build: `v541-20260901-algorithms-ai-config-r3`
+Build: `v541-20260901-algorithms-ai-config-r4`
 
 - HS ranking cross-platform stability: deterministic dense feature-hash embeddings, deterministic pairwise LTR, explicit direct-support calibration, stable tie-breaking, and pinned analytical dependencies.
 
@@ -47,3 +47,10 @@ Build: `v540-20260831-advanced-decision-analytics-r2`
 - Backend startup uses an absolute interpreter path and persists a readable startup log.
 - Readiness checks parse health JSON and wait up to 90 seconds for scientific-Python imports.
 - Backend startup failures now print the actual traceback instead of only a generic readiness error.
+
+## v5.4.1 CI determinism final fix (R4)
+- Removed the remaining NumPy/BLAS matrix-vector operations from the HS ranking path; dense and LTR dot products now use fixed-order `math.fsum` reductions.
+- Added a hard generic invariant: when both BM25 and exact positive-token coverage are zero, the dense embedding contribution is capped at 0.04.
+- Added a regression test for that invariant so an unsupported dense collision cannot reappear as a CI-only failure.
+- GitHub Actions now pins Python `3.12.10` exactly and prints the analytical dependency versions before tests.
+- Full backend regression after the change: 129/129 passed; HS ranker regression: 9/9 passed across multiple `PYTHONHASHSEED` values.

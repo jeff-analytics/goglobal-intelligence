@@ -137,7 +137,7 @@ if errorlevel 1 (
 echo [6/6] Starting GoGlobal Intelligence API...
 start "GoGlobal Intelligence API" cmd /k call "%~dp0scripts\windows\start_backend.bat"
 echo Waiting for the exact V5.4.1 backend build...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$ok=$false; for($i=0;$i -lt 45;$i++){ try { $h=Invoke-RestMethod -Uri 'http://127.0.0.1:8000/api/health' -TimeoutSec 1; if($h.service -eq 'GoGlobal Intelligence API' -and $h.build -eq 'v541-20260901-algorithms-ai-config-r3'){$ok=$true;break} } catch {}; Start-Sleep -Seconds 1 }; if($ok){exit 0}else{exit 1}"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$ok=$false; for($i=0;$i -lt 45;$i++){ try { $h=Invoke-RestMethod -Uri 'http://127.0.0.1:8000/api/health' -TimeoutSec 1; if($h.service -eq 'GoGlobal Intelligence API' -and $h.build -eq 'v541-20260901-algorithms-ai-config-r4'){$ok=$true;break} } catch {}; Start-Sleep -Seconds 1 }; if($ok){exit 0}else{exit 1}"
 if errorlevel 1 (
   echo [ERROR] The expected GoGlobal Intelligence API build did not become ready.
   echo Check the GoGlobal Intelligence API window.

@@ -103,3 +103,12 @@ def test_dense_embedding_requires_direct_support_for_strong_score(monkeypatch):
         assert breakdown["bm25"] == 0.0
         assert breakdown["token_coverage"] == 0.0
         assert breakdown["embedding"] <= 0.05
+
+
+def test_zero_lexical_support_hard_caps_dense_signal(monkeypatch):
+    reset(monkeypatch)
+    result = ranker.hybrid_hs_candidates(query="cotton knitted t shirt", limit=7)
+    for candidate in result["candidates"]:
+        b = candidate["score_breakdown"]
+        if b["bm25"] == 0.0 and b["token_coverage"] == 0.0:
+            assert b["embedding"] <= 0.04

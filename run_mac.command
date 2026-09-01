@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 
 MIN_NODE_MAJOR=22
 MIN_NODE_MINOR=12
-EXPECTED_BUILD_ID="v541-20260901-algorithms-ai-config-r3"
+EXPECTED_BUILD_ID="v541-20260901-algorithms-ai-config-r4"
 VENV_PY="backend/.venv/bin/python"
 BACKEND_LOG="backend/data/runtime/goglobal_backend.log"
 

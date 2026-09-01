@@ -324,11 +324,12 @@ def _semantic_scores(index: dict[str, Any], query: str) -> np.ndarray:
         return np.zeros(len(index["rows"]), dtype=float)
 
     q_vec = _dense_hash_embedding(weighted)
-    # Matrix-vector multiplication is only used for the compact deterministic
-    # embedding. Direct support below prevents tiny platform-specific floating
-    # differences from changing unsupported candidates into strong matches.
-    dense_raw = np.asarray(index["dense"] @ q_vec, dtype=float)
-    dense_raw = np.clip(dense_raw, 0.0, 1.0)
+    # Pure-Python fixed-order dot products remove BLAS/backend-dependent
+    # reduction differences from the HS ranking path.
+    dense_raw = np.asarray([
+        max(0.0, min(1.0, math.fsum(float(a) * float(b) for a, b in zip(row, q_vec))))
+        for row in index["dense"]
+    ], dtype=float)
 
     support = np.asarray([
         _sparse_cosine(weighted, q_norm, doc, doc_norm)
@@ -367,6 +368,14 @@ def _feature_matrix(index: dict[str, Any], query: str) -> tuple[np.ndarray, np.n
         doc_neg = set(analysis["negated"])
         coverage = sum(1 for t in qtok if t in toks) / max(1, len(qtok))
 
+        # Generic hard invariant: when both BM25 and exact positive-token
+        # support are zero, dense character/hash similarity is discovery-only
+        # and may contribute at most 0.04. This prevents unsupported dense
+        # collisions from changing rank across OS/BLAS implementations.
+        semantic_score = float(semn[i])
+        if coverage <= 0.0 and float(bm[i]) <= 0.0:
+            semantic_score = min(semantic_score, 0.04)
+
         doc_bigrams = _bigrams(analysis["positive"])
         bigram_overlap = len(q_bigrams & doc_bigrams) / max(1, len(q_bigrams)) if q_bigrams else 0.0
 
@@ -383,7 +392,7 @@ def _feature_matrix(index: dict[str, Any], query: str) -> tuple[np.ndarray, np.n
 
         feats.append([
             float(bmn[i]),
-            float(semn[i]),
+            float(semantic_score),
             float(coverage),
             float(bigram_overlap),
             float(phrase),
@@ -417,7 +426,7 @@ def _pairwise_logistic_fit(diffs: list[np.ndarray], seed: np.ndarray) -> np.ndar
     for step in range(220):
         grad = np.zeros_like(w)
         for d in ordered:
-            z = float(np.dot(w, d))
+            z = math.fsum(float(a) * float(b) for a, b in zip(w, d))
             z = max(-30.0, min(30.0, z))
             # derivative of log(sigmoid(w·d))
             gain = 1.0 / (1.0 + math.exp(z))
@@ -483,7 +492,10 @@ def hybrid_hs_candidates(
 
     feats, bm, sem = _feature_matrix(index, context)
     weights, model_name, feedback_count = _ltr_weights(index)
-    score = feats @ weights
+    score = np.asarray([
+        math.fsum(float(a) * float(b) for a, b in zip(row, weights))
+        for row in feats
+    ], dtype=float)
 
     pool = (
         set(np.argsort(bm)[-100:].tolist())
