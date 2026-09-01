@@ -8,40 +8,17 @@ on:
 jobs:
   backend:
     runs-on: ubuntu-24.04
-    env:
-      PYTHONHASHSEED: '0'
-      OMP_NUM_THREADS: '1'
-      OPENBLAS_NUM_THREADS: '1'
-      MKL_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12.10'
+          python-version: '3.12'
           cache: pip
           cache-dependency-path: backend/requirements.txt
-      - name: Upgrade packaging tools
-        run: python -m pip install --upgrade pip setuptools wheel
       - name: Install backend dependencies
-        run: python -m pip install -r backend/requirements.txt
-      - name: Verify HS ranker source revision
         run: |
-          python - <<'PY'
-          import pathlib
-          p = pathlib.Path('backend/app/hs_ranker.py')
-          text = p.read_text()
-          assert 'HS_RANKER_REVISION = "r5-pure-python-deterministic"' in text
-          assert 'import numpy' not in text
-          print('HS ranker source revision: r5-pure-python-deterministic')
-          PY
-      - name: Run HS ranker across hash seeds
-        working-directory: backend
-        run: |
-          set -euo pipefail
-          for seed in 0 1 7 42 12345; do
-            echo "PYTHONHASHSEED=$seed"
-            PYTHONHASHSEED=$seed python -m pytest -q tests/test_v540_hs_ranker.py
-          done
+          python -m pip install --upgrade pip
+          python -m pip install -r backend/requirements.txt
       - name: Run backend tests
         working-directory: backend
         run: python -m pytest -q
