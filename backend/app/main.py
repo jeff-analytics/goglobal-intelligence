@@ -16,10 +16,16 @@ from .comparables import build_comparable_set
 from .config import settings, refresh_settings, update_local_env, mask_client_id, mask_secret
 from .engine import calculate_pricing
 from .markets import MARKETS, market_list
-from .schemas import PricingRequest, ReversePricingRequest, ProductIdentifyRequest, ProjectCreateRequest, ProjectUpdateRequest, TariffOverrideRequest, TaxOverrideRequest, EbayLocalConfigRequest, ComtradeLocalConfigRequest, ModelAPILocalConfigRequest, WebResearchLocalConfigRequest
+from .schemas import (
+    PricingRequest, ReversePricingRequest, ProductIdentifyRequest, ProjectCreateRequest, ProjectUpdateRequest,
+    TariffOverrideRequest, TaxOverrideRequest, EbayLocalConfigRequest, ComtradeLocalConfigRequest,
+    ModelAPILocalConfigRequest, WebResearchLocalConfigRequest, ParetoScreenRequest, ProfitSimulationRequest,
+    PortfolioOptimizationRequest, HSRankingFeedbackRequest,
+)
 from .sources.comtrade import compute_growth_metrics, fetch_import_history, fetch_import_history_compact, fetch_imports, fetch_supplier_structure, summarize_imports, validate_subscription_key
 from .sources.comtrade_reference import resolve_partner, search_partners
 from .sources.hs_reference import suggest_hs_candidates, search_hs_reference
+from .hs_ranker import hybrid_hs_candidates
 from .sources.ebay import (
     get_category_children,
     get_category_suggestions,
@@ -36,10 +42,11 @@ from .sources.ecb import convert, fetch_eur_reference_rate
 from .sources.wits import fetch_tariff, fetch_tariff_cached
 from .sources.official_tariff import lookup_official_tariff
 from .market_support import support_registry, contract_from_snapshot, source_meta
-from .ai_layer import ai_status, generate_evidence_brief, test_connection as test_ai_connection, list_models
+from .ai_layer import ai_status, generate_evidence_brief, test_connection as test_ai_connection, list_models, normalize_ai_model_id
 from .ai_recovery import recover_market, recover_hs_candidates, recovery_capabilities
 from .research_agent import generate_decision_research, research_capabilities, validate_tavily, report_matches_language
 from .intelligence import decision_case, evidence_quality, reverse_cost, trade_volatility, pareto_frontier, market_quadrants, standout_markets
+from .advanced_analytics import non_dominated_sort, simulate_profit_uncertainty, optimize_resource_allocation, analyze_trade_network
 from .providers import PROVIDERS, provider_statuses
 from .portfolio import parse_portfolio_bytes, portfolio_batch_id
 from .exporter import build_project_workbook
@@ -65,6 +72,7 @@ from .storage import (
     save_tax_override, get_tax_override, delete_tax_override, save_ai_brief, get_ai_brief,
     save_supply_profile, get_supply_profile, list_tariff_matrix,
     source_runtime_summary, source_cache_clear, list_ai_evidence, list_ai_recovery_runs, latest_ai_evidence,
+    save_hs_ranking_feedback, list_hs_ranking_feedback,
 )
 
 @asynccontextmanager
@@ -73,7 +81,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="BorderMargin API", version="5.3.8", lifespan=lifespan)
+app = FastAPI(title="GoGlobal Intelligence API", version="5.4.1", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=list(settings.cors_origins) or ["*"],
@@ -163,13 +171,13 @@ def favicon():
     return Response(status_code=204)
 
 
-RELEASE_BUILD_ID = "v538-20260829-final-polish-r2"
+RELEASE_BUILD_ID = "v541-20260901-algorithms-ai-config-r1"
 
 
 @app.get("/api/health")
 def health():
     refresh_settings()
-    return {"status": "ok", "service": "BorderMargin API", "env": settings.app_env, "version": "5.3.8", "build": RELEASE_BUILD_ID}
+    return {"status": "ok", "service": "GoGlobal Intelligence API", "env": settings.app_env, "version": "5.4.1", "build": RELEASE_BUILD_ID}
 
 
 @app.get("/api/markets")
@@ -332,7 +340,7 @@ def data_status():
 
 @app.get("/api/data/backbone/support")
 def backbone_support():
-    return {"markets": support_registry(), "ai": ai_status(), "version": "5.3.8"}
+    return {"markets": support_registry(), "ai": ai_status(), "version": "5.4.1"}
 
 
 @app.get("/api/projects/{project_id}/backbone")
@@ -1157,6 +1165,28 @@ def project_supply_sync(
     return save_supply_profile(project_id, payload)
 
 
+@app.get("/api/projects/{project_id}/supply-network")
+def project_supply_network(project_id: int):
+    project = get_project(project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    hs = _hs6(project.get("hs_code"))
+    if len(hs) < 6:
+        raise HTTPException(status_code=422, detail="Confirm an HS6 code before supply-network analysis.")
+    origin_code = str(_safe_mapping(project.get("attributes")).get("origin_partner_code") or "") or None
+    blocks = []
+    for market in project.get("markets") or []:
+        try:
+            snap = _safe_mapping(latest_snapshot(market, hs, origin_code=origin_code))
+        except Exception:
+            snap = {}
+        suppliers = _safe_mapping(snap.get("suppliers"))
+        if suppliers.get("suppliers"):
+            blocks.append({"market": market, "label": _safe_mapping(MARKETS.get(market)).get("label") or market, "suppliers": suppliers.get("suppliers")})
+    result = analyze_trade_network(blocks)
+    return {"project_id": project_id, "hs6": hs, "observed_markets": [b["market"] for b in blocks], **result}
+
+
 @app.get("/api/tariff-matrix")
 def tariff_matrix_cached(
     hs: str = Query(..., min_length=2, max_length=14),
@@ -1608,6 +1638,7 @@ def ai_local_config_save(req: ModelAPILocalConfigRequest, request: Request):
     base_url = (req.base_url or "").strip() or settings.ai_base_url
     api_key = (req.api_key or "").strip() or settings.ai_api_key
     model = (req.model or "").strip() or settings.ai_model
+    model = normalize_ai_model_id(provider=provider, base_url=base_url, model=model)
     if not protocol:
         raise HTTPException(status_code=422, detail="Model API protocol is required.")
     if not base_url:
@@ -2041,7 +2072,8 @@ def _research_benchmark(project: dict, market: str) -> dict | None:
     return None
 
 
-def _pricing_for_market(project: dict, snapshot: dict | None) -> dict | None:
+def _pricing_input_context(project: dict, snapshot: dict | None) -> dict[str, float] | None:
+    """Resolve deterministic pricing inputs from saved assumptions and source-backed evidence."""
     a = _safe_mapping(project.get("assumptions"))
     factory_cost = _safe_float(a.get("factory_cost"))
     platform_fee_rate = _safe_float(a.get("platform_fee_rate"))
@@ -2052,7 +2084,6 @@ def _pricing_for_market(project: dict, snapshot: dict | None) -> dict | None:
     snap = _safe_mapping(snapshot)
     market_code = str(snap.get("market") or "")
     hs6 = _hs6(project.get("hs_code"))
-    duty_rate = None
     tariff_override = get_tariff_override(market_code, hs6) if market_code and hs6 else None
     override_rate = _safe_float(_safe_mapping(tariff_override).get("rate"))
     assumption_duty = _safe_float(a.get("duty_rate"))
@@ -2087,19 +2118,24 @@ def _pricing_for_market(project: dict, snapshot: dict | None) -> dict | None:
             return None
         tax_rate = ai_tax_rate / 100
 
-    req = PricingRequest(
-        factory_cost=factory_cost,
-        packaging_cost=_safe_float(a.get("packaging_cost")) or 0,
-        freight_cost=_safe_float(a.get("freight_cost")) or 0,
-        fulfillment_cost=_safe_float(a.get("fulfillment_cost")) or 0,
-        duty_rate=duty_rate,
-        tax_rate=tax_rate,
-        platform_fee_rate=platform_fee_rate,
-        target_margin_rate=target_margin_rate,
-        listing_median=None,
-    )
+    return {
+        "factory_cost": float(factory_cost),
+        "packaging_cost": float(_safe_float(a.get("packaging_cost")) or 0),
+        "freight_cost": float(_safe_float(a.get("freight_cost")) or 0),
+        "fulfillment_cost": float(_safe_float(a.get("fulfillment_cost")) or 0),
+        "duty_rate": float(duty_rate),
+        "tax_rate": float(tax_rate),
+        "platform_fee_rate": float(platform_fee_rate),
+        "target_margin_rate": float(target_margin_rate),
+    }
+
+
+def _pricing_for_market(project: dict, snapshot: dict | None) -> dict | None:
+    inputs = _pricing_input_context(project, snapshot)
+    if not inputs:
+        return None
     try:
-        return calculate_pricing(req)
+        return calculate_pricing(PricingRequest(**inputs))
     except Exception:
         return None
 
@@ -2125,14 +2161,29 @@ def hs_suggest(
     category_path, attributes = _project_context_for_hs(project or {})
     primary_error = None
     try:
-        result = suggest_hs_candidates(query=query, category_path=category_path, attributes=attributes, limit=limit)
+        result = hybrid_hs_candidates(query=query, category_path=category_path, attributes=attributes, limit=limit)
         if result.get("candidates"):
             return result
     except Exception as exc:
         primary_error = exc
-    if primary_error is not None:
-        raise HTTPException(status_code=502, detail=f"HS reference lookup failed: {primary_error}") from primary_error
-    return {"query":query,"candidates":[],"count":0,"source":"UN Comtrade HS reference"}
+    # Keep the deterministic token matcher as a safe fallback if the local
+    # embedding/LTR index cannot be constructed on a constrained machine.
+    try:
+        fallback = suggest_hs_candidates(query=query, category_path=category_path, attributes=attributes, limit=limit)
+        fallback["ranking_model"] = "deterministic_fallback"
+        fallback["hybrid_error"] = str(primary_error or "")[:500]
+        return fallback
+    except Exception as exc:
+        detail = primary_error or exc
+        raise HTTPException(status_code=502, detail=f"HS reference lookup failed: {detail}") from detail
+
+
+@app.post("/api/hs/feedback")
+def hs_ranking_feedback(req: HSRankingFeedbackRequest):
+    try:
+        return {"saved": save_hs_ranking_feedback(**req.model_dump())}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Could not save HS ranking feedback: {exc}") from exc
 
 
 @app.post("/api/projects/{project_id}/ai/hs-candidates")
@@ -2157,6 +2208,66 @@ def pricing_reverse(req: ReversePricingRequest):
         return reverse_cost(**req.model_dump())
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.post("/api/projects/{project_id}/profit-simulation")
+def project_profit_simulation(project_id: int, req: ProfitSimulationRequest):
+    project = get_project(project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    market = str(req.market or "").upper()
+    if market not in (project.get("markets") or []):
+        raise HTTPException(status_code=422, detail="Market is not selected for this project")
+    hs = _hs6(project.get("hs_code"))
+    origin_code = str(_safe_mapping(project.get("attributes")).get("origin_partner_code") or "") or None
+    snapshot = latest_snapshot(market, hs, origin_code=origin_code) if hs else None
+    inputs = _pricing_input_context(project, snapshot)
+    if not inputs:
+        raise HTTPException(status_code=422, detail="Complete cost, tariff and tax inputs before uncertainty simulation.")
+    benchmark = _safe_mapping(_research_benchmark(project, market))
+    benchmark_price = _safe_float(benchmark.get("median"))
+    forward = _safe_mapping(_pricing_for_market(project, snapshot))
+    selling_price = benchmark_price if benchmark_price is not None and benchmark_price > 0 else _safe_float(forward.get("target_price"))
+    if selling_price is None or selling_price <= 0:
+        raise HTTPException(status_code=422, detail="A market price benchmark or calculable target price is required.")
+    baseline = {**inputs, "selling_price": float(selling_price)}
+
+    variables = [v.model_dump() for v in req.variables]
+    if not variables:
+        def bounds(name: str, frac: float, floor: float = 0.0):
+            base = float(baseline.get(name) or 0.0)
+            if base == 0:
+                hi = 0.03 if name in {"duty_rate", "tax_rate", "platform_fee_rate"} else max(1.0, selling_price * 0.05)
+                return floor, hi
+            return max(floor, base * (1 - frac)), max(floor, base * (1 + frac))
+        p_lo, p_hi = max(0.01, selling_price * 0.90), selling_price * 1.10
+        f_lo, f_hi = bounds("factory_cost", .10)
+        fr_lo, fr_hi = bounds("freight_cost", .20)
+        pf_base = float(baseline.get("platform_fee_rate") or 0)
+        pf_lo, pf_hi = max(0.0, pf_base - .02), min(.95, pf_base + .02)
+        d_base = float(baseline.get("duty_rate") or 0)
+        d_lo, d_hi = (0.0, .03) if d_base == 0 else (max(0.0, d_base * .80), min(.95, d_base * 1.20))
+        variables = [
+            {"name":"selling_price","distribution":"triangular","low":p_lo,"high":p_hi,"mode":selling_price},
+            {"name":"factory_cost","distribution":"triangular","low":f_lo,"high":f_hi,"mode":baseline["factory_cost"]},
+            {"name":"freight_cost","distribution":"triangular","low":fr_lo,"high":fr_hi,"mode":baseline["freight_cost"]},
+            {"name":"platform_fee_rate","distribution":"uniform","low":pf_lo,"high":pf_hi},
+            {"name":"duty_rate","distribution":"uniform","low":d_lo,"high":d_hi},
+        ]
+    try:
+        result = simulate_profit_uncertainty(
+            baseline=baseline, variable_specs=variables, sample_count=req.sample_count,
+            method=req.sampling_method, sobol_base_n=req.sobol_base_n, seed=req.seed,
+            target_margin_rate=float(inputs.get("target_margin_rate") or 0),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    result.update({
+        "project_id": project_id, "market": market,
+        "currency": benchmark.get("currency") or _safe_mapping(MARKETS.get(market)).get("currency") or _safe_mapping(project.get("assumptions")).get("base_currency") or "USD",
+        "price_source": benchmark.get("source") if benchmark_price is not None else "Calculated target price",
+    })
+    return result
 
 
 @app.get("/api/marketplace/providers")
@@ -2371,6 +2482,15 @@ def project_explorer(project_id: int):
             pricing = _pricing_for_market(project, snap or None)
         except Exception:
             pricing = None
+        margin_at_benchmark = None
+        try:
+            pricing_inputs = _pricing_input_context(project, snap or None)
+            benchmark_value = _safe_float(_safe_mapping(benchmark).get("median"))
+            if pricing_inputs and benchmark_value is not None and benchmark_value > 0:
+                priced_at_market = calculate_pricing(PricingRequest(**pricing_inputs, listing_median=benchmark_value))
+                margin_at_benchmark = _safe_float(_safe_mapping(priced_at_market).get("margin_at_listing_median"))
+        except Exception:
+            margin_at_benchmark = None
         economics = _safe_mapping(decision.get("economics"))
         reverse = _safe_mapping(economics.get("reverse"))
         corridor = _safe_mapping(corridor_map.get(code))
@@ -2413,6 +2533,7 @@ def project_explorer(project_id: int):
             "missing_evidence": quality.get("missing") if isinstance(quality.get("missing"), list) else [],
             "decision_status": decision.get("status"),
             "benchmark_median": _safe_float(_safe_mapping(benchmark).get("median")),
+            "margin_at_benchmark": margin_at_benchmark,
             "required_price": _safe_float(_safe_mapping(pricing).get("target_price")),
             "factory_headroom": _safe_float(reverse.get("factory_cost_headroom")),
             "source": scan.get("source") or trade.get("source") or "UN Comtrade",
@@ -2436,6 +2557,32 @@ def project_explorer(project_id: int):
         "supply_synced_at": supply_profile.get("synced_at"),
         "supply_method": supply_profile.get("method"),
     }
+
+
+@app.post("/api/projects/{project_id}/pareto")
+def project_pareto_screen(project_id: int, req: ParetoScreenRequest):
+    explorer = project_explorer(project_id)
+    allowed = {
+        "imports", "cagr", "origin_share", "coverage", "cr3", "cr5", "hhi", "tariff",
+        "evidence_ratio", "benchmark_median", "margin_at_benchmark", "required_price", "factory_headroom",
+        "corridor_share", "origin_export_cagr",
+    }
+    objectives = [o.model_dump() for o in req.objectives if o.key in allowed]
+    if not objectives:
+        candidates = [
+            {"key":"imports","direction":"max"}, {"key":"cagr","direction":"max"},
+            {"key":"margin_at_benchmark","direction":"max"}, {"key":"hhi","direction":"min"},
+            {"key":"tariff","direction":"min"}, {"key":"evidence_ratio","direction":"max"},
+        ]
+        rows = explorer.get("rows") or []
+        objectives = [o for o in candidates if sum(1 for r in rows if _safe_float(r.get(o["key"])) is not None) >= 2]
+        if len(objectives) < 2:
+            objectives = [{"key":"imports","direction":"max"},{"key":"cagr","direction":"max"}]
+    try:
+        result = non_dominated_sort(explorer.get("rows") or [], objectives)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return {"project_id": project_id, "hs6": explorer.get("hs6"), **result}
 
 
 def _portfolio_safe_snapshot(snapshot):
@@ -2528,6 +2675,75 @@ def portfolio_matrix(batch_id: str | None = None):
         })
     return {"markets": all_markets, "rows": rows, "count": len(rows), "batch_id": batch_id}
 
+
+@app.get("/api/portfolio/optimization-inputs")
+def portfolio_optimization_inputs(batch_id: str | None = None):
+    projects = list_projects()
+    if batch_id:
+        projects = [p for p in projects if str(_safe_mapping(p.get("attributes")).get("portfolio_batch_id") or "") == batch_id]
+    opportunities = []
+    skipped = []
+    for project in projects:
+        hs = _hs6(project.get("hs_code"))
+        attrs = _safe_mapping(project.get("attributes"))
+        origin_code = str(attrs.get("origin_partner_code") or "") or None
+        for market in project.get("markets") or []:
+            try:
+                snap = _portfolio_safe_snapshot(latest_snapshot(market, hs, origin_code=origin_code) if hs else None)
+                benchmark = _safe_mapping(_research_benchmark(project, market))
+                inputs = _pricing_input_context(project, snap)
+            except Exception:
+                snap, benchmark, inputs = None, {}, None
+            price = _safe_float(benchmark.get("median"))
+            if not inputs or price is None or price <= 0:
+                skipped.append({"project_id": project.get("id"), "product": project.get("title"), "market": market, "reason": "missing_price_or_cost"})
+                continue
+            try:
+                priced = calculate_pricing(PricingRequest(**inputs, listing_median=price))
+                margin = _safe_float(_safe_mapping(priced).get("margin_at_listing_median"))
+            except Exception:
+                margin = None
+            if margin is None or margin >= 0.98:
+                skipped.append({"project_id": project.get("id"), "product": project.get("title"), "market": market, "reason": "invalid_margin"})
+                continue
+            # Allocation represents operating-capital/cost budget. Convert margin
+            # on revenue into profit per unit of cost so MILP coefficients are comparable.
+            return_rate = margin / max(1e-6, 1 - margin)
+            trade = _safe_mapping(_safe_mapping(snap).get("trade"))
+            suppliers = _safe_mapping(_safe_mapping(snap).get("suppliers"))
+            quality = evidence_quality(snap, benchmark_available=True, cost_ready=True)
+            vol = trade_volatility(trade.get("history") or [])
+            hhi = _safe_float(suppliers.get("hhi")) or 0.0
+            evidence = _safe_float(quality.get("completeness_ratio")) or 0.0
+            vol_scaled = min(1.0, max(0.0, (vol or 0.0) / 0.50))
+            risk_score = min(1.0, 0.40 * min(1.0, hhi) + 0.35 * vol_scaled + 0.25 * (1 - evidence))
+            uncertainty = abs(return_rate) * min(0.80, 0.15 + 0.35 * vol_scaled + 0.20 * min(1.0, hhi) + 0.30 * (1 - evidence))
+            opportunities.append({
+                "project_id": project.get("id"), "product": project.get("title") or str(project.get("id")), "market": market,
+                "return_rate": round(return_rate, 8), "revenue_rate": round(1 + return_rate, 8),
+                "uncertainty": round(uncertainty, 8), "risk_score": round(risk_score, 8),
+                "evidence_ratio": round(evidence, 4), "margin_at_market_price": round(margin, 6),
+                "market_price": price, "currency": benchmark.get("currency") or _safe_mapping(MARKETS.get(market)).get("currency"),
+                "volatility": None if vol is None else round(float(vol), 6), "hhi": round(hhi, 6),
+                "enabled": return_rate > 0,
+            })
+    return {
+        "opportunities": opportunities, "count": len(opportunities), "skipped": skipped,
+        "method": "Planning coefficients are derived from market-price unit economics; structural risk uses observed trade volatility, supplier concentration and evidence completeness. These are transparent planning proxies, not demand forecasts.",
+    }
+
+
+@app.post("/api/portfolio/optimize")
+def portfolio_optimize(req: PortfolioOptimizationRequest):
+    payload = req.model_dump()
+    if not payload.get("opportunities"):
+        payload["opportunities"] = portfolio_optimization_inputs().get("opportunities") or []
+    try:
+        return optimize_resource_allocation(**payload)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
 @app.get("/api/projects/{project_id}/export.xlsx")
 def project_export_xlsx(project_id: int):
     project = get_project(project_id)
@@ -2550,14 +2766,14 @@ def project_export_xlsx(project_id: int):
     ai_evidence_rows = list_ai_evidence(project_id)
     data = build_project_workbook(project=project, snapshots=snapshots, decisions=decisions, listing_snapshots=listing_rows, explorer_rows=project_explorer(project_id)["rows"] if hs else [], supply_profile=supply_profile, tariff_matrix=tariff_rows, ai_evidence=ai_evidence_rows)
     safe = "".join(ch if ch.isalnum() else "_" for ch in project.get("title", "project"))[:60]
-    headers = {"Content-Disposition": f'attachment; filename="BorderMargin_{project_id}_{safe}.xlsx"'}
+    headers = {"Content-Disposition": f'attachment; filename="GoGlobal_{project_id}_{safe}.xlsx"'}
     return StreamingResponse(io.BytesIO(data), media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", headers=headers)
 
 
 @app.get("/api/portfolio/template.csv")
 def portfolio_template():
     content = "product_name,sku,origin,hs_code,target_markets,factory_cost,packaging_cost,freight_cost,fulfillment_cost,platform_fee_pct,target_margin_pct,currency\n"
-    return Response(content=content, media_type="text/csv", headers={"Content-Disposition": 'attachment; filename="BorderMargin_portfolio_template.csv"'})
+    return Response(content=content, media_type="text/csv", headers={"Content-Disposition": 'attachment; filename="GoGlobal_portfolio_template.csv"'})
 
 
 @app.post("/api/portfolio/import")

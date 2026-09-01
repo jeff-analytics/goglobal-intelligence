@@ -1,6 +1,6 @@
-# BorderMargin V5.3 Research Benchmark Notes
+# GoGlobal Intelligence V5.4 Research Benchmark Notes
 
-V5.3 was designed around recurring patterns in commercial product-research and global-trade intelligence tools while keeping BorderMargin source-driven and auditable.
+V5.3 was designed around recurring patterns in commercial product-research and global-trade intelligence tools while keeping GoGlobal Intelligence source-driven and auditable.
 
 ## Product / marketplace research patterns
 
@@ -61,7 +61,7 @@ Used as the global HS6 analytical reference layer. It supports MFN and applied /
 Reference:
 - https://wits.worldbank.org/tariff/trains/country-byhs6product.aspx
 
-## BorderMargin design choices
+## GoGlobal Intelligence design choices
 
 1. No synthetic market-attractiveness number is required to use the product.
 2. Demand and supply evidence are kept as separate observable dimensions.

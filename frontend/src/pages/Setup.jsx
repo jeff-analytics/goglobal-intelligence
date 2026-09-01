@@ -102,13 +102,14 @@ export default function Setup({ dashboard, markets, onReload, onGoEbay, onGoTrad
   const [hsLoading,setHsLoading]=useState(false)
   const [hsCandidates,setHsCandidates]=useState([])
   const [hsCandidatesOpen,setHsCandidatesOpen]=useState(false)
+  const [hsRankMeta,setHsRankMeta]=useState(null)
   const [aiHsLoading,setAiHsLoading]=useState(false)
   const years = currentAnalysisYears()
 
   useEffect(() => {
     if (!project) { setForm(null); return }
     setForm({ title:project.title || '', description:project.description || '', origin:project.origin || '', hs_code:project.hs_code || '', markets:project.markets || [], attributes:project.attributes || {}, product_type_id:project.product_type_id || 'generic' })
-    setRunResult(null); setError(''); setHsCandidates([]); setHsCandidatesOpen(false)
+    setRunResult(null); setError(''); setHsCandidates([]); setHsCandidatesOpen(false); setHsRankMeta(null)
   }, [project?.id, project?.updated_at])
 
   const selectedMarketObjects = useMemo(() => markets.filter(m => form?.markets?.includes(m.code)), [markets, form?.markets])
@@ -146,18 +147,23 @@ export default function Setup({ dashboard, markets, onReload, onGoEbay, onGoTrad
   }
 
   async function suggestHs(){
-    setHsLoading(true);setError('');setHsCandidates([]);setHsCandidatesOpen(false)
-    try{ const r=await api(`/api/hs/suggest?project_id=${project.id}&limit=8`); const items=r.candidates||[]; setHsCandidates(items); setHsCandidatesOpen(items.length>0) }
+    setHsLoading(true);setError('');setHsCandidates([]);setHsCandidatesOpen(false);setHsRankMeta(null)
+    try{ const r=await api(`/api/hs/suggest?project_id=${project.id}&limit=8`); const items=r.candidates||[]; setHsCandidates(items); setHsCandidatesOpen(items.length>0); setHsRankMeta(r) }
     catch(e){setError(e.message)} finally{setHsLoading(false)}
   }
 
   async function suggestHsAi(){
-    setAiHsLoading(true);setError('');setHsCandidates([]);setHsCandidatesOpen(false)
-    try{const r=await api(`/api/projects/${project.id}/ai/hs-candidates?limit=8`,{method:'POST'});const items=r.candidates||[];setHsCandidates(items);setHsCandidatesOpen(items.length>0);if(!items.length)setError(locale==='zh'?'AI 未找到可验证的 HS6 候选':'AI found no verified HS6 candidates')}
+    setAiHsLoading(true);setError('');setHsCandidates([]);setHsCandidatesOpen(false);setHsRankMeta(null)
+    try{const r=await api(`/api/projects/${project.id}/ai/hs-candidates?limit=8`,{method:'POST'});const items=r.candidates||[];setHsCandidates(items);setHsCandidatesOpen(items.length>0);setHsRankMeta({ranking_model:'ai_source_research'});if(!items.length)setError(locale==='zh'?'AI 未找到可验证的 HS6 候选':'AI found no verified HS6 candidates')}
     catch(e){setError(e.message)}finally{setAiHsLoading(false)}
   }
 
-  function useHs(item){ setForm({...form,hs_code:item.code}); setHsCandidates([]); setHsCandidatesOpen(false) }
+  function useHs(item){
+    if(hsRankMeta?.query_context && hsRankMeta?.ranking_model && hsRankMeta.ranking_model!=='ai_source_research'){
+      api('/api/hs/feedback',{method:'POST',body:JSON.stringify({project_id:project.id,query_text:hsRankMeta.query_context,selected_code:item.code,candidate_codes:hsCandidates.map(x=>x.code)})}).catch(()=>{})
+    }
+    setForm({...form,hs_code:item.code}); setHsCandidates([]); setHsCandidatesOpen(false); setHsRankMeta(null)
+  }
 
   async function run() {
     setRunning(true); setError(''); setRunResult(null)
@@ -184,7 +190,7 @@ export default function Setup({ dashboard, markets, onReload, onGoEbay, onGoTrad
 
         <Card className="classification-card"><CardHeader title={locale==='zh'?'商品分类与 HS':'Classification'} actions={<><Button icon={Search} variant="secondary" loading={hsLoading} onClick={suggestHs}>{locale==='zh'?'查找 HS6':'Find HS6'}</Button><Button icon={WandSparkles} variant="secondary" loading={aiHsLoading} onClick={suggestHsAi}>{locale==='zh'?'AI 查找 HS6':'AI find HS6'}</Button><Button icon={Tags} variant="secondary" onClick={onGoEbay}>{form.attributes?.ebay_category_id?(locale==='zh'?'修改 eBay 分类':'Change eBay category'):(locale==='zh'?'选择 eBay 分类':'Choose eBay category')}</Button></>} />
           <div className="classification-grid"><div><HsCodePicker value={form.hs_code} onChange={v=>{setHsCandidates([]);setHsCandidatesOpen(false);setForm({...form,hs_code:v})}}/></div><Field label={locale==='zh'?'eBay 商品分类':'eBay category'} value={form.attributes?.ebay_category_name || ''} disabled/></div>
-          {hsCandidatesOpen&&hsCandidates.length>0&&<div className="hs-candidates"><div className="hs-candidates-head"><b>{locale==='zh'?'HS6 候选':'HS6 candidates'}</b></div>{hsCandidates.map(x=><button type="button" key={x.code} onClick={()=>useHs(x)}><div><strong>{x.code}</strong><span>{x.description}</span></div><Badge tone={x.relative_confidence>=.75?'success':x.relative_confidence>=.45?'warning':'neutral'}>{Math.round((x.relative_confidence||0)*100)}% {locale==='zh'?'相对匹配':'relative match'}</Badge></button>)}</div>}
+          {hsCandidatesOpen&&hsCandidates.length>0&&<div className="hs-candidates"><div className="hs-candidates-head"><b>{locale==='zh'?'HS6 候选':'HS6 candidates'}</b>{hsRankMeta?.ranking_model&&hsRankMeta.ranking_model!=='ai_source_research'?<div className="hs-rank-method"><Badge>BM25</Badge><Badge>Embedding</Badge><Badge tone={hsRankMeta.ranking_model==='pairwise_logistic_ltr'?'success':'neutral'}>Learning-to-Rank</Badge>{hsRankMeta.feedback_count>0?<span>{locale==='zh'?`${hsRankMeta.feedback_count} 条确认反馈`:`${hsRankMeta.feedback_count} confirmations`}</span>:null}</div>:null}</div>{hsCandidates.map(x=><button type="button" key={x.code} onClick={()=>useHs(x)}><div><strong>{x.code}</strong><span>{x.description}</span>{x.score_breakdown?<small className="hs-score-breakdown">BM25 {Math.round((x.score_breakdown.bm25||0)*100)} · Emb {Math.round((x.score_breakdown.embedding||0)*100)} · Coverage {Math.round((x.score_breakdown.token_coverage||0)*100)}{(x.score_breakdown.negation_conflict||0)>0?` · ${locale==='zh'?'冲突':'Conflict'} ${Math.round(x.score_breakdown.negation_conflict*100)}`:''}</small>:null}</div><Badge tone={x.relative_confidence>=.75?'success':x.relative_confidence>=.45?'warning':'neutral'}>{Math.round((x.relative_confidence||0)*100)}% {locale==='zh'?'相对匹配':'relative match'}</Badge></button>)}</div>}
           {form.attributes?.ebay_category_path?.length ? <div className="path-line">{form.attributes.ebay_category_path.join(' / ')}</div> : null}
           {Object.keys(ebayAspects).length>0 && <div className="aspect-summary">{Object.entries(ebayAspects).map(([k,v])=><div key={k}><span>{k}</span><b>{String(v)}</b></div>)}</div>}
         </Card>

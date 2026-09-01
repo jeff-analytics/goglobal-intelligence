@@ -9,11 +9,30 @@ import {useI18n} from '../i18n.jsx'
 function rateText(v,locale){return v==null?(locale==='zh'?'缺失':'Missing'):`${Number(v).toFixed(2)}%`}
 function statusTone(v){return v==='available'?'success':v==='ai_recovered'?'warning':v==='error'?'danger':v==='missing'?'warning':'neutral'}
 
+function SupplyNetworkGraph({network,locale,markets}){
+  const edges=(network?.edges||[]).slice(0,32)
+  if(!edges.length)return <Empty title={locale==='zh'?'暂无可绘制的双边贸易网络':'No bilateral trade network to plot'}/>
+  const supplierIds=[...new Set(edges.map(e=>e.source))].slice(0,9)
+  const marketIds=[...new Set(edges.map(e=>e.target))].slice(0,10)
+  const filtered=edges.filter(e=>supplierIds.includes(e.source)&&marketIds.includes(e.target))
+  const sx=145,mx=755,top=34,bottom=326
+  const ypos=(i,n)=>n<=1?180:top+(bottom-top)*i/(n-1)
+  const sp=Object.fromEntries(supplierIds.map((id,i)=>[id,{x:sx,y:ypos(i,supplierIds.length)}]))
+  const mp=Object.fromEntries(marketIds.map((id,i)=>[id,{x:mx,y:ypos(i,marketIds.length)}]))
+  const supplierNames=Object.fromEntries((network?.suppliers||[]).map(x=>[x.code,x.name||x.code]))
+  const maxShare=Math.max(...filtered.map(e=>Number(e.share_of_market)||0),.01)
+  return <div className="trade-network-viz"><svg viewBox="0 0 900 360" role="img" aria-label={locale==='zh'?'供应网络图':'Supply network graph'}>
+    {filtered.map((e,i)=>{const a=sp[e.source],b=mp[e.target];if(!a||!b)return null;const share=Number(e.share_of_market)||0;return <line key={`${e.source}-${e.target}-${i}`} x1={a.x+12} y1={a.y} x2={b.x-12} y2={b.y} className="trade-network-edge" style={{strokeWidth:1.2+5*share/maxShare,opacity:.16+.58*share/maxShare}}/>})}
+    {supplierIds.map((id,i)=><g key={id} transform={`translate(${sp[id].x},${sp[id].y})`}><circle r="8" className="trade-network-node supplier"/><text x="-15" y="4" textAnchor="end">{String(supplierNames[id]||id).slice(0,24)}</text></g>)}
+    {marketIds.map((id,i)=><g key={id} transform={`translate(${mp[id].x},${mp[id].y})`}><circle r="9" className="trade-network-node market"/><text x="15" y="4">{FLAGS[id]||''} {marketName(markets,id,locale,id)}</text></g>)}
+  </svg></div>
+}
+
 export default function TariffSupply({dashboard,markets,onReload}){
   const {t,locale}=useI18n(); const project=dashboard?.project
-  const [supply,setSupply]=useState(null); const [tariffs,setTariffs]=useState([])
+  const [supply,setSupply]=useState(null); const [tariffs,setTariffs]=useState([]); const [network,setNetwork]=useState(null)
   const [scope,setScope]=useState('selected'); const [year,setYear]=useState(new Date().getFullYear()-1)
-  const [loadingSupply,setLoadingSupply]=useState(false); const [loadingTariff,setLoadingTariff]=useState(false)
+  const [loadingSupply,setLoadingSupply]=useState(false); const [loadingTariff,setLoadingTariff]=useState(false); const [networkLoading,setNetworkLoading]=useState(false)
   const [tariffFilter,setTariffFilter]=useState(''); const [tariffStatus,setTariffStatus]=useState('all'); const [tariffSort,setTariffSort]=useState('market'); const [tariffSortDir,setTariffSortDir]=useState('asc')
   const [job,setJob]=useState(null); const [error,setError]=useState(''); const timer=useRef(null)
   const originCode=job?.origin_code || supply?.origin?.code || project?.attributes?.origin_partner_code || '000'
@@ -29,6 +48,7 @@ export default function TariffSupply({dashboard,markets,onReload}){
       const qs=new URLSearchParams({hs:project.hs_code||'',origin_code:String(code),year:String(year),project_id:String(project.id)})
       if(scope==='selected'&&selectedCodes.length)qs.set('market_codes',selectedCodes.join(','))
       const tr=await api(`/api/tariff-matrix?${qs}`); setTariffs(tr.rows||[])
+      try{const net=await api(`/api/projects/${project.id}/supply-network`);setNetwork(net)}catch(_){setNetwork(null)}
     }catch(e){setError(e.message)}
   }
   useEffect(()=>{loadCached()},[project?.id,project?.updated_at,year,scope])
@@ -36,8 +56,14 @@ export default function TariffSupply({dashboard,markets,onReload}){
 
   async function syncSupply(){
     if(!project?.id)return; setLoadingSupply(true);setError('')
-    try{const data=await api(`/api/projects/${project.id}/supply/sync?end_year=${year}&lookback_years=4`,{method:'POST'});setSupply(data)}
+    try{const data=await api(`/api/projects/${project.id}/supply/sync?end_year=${year}&lookback_years=4`,{method:'POST'});setSupply(data);await loadNetwork()}
     catch(e){setError(e.message)}finally{setLoadingSupply(false)}
+  }
+  async function loadNetwork(){
+    if(!project?.id)return
+    setNetworkLoading(true)
+    try{const net=await api(`/api/projects/${project.id}/supply-network`);setNetwork(net)}
+    catch(e){setError(e.message)}finally{setNetworkLoading(false)}
   }
   async function refreshTariffs(code=originCode){
     if(!project?.id)return
@@ -102,6 +128,12 @@ export default function TariffSupply({dashboard,markets,onReload}){
     </div>
 
     <Card><CardHeader title={locale==='zh'?'目标市场供给通道':'Target-market supply corridors'}/>{corridors.length?<div className="data-table corridor-table"><div className="tr th"><span>{locale==='zh'?'市场':'Market'}</span><span>{locale==='zh'?'出口额':'Exports'}</span><span>{locale==='zh'?'占原产国出口':'Share of origin exports'}</span><span>{locale==='zh'?'目的地排名':'Destination rank'}</span><span>{locale==='zh'?'观测状态':'Observed'}</span></div>{corridors.map(r=><div className="tr" key={r.market}><b>{FLAGS[r.market]||''} {marketName(markets,r.market,locale,r.label)}</b><span>{compactMoney(r.trade_value,'USD')}</span><span>{pct(r.share)}</span><span>{r.rank??'—'}</span><span><Badge tone={r.observed?'success':'neutral'}>{r.observed?(locale==='zh'?'有观测':'Observed'):(locale==='zh'?'未观测':'Not observed')}</Badge></span></div>)}</div>:<Empty title={locale==='zh'?'无数据':'No data'}/>}</Card>
+
+    <Card className="supply-network-card"><CardHeader title={locale==='zh'?'全球供应网络风险':'Global supply network risk'} meta={network?.summary?.edges?`${network.summary.nodes} nodes · ${network.summary.edges} edges`:null} actions={<Button variant="secondary" icon={RefreshCw} loading={networkLoading} onClick={loadNetwork}>{locale==='zh'?'刷新网络':'Refresh network'}</Button>}/>
+      {network?.summary?.edges?<><div className="metric-grid network-kpis"><div><span>{locale==='zh'?'观测供应商':'Observed suppliers'}</span><b>{network.summary.suppliers}</b></div><div><span>{locale==='zh'?'目标市场':'Target markets'}</span><b>{network.summary.markets}</b></div><div><span>{locale==='zh'?'双边贸易边':'Bilateral edges'}</span><b>{network.summary.edges}</b></div><div><span>{locale==='zh'?'观测贸易额':'Observed trade'}</span><b>{compactMoney(network.summary.observed_trade,'USD')}</b></div></div>
+        <div className="supply-network-layout"><SupplyNetworkGraph network={network} locale={locale} markets={markets}/><div className="network-risk-panel"><h4>{locale==='zh'?'市场结构脆弱度':'Market structural vulnerability'}</h4>{(network.markets||[]).slice(0,8).map(r=><div className="network-risk-row" key={r.market}><div><b>{FLAGS[r.market]||''} {marketName(markets,r.market,locale,r.market)}</b><span>{locale==='zh'?`${r.supplier_count} 个供应商 · Top1 ${pct(r.top1_share)} · HHI ${Number(r.hhi||0).toFixed(3)}`:`${r.supplier_count} suppliers · Top1 ${pct(r.top1_share)} · HHI ${Number(r.hhi||0).toFixed(3)}`}</span></div><strong>{pct(r.structural_risk)}</strong><div className="network-risk-bar"><i style={{width:`${Math.min(100,Math.max(0,(r.structural_risk||0)*100))}%`}}/></div></div>)}</div></div>
+        <div className="network-bottom-grid"><div><h4>{locale==='zh'?'关键供应节点':'Critical supplier nodes'}</h4><div className="network-supplier-list">{(network.suppliers||[]).slice(0,8).map((s,i)=><div key={s.code}><span>{i+1}</span><b>{s.name}</b><small>{locale==='zh'?`覆盖 ${s.market_reach} 个市场`:`Reach ${s.market_reach} markets`}</small><strong>{pct(s.global_share)}</strong><em>BC {Number(s.betweenness||0).toFixed(3)}</em></div>)}</div></div><div><h4>{locale==='zh'?'供应商移除压力测试':'Supplier-removal stress test'}</h4><div className="network-stress-list">{(network.stress_curve||[]).slice(0,8).map(r=><div key={r.removed_suppliers}><span>Top {r.removed_suppliers}</span><div><i style={{width:`${Math.max(0,Math.min(100,(r.remaining_observed_trade_share||0)*100))}%`}}/></div><b>{pct(r.remaining_observed_trade_share)}</b></div>)}</div></div></div>
+      </>:<Empty title={locale==='zh'?'先同步多个目标市场的贸易与供给数据':'Sync trade and supply data for multiple target markets first'}/>}</Card>
 
     <Card><CardHeader title={locale==='zh'?'关税参考矩阵':'Tariff reference matrix'} meta={`${tariffRows.length}`} />
       <div className="research-toolbar tariff-filterbar"><div className="table-search"><Search size={15}/><input value={tariffFilter} onChange={e=>setTariffFilter(e.target.value)}/></div><label><span>{locale==='zh'?'状态':'Status'}</span><select value={tariffStatus} onChange={e=>setTariffStatus(e.target.value)}><option value="all">{locale==='zh'?'全部':'All'}</option><option value="available">{locale==='zh'?'可用':'Available'}</option><option value="ai_recovered">AI</option><option value="missing">{locale==='zh'?'缺失':'Missing'}</option><option value="error">{locale==='zh'?'错误':'Error'}</option><option value="unsupported">{locale==='zh'?'未支持':'Unsupported'}</option></select></label><label><span>{locale==='zh'?'排序':'Sort'}</span><select value={tariffSort} onChange={e=>setTariffSort(e.target.value)}><option value="market">{locale==='zh'?'市场':'Market'}</option><option value="rate">{locale==='zh'?'税率':'Rate'}</option><option value="year">{locale==='zh'?'年份':'Year'}</option></select></label><Button variant="secondary" icon={tariffSortDir==='asc'?ArrowUp:ArrowDown} onClick={()=>setTariffSortDir(x=>x==='asc'?'desc':'asc')}>{tariffSortDir==='asc'?(locale==='zh'?'升序':'Asc'):(locale==='zh'?'降序':'Desc')}</Button></div>

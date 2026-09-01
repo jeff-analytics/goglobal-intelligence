@@ -18,7 +18,7 @@ function Feedback({ value }) {
 }
 
 const PRESETS={
-  deepseek:{provider:'DeepSeek',protocol:'openai_compatible',base_url:'https://api.deepseek.com'},
+  deepseek:{provider:'DeepSeek',protocol:'openai_responses',base_url:'https://api.deepseek.com',model:'deepseek-v4-flash'},
   openai:{provider:'OpenAI',protocol:'openai_responses',base_url:'https://api.openai.com/v1'},
   anthropic:{provider:'Anthropic',protocol:'anthropic',base_url:'https://api.anthropic.com/v1'},
   gemini:{provider:'Google Gemini',protocol:'gemini',base_url:'https://generativelanguage.googleapis.com/v1beta'},
@@ -85,7 +85,7 @@ export default function DataSources() {
   function applyPreset(key){
     setProviderPreset(key);const p=PRESETS[key]||PRESETS.custom
     if(key==='custom')return
-    setForms(f=>({...f,ai:{...f.ai,...p,model:''}}));setModels({available:[],selected:'',source:'not-loaded'})
+    setForms(f=>({...f,ai:{...f.ai,...p,model:p.model||''}}));setModels({available:[],selected:p.model||'',source:'preset'})
   }
 
   async function loadModels(){

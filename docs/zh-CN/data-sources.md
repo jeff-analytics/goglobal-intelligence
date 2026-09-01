@@ -1,4 +1,4 @@
-# BorderMargin V5.3.8 数据源说明
+# GoGlobal Intelligence V5.4.0 数据源说明
 
 ## eBay Taxonomy
 

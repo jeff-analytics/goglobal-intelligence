@@ -20,9 +20,11 @@ backend/data/*.sqlite3
 Thumbs.db
 backend/data/ebay_taxonomy/
 
-# BorderMargin local validation markers
+# Local validation markers
 frontend/.bordermargin_*_build_ok
 backend/.venv/.bordermargin_*_deps
+frontend/.goglobal_*_build_ok
+backend/.venv/.goglobal_*_deps
 
 # IDE/editor
 .vscode/

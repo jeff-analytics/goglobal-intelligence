@@ -1,4 +1,4 @@
-# BorderMargin Documentation
+# GoGlobal Intelligence Documentation
 
 The repository keeps the root focused on code, startup, security and release information. Detailed product and methodology notes are grouped here.
 
@@ -11,5 +11,6 @@ The repository keeps the root focused on code, startup, security and release inf
 - [Data Policy](zh-CN/data-policy.md)
 - [Tariff Research Workflow](zh-CN/tariff-workflow.md)
 - [Research Methodology / Benchmark](zh-CN/methodology.md)
+- [Advanced Decision Analytics](zh-CN/advanced-decision-analytics.md)
 
 For installation and repository structure, use the root [README](../README.md) or [中文 README](../README.zh-CN.md).

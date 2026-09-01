@@ -1,4 +1,4 @@
-# BorderMargin V5.3.8 模型服务配置
+# GoGlobal Intelligence V5.4.0 模型服务配置
 
 网页入口：`数据源 → 模型服务`
 
@@ -42,6 +42,6 @@ AI_MODEL=
 - Auto：优先模型原生 Web Search；不可用时使用已配置 Tavily。
 - Provider-native：只使用模型原生联网能力。
 - Tavily：Tavily 搜索，当前模型综合分析。
-- None：仅使用 BorderMargin 本地证据。
+- None：仅使用 GoGlobal Intelligence 本地证据。
 
 AI Evidence Recovery 与 AI Decision Research 使用同一模型配置，但权限和工作流不同。前者可以把验证后的缺失外部证据写入 Evidence；后者输出研究建议和来源，不会修改用户确认数据。

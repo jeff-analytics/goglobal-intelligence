@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Calculator, Save, Undo2 } from 'lucide-react'
+import { Calculator, Save, Undo2, Activity } from 'lucide-react'
 import { api } from '../api'
 import { Badge, Button, Card, CardHeader, Empty, ErrorBanner, Field, PageHeader } from '../components/Common'
 import { FLAGS, money, pct, marketName, aiRecoveredField, editableNumber } from '../utils'
 import { AiRecoveryAction } from '../components/AiRecovery'
 import { useI18n } from '../i18n.jsx'
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 function pricingCacheKey(projectId,marketCode,payload){
   if(!projectId||!marketCode)return ''
@@ -34,6 +35,11 @@ export default function CostMargin({ dashboard, markets, onReload, onProjectUpda
   const [reverseResult,setReverseResult]=useState(null)
   const [error, setError] = useState('')
   const [taxOverride,setTaxOverride]=useState(null)
+  const [simLoading,setSimLoading]=useState(false)
+  const [simResult,setSimResult]=useState(null)
+  const [simMethod,setSimMethod]=useState('lhs')
+  const [simSamples,setSimSamples]=useState(10000)
+  const [simRanges,setSimRanges]=useState([])
 
   useEffect(()=>{ setA(project?.assumptions || {}); setMarketCode(prev=>(project?.markets||[]).includes(prev)?prev:(project?.markets?.[0] || '')); setError('') },[project?.id, project?.updated_at])
   useEffect(()=>{if(!marketCode){setTaxOverride(null);return} api(`/api/data/tax/override?market=${encodeURIComponent(marketCode)}`).then(r=>setTaxOverride(r.override||null)).catch(()=>setTaxOverride(null))},[marketCode,project?.updated_at])
@@ -64,6 +70,21 @@ export default function CostMargin({ dashboard, markets, onReload, onProjectUpda
     const cached=readPricingCache(resultCacheKey)
     setResult(cached.forward||null);setReverseResult(cached.reverse||null)
   },[resultCacheKey])
+  useEffect(()=>{
+    const price=Number(effectiveBenchmark?.median ?? result?.target_price ?? 0)
+    const factory=Number(a.factory_cost||0), freight=Number(a.freight_cost||0), fee=Number(a.platform_fee_rate||0), duty=Number(dutyRate||0)
+    if(!price||!Number.isFinite(price)){setSimRanges([]);setSimResult(null);return}
+    const range=(name,label,base,frac,percent=false,distribution='triangular')=>({name,label,base,low:Math.max(0,base*(1-frac)),high:Math.max(0,base*(1+frac)),mode:base,percent,distribution})
+    setSimRanges([
+      range('selling_price',locale==='zh'?'售价':'Selling price',price,.10,false),
+      range('factory_cost',locale==='zh'?'工厂成本':'Factory cost',factory,.10,false),
+      range('freight_cost',locale==='zh'?'物流成本':'Freight',freight,.20,false),
+      {name:'platform_fee_rate',label:locale==='zh'?'平台费率':'Platform fee',base:fee,low:Math.max(0,fee-.02),high:Math.min(.95,fee+.02),mode:fee,percent:true,distribution:'uniform'},
+      {name:'duty_rate',label:locale==='zh'?'关税率':'Duty rate',base:duty,low:duty===0?0:Math.max(0,duty*.8),high:duty===0?.03:Math.min(.95,duty*1.2),mode:duty,percent:true,distribution:'uniform'},
+    ])
+    setSimResult(null)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[project?.id,marketCode,effectiveBenchmark?.median,a.factory_cost,a.freight_cost,a.platform_fee_rate,dutyRate,result?.target_price,locale])
 
   if (!project) return <PageHeader title={t('costMargin')} />
 
@@ -91,6 +112,20 @@ export default function CostMargin({ dashboard, markets, onReload, onProjectUpda
       const next=await api('/api/pricing/reverse',{method:'POST',body:JSON.stringify(payload)});setReverseResult(next);writePricingCache(resultCacheKey,{reverse:next})
     }catch(e){setError(e.message)}finally{setCalculating(false)}
   }
+  function updateRange(idx,key,value){
+    const parsed=value===''?0:Number(value);if(!Number.isFinite(parsed))return
+    setSimRanges(x=>x.map((r,i)=>i===idx?{...r,[key]:r.percent?parsed/100:parsed}:r));setSimResult(null)
+  }
+  async function runSimulation(){
+    setSimLoading(true);setError('')
+    try{
+      if(!marketCode)throw new Error(locale==='zh'?'请选择市场':'Select a market')
+      if(!simRanges.length)throw new Error(locale==='zh'?'需要市场价格基准或正向定价结果':'A market benchmark or forward pricing result is required')
+      const variables=simRanges.map(r=>({name:r.name,distribution:r.distribution,low:Number(r.low),high:Number(r.high),mode:r.distribution==='triangular'?Number(r.mode):null}))
+      const next=await api(`/api/projects/${project.id}/profit-simulation`,{method:'POST',body:JSON.stringify({market:marketCode,sampling_method:simMethod,sample_count:Number(simSamples),sobol_base_n:512,seed:42,variables})})
+      setSimResult(next)
+    }catch(e){setError(e.message)}finally{setSimLoading(false)}
+  }
   const currency=a.base_currency || market?.currency || 'USD'
 
   return <div className="page-stack">
@@ -116,5 +151,11 @@ export default function CostMargin({ dashboard, markets, onReload, onProjectUpda
       {result ? <Card><CardHeader title={locale==='zh'?'正向定价':'Forward pricing'} meta={dutyRate==null?(locale==='zh'?'未含关税 / 不完整':'Pre-duty / incomplete'):(locale==='zh'?'已包含可用关税参考':'Includes available duty reference')} /><div className="hero-number">{money(result.target_price,currency)}</div><div className="metric-grid"><div><span>{locale==='zh'?'盈亏平衡价':'Break-even'}</span><b>{money(result.break_even_price,currency)}</b></div><div><span>{locale==='zh'?'落地成本':'Landed cost'}</span><b>{money(result.landed_cost_before_platform,currency)}</b></div><div><span>{locale==='zh'?'基准价利润率':'Margin at benchmark'}</span><b>{pct(result.margin_at_listing_median)}</b></div><div><span>{locale==='zh'?'相对基准溢价':'Premium to benchmark'}</span><b>{pct(result.premium_to_listing_median)}</b></div></div></Card> : <Card><Empty title={locale==='zh'?'等待正向计算':'Forward result pending'} /></Card>}
       {reverseResult ? <Card><CardHeader title={locale==='zh'?'反向成本目标':'Reverse cost target'} meta={`${locale==='zh'?'基准价':'Benchmark'} ${money(reverseResult.target_selling_price,market?.currency||currency)}`} /><div className="hero-number">{money(reverseResult.max_factory_cost,currency)}</div><div className="metric-grid"><div><span>{locale==='zh'?'最高落地成本':'Max landed cost'}</span><b>{money(reverseResult.max_landed_cost_before_platform,currency)}</b></div><div><span>{locale==='zh'?'最高税前成本':'Max pre-duty cost'}</span><b>{money(reverseResult.max_pre_duty_operating_cost,currency)}</b></div><div><span>{locale==='zh'?'当前工厂成本':'Current factory cost'}</span><b>{money(reverseResult.current_factory_cost,currency)}</b></div><div><span>{locale==='zh'?'工厂成本空间':'Factory headroom'}</span><b className={reverseResult.factory_cost_headroom>=0?'positive':'negative'}>{money(reverseResult.factory_cost_headroom,currency)}</b></div></div></Card> : <Card><Empty title={locale==='zh'?'等待反向计算':'Reverse result pending'} /></Card>}
     </div>
+
+    <Card className="simulation-card"><CardHeader title={locale==='zh'?'利润不确定性模拟':'Profit uncertainty simulation'} meta={simResult?`${simResult.sample_count.toLocaleString()} · ${simResult.sampling_method_label}`:'LHS + Sobol'} actions={<div className="simulation-actions"><select value={simMethod} onChange={e=>setSimMethod(e.target.value)}><option value="lhs">Latin Hypercube</option><option value="mc">Monte Carlo</option></select><select value={simSamples} onChange={e=>setSimSamples(Number(e.target.value))}><option value={2500}>2,500</option><option value={5000}>5,000</option><option value={10000}>10,000</option><option value={20000}>20,000</option></select><Button icon={Activity} variant="primary" loading={simLoading} onClick={runSimulation}>{locale==='zh'?'运行模拟':'Run simulation'}</Button></div>}/>
+      {simRanges.length?<div className="uncertainty-grid">{simRanges.map((r,i)=><div className="uncertainty-row" key={r.name}><b>{r.label}</b><label><span>{locale==='zh'?'低':'Low'}</span><input type="number" value={editableNumber(r.low,r.percent?100:1)} onChange={e=>updateRange(i,'low',e.target.value)}/></label><div><span>{locale==='zh'?'基准':'Base'}</span><strong>{r.percent?pct(r.base):money(r.base,currency)}</strong></div><label><span>{locale==='zh'?'高':'High'}</span><input type="number" value={editableNumber(r.high,r.percent?100:1)} onChange={e=>updateRange(i,'high',e.target.value)}/></label></div>)}</div>:<Empty title={locale==='zh'?'先完成价格与成本输入':'Complete price and cost inputs first'}/>}
+      {simResult?<><div className="metric-grid simulation-kpis"><div><span>{locale==='zh'?'毛利率中位数':'Median margin'}</span><b>{pct(simResult.margin?.p50)}</b></div><div><span>P10 / P90</span><b>{pct(simResult.margin?.p10)} / {pct(simResult.margin?.p90)}</b></div><div><span>{locale==='zh'?'亏损概率':'Loss probability'}</span><b className={simResult.margin?.loss_probability>.2?'negative':''}>{pct(simResult.margin?.loss_probability)}</b></div><div><span>{locale==='zh'?'达到目标毛利概率':'Target-margin probability'}</span><b>{pct(simResult.margin?.target_margin_probability)}</b></div><div><span>CVaR 5%</span><b>{money(simResult.profit_per_unit?.cvar_5,simResult.currency||currency)}</b></div></div>
+        <div className="simulation-viz-grid"><div className="simulation-chart"><h4>{locale==='zh'?'毛利率分布':'Margin distribution'}</h4><ResponsiveContainer width="100%" height={240}><BarChart data={(simResult.histogram||[]).map(x=>({...x,label:`${(x.low*100).toFixed(0)}%`}))}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="label" minTickGap={18}/><YAxis/><Tooltip/><Bar dataKey="count" radius={[4,4,0,0]}/></BarChart></ResponsiveContainer></div><div className="sobol-panel"><h4>{locale==='zh'?'Sobol 敏感性':'Sobol sensitivity'}</h4>{(simResult.sobol||[]).map(x=><div className="sobol-row" key={x.name}><div><b>{simRanges.find(r=>r.name===x.name)?.label||x.name}</b><span>ST {pct(x.ST)} · S1 {pct(x.S1)}</span></div><div className="sobol-bar"><i style={{width:`${Math.max(0,Math.min(100,(x.ST||0)*100))}%`}}/></div></div>)}</div></div></>:null}
+    </Card>
   </div>
 }

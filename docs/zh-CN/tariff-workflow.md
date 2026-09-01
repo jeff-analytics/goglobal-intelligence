@@ -1,6 +1,6 @@
 # 关税数据流程
 
-BorderMargin V4.1 同时保留两条关税路径。
+GoGlobal Intelligence V4.1 同时保留两条关税路径。
 
 ## 1. Connected / official-reference
 

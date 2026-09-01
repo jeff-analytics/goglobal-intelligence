@@ -219,7 +219,7 @@ def _default_plan(project: dict[str, Any], market: str, decision: dict[str, Any]
             f"验证 {product} 在{market}的当前需求与市场背景",
             f"审视 HS {hs or '未确认'}、原产地 {origin or '未确认'} 的供给与竞争结构",
             "核验当前产品合规、认证及进口准入要求",
-            "将 BorderMargin 的确定性经济性结果与当前公开渠道和价格证据进行比较",
+            "将 GoGlobal Intelligence 的确定性经济性结果与当前公开渠道和价格证据进行比较",
         ]
         if gaps:
             plan.insert(0, "补齐或解释当前证据缺口：" + "、".join(str(x) for x in gaps[:6]))
@@ -228,7 +228,7 @@ def _default_plan(project: dict[str, Any], market: str, decision: dict[str, Any]
             f"Validate current demand and market context for {product} in {market}",
             f"Review supply and competitive structure for HS {hs or 'unconfirmed'} and origin {origin or 'unconfirmed'}",
             "Check current product compliance, certification and import-access requirements",
-            "Compare deterministic BorderMargin economics with current public channel and pricing evidence",
+            "Compare deterministic GoGlobal Intelligence economics with current public channel and pricing evidence",
         ]
         if gaps:
             plan.insert(0, "Close or explain current evidence gaps: " + ", ".join(str(x) for x in gaps[:6]))
@@ -283,9 +283,9 @@ def _sanitize_sources(result: dict[str, Any], allowed_urls: set[str] | None = No
 def _instructions(language: str) -> str:
     output_language = "Simplified Chinese" if str(language).lower().startswith("zh") else "English"
     return (
-        "You are BorderMargin's Decision Research Agent for cross-border product entry decisions. "
-        "Use the deterministic BorderMargin data as the numeric baseline. Never alter user-entered costs, confirmed classification, manual overrides or uploaded observations. "
-        "Keep the rule-based decision status separate from your advisory recommendation. If web evidence conflicts with BorderMargin or another source, report the conflict instead of silently choosing a value. "
+        "You are GoGlobal Intelligence's Decision Research Agent for cross-border product entry decisions. "
+        "Use the deterministic GoGlobal Intelligence data as the numeric baseline. Never alter user-entered costs, confirmed classification, manual overrides or uploaded observations. "
+        "Keep the rule-based decision status separate from your advisory recommendation. If web evidence conflicts with GoGlobal Intelligence or another source, report the conflict instead of silently choosing a value. "
         "Any new web-derived factual claim must be supported by a source URL supplied by the research tool. Do not invent URLs. "
         "Prefer government, customs, tax authority, regulator, WTO/UN/World Bank and other primary sources. Use retailers or marketplaces only for current public pricing/channel context. "
         "Do not create unsupported market-size forecasts or numeric facts. Missing information must remain an evidence gap. "
@@ -351,7 +351,7 @@ def _rewrite_report_language(cfg: dict[str, Any], result: dict[str, Any], langua
     original_sources = list(result.get("sources") or [])
     original_decision = result.get("decision")
     system = (
-        f"Rewrite the supplied BorderMargin Decision Research JSON so every user-facing narrative field is in {target}. "
+        f"Rewrite the supplied GoGlobal Intelligence Decision Research JSON so every user-facing narrative field is in {target}. "
         "This is a translation/localization pass only. Preserve every fact, number, currency, HS code, named entity, recommendation condition and array structure. "
         "Do not add or remove evidence. Keep the decision enum unchanged. Keep source URLs and source titles unchanged. "
         "Return exactly one JSON object matching the provided schema and no markdown. Schema: "
@@ -492,7 +492,7 @@ def generate_decision_research(
         data, text, endpoint = _post_prompt(
             cfg,
             system=_instructions(language)
-            + "\nLive web research is unavailable in this run. Base the report only on BorderMargin data and explicitly list web-dependent items as evidence gaps.",
+            + "\nLive web research is unavailable in this run. Base the report only on GoGlobal Intelligence data and explicitly list web-dependent items as evidence gaps.",
             user=json.dumps(payload, ensure_ascii=False),
             max_tokens=3600,
             json_mode=True,

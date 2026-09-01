@@ -1,6 +1,6 @@
 # Security Policy
 
-BorderMargin is designed to keep API credentials and local project data outside source control.
+GoGlobal Intelligence is designed to keep API credentials and local project data outside source control.
 
 ## Secrets
 

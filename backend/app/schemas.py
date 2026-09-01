@@ -156,3 +156,98 @@ class ModelAPILocalConfigRequest(BaseModel):
         if normalized and normalized not in {"openai_compatible", "openai_responses", "anthropic", "gemini"}:
             raise ValueError("protocol must be openai_compatible, openai_responses, anthropic, or gemini")
         return normalized
+
+
+class ParetoObjectiveRequest(BaseModel):
+    key: str = Field(min_length=1, max_length=80)
+    direction: str = Field(default="max", max_length=8)
+
+    @field_validator("direction")
+    @classmethod
+    def validate_direction(cls, value: str) -> str:
+        normalized = str(value or "max").lower()
+        if normalized not in {"max", "min"}:
+            raise ValueError("direction must be max or min")
+        return normalized
+
+
+class ParetoScreenRequest(BaseModel):
+    objectives: list[ParetoObjectiveRequest] = Field(default_factory=list)
+
+
+class UncertaintyVariableRequest(BaseModel):
+    name: str = Field(min_length=1, max_length=80)
+    distribution: str = Field(default="uniform", max_length=20)
+    low: float
+    high: float
+    mode: float | None = None
+    mean: float | None = None
+    std: float | None = Field(default=None, gt=0)
+
+    @field_validator("distribution")
+    @classmethod
+    def validate_distribution(cls, value: str) -> str:
+        normalized = str(value or "uniform").lower()
+        if normalized not in {"uniform", "triangular", "normal"}:
+            raise ValueError("distribution must be uniform, triangular, or normal")
+        return normalized
+
+
+class ProfitSimulationRequest(BaseModel):
+    market: str = Field(min_length=2, max_length=3)
+    sampling_method: str = Field(default="lhs", max_length=12)
+    sample_count: int = Field(default=10000, ge=256, le=100000)
+    sobol_base_n: int = Field(default=512, ge=64, le=4096)
+    seed: int = Field(default=42, ge=0, le=2_147_483_647)
+    variables: list[UncertaintyVariableRequest] = Field(default_factory=list)
+
+    @field_validator("sampling_method")
+    @classmethod
+    def validate_sampling(cls, value: str) -> str:
+        normalized = str(value or "lhs").lower()
+        if normalized not in {"lhs", "mc"}:
+            raise ValueError("sampling_method must be lhs or mc")
+        return normalized
+
+
+class AllocationOpportunityRequest(BaseModel):
+    project_id: int | str
+    product: str = Field(default="", max_length=200)
+    market: str = Field(min_length=2, max_length=3)
+    return_rate: float
+    revenue_rate: float = Field(default=1.0, ge=0)
+    uncertainty: float = Field(default=0.0, ge=0)
+    risk_score: float = Field(default=0.0, ge=0, le=1)
+    max_allocation: float | None = Field(default=None, ge=0)
+    enabled: bool = True
+    mandatory: bool = False
+    prohibited: bool = False
+
+
+class PortfolioOptimizationRequest(BaseModel):
+    total_budget: float = Field(gt=0)
+    objective: str = Field(default="robust_profit", max_length=40)
+    gamma: float = Field(default=2.0, ge=0)
+    market_cap_ratio: float = Field(default=0.35, gt=0, le=1)
+    product_cap_ratio: float = Field(default=0.45, gt=0, le=1)
+    high_risk_cap_ratio: float = Field(default=0.20, ge=0, le=1)
+    high_risk_threshold: float = Field(default=0.65, ge=0, le=1)
+    min_markets: int = Field(default=1, ge=0, le=100)
+    min_allocation: float = Field(default=0.0, ge=0)
+    reserve_ratio: float = Field(default=0.0, ge=0, lt=1)
+    opportunities: list[AllocationOpportunityRequest] = Field(default_factory=list)
+
+    @field_validator("objective")
+    @classmethod
+    def validate_objective(cls, value: str) -> str:
+        normalized = str(value or "robust_profit").lower()
+        if normalized not in {"robust_profit", "nominal_profit", "revenue"}:
+            raise ValueError("objective must be robust_profit, nominal_profit, or revenue")
+        return normalized
+
+
+class HSRankingFeedbackRequest(BaseModel):
+    project_id: int = Field(default=0, ge=0)
+    query_text: str = Field(min_length=1, max_length=2000)
+    selected_code: str = Field(min_length=2, max_length=20)
+    candidate_codes: list[str] = Field(default_factory=list)

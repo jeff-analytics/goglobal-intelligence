@@ -1,4 +1,4 @@
-# BorderMargin V5.3.8 AI & Research
+# GoGlobal Intelligence V5.4.0 AI & Research
 
 本发布包加入第一版 Decision Research Agent，同时保留原有 AI Evidence Recovery。
 
@@ -8,7 +8,7 @@
 用于发现缺失的外部数据、联网取证、结构化提取、验证并写入 Evidence。用户输入、确认 HS、手工关税/税率和上传数据不会被 AI 静默覆盖。
 
 ### Decision Research Agent
-用于读取当前 Decision Case、BorderMargin 已有结构化数据和 Evidence，然后按专业 Skill 生成市场进入研究报告。它可以使用联网研究，但不会直接修改用户成本、确认编码或确定性计算结果。
+用于读取当前 Decision Case、GoGlobal Intelligence 已有结构化数据和 Evidence，然后按专业 Skill 生成市场进入研究报告。它可以使用联网研究，但不会直接修改用户成本、确认编码或确定性计算结果。
 
 当前 Skill：
 - Market Demand
@@ -27,7 +27,7 @@
 - Auto：优先当前模型原生联网能力；不可用时使用已配置 Tavily。
 - Provider-native：只用模型服务商的原生 Web Search。
 - Tavily：Tavily 负责搜索，当前模型负责结构化分析。
-- None：只读 BorderMargin 本地证据。
+- None：只读 GoGlobal Intelligence 本地证据。
 
 Tavily API Key 为可选配置。若当前模型支持原生联网搜索，则无需 Tavily。
 

@@ -13,14 +13,14 @@ class AppErrorBoundary extends React.Component {
     return { error }
   }
   componentDidCatch(error, info) {
-    console.error('BorderMargin UI runtime error', error, info)
+    console.error('GoGlobal Intelligence UI runtime error', error, info)
   }
   render() {
     if (this.state.error) {
       const zh = (localStorage.getItem('bm_locale') || 'zh') === 'zh'
       return <div className="runtime-error-screen">
         <div className="runtime-error-card">
-          <h1>{zh?'BorderMargin 页面错误':'BorderMargin UI error'}</h1>
+          <h1>{zh?'GoGlobal Intelligence 页面错误':'GoGlobal Intelligence UI error'}</h1>
           
           <pre>{String(this.state.error?.message || this.state.error)}</pre>
           <button onClick={() => window.location.reload()}>{zh?'重新加载':'Reload application'}</button>

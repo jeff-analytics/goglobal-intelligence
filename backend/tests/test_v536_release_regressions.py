@@ -220,7 +220,12 @@ def test_backend_launch_scripts_do_not_use_uvicorn_reload():
     assert "uvicorn app.main:app --host 127.0.0.1 --port 8000" in win
     assert "uvicorn app.main:app --host 127.0.0.1 --port 8000" in mac
     assert "goto :api_loop" in win
-    assert "while true; do" in mac
+    # macOS startup deliberately runs one supervised backend process so an
+    # import/startup failure is surfaced immediately instead of being hidden
+    # by an infinite restart loop.
+    assert "goglobal_backend.log" in mac
+    assert 'kill -0 \"$API_PID\"' in mac
+    assert "tail -n 120" in mac
 
 
 def test_saving_assumptions_keeps_project_routes_available(tmp_path, monkeypatch):
@@ -301,13 +306,13 @@ def test_launcher_prevents_stale_backend_and_ui_port_reuse():
     preflight=(root/"scripts/windows/prepare_ports.ps1").read_text(encoding="utf-8")
     mac=(root/"run_mac.command").read_text(encoding="utf-8")
     assert "scripts\\windows\\prepare_ports.ps1" in run
-    assert "v538-20260829-final-polish-r2" in run
-    assert run.index('start "BorderMargin API"') < run.index('start "BorderMargin UI"')
+    assert "v541-20260901-algorithms-ai-config-r1" in run
+    assert run.index('start "GoGlobal Intelligence API"') < run.index('start "GoGlobal Intelligence UI"')
     assert "--port 5173 --strictPort" in frontend
     assert "Get-NetTCPConnection" in preflight
     assert "Stop-Process" in preflight
     assert "another application" in preflight
-    assert "v538-20260829-final-polish-r2" in mac
+    assert "v541-20260901-algorithms-ai-config-r1" in mac
     assert "--port 5173 --strictPort" in mac
 
 
@@ -315,8 +320,8 @@ def test_health_exposes_exact_release_build_id():
     from fastapi.testclient import TestClient
     client=TestClient(main.app)
     body=client.get("/api/health").json()
-    assert body["version"] == "5.3.8"
-    assert body["build"] == "v538-20260829-final-polish-r2"
+    assert body["version"] == "5.4.1"
+    assert body["build"] == "v541-20260901-algorithms-ai-config-r1"
 
 
 def test_setup_origin_dropdown_uses_portal_overlay_and_hs_selection_clears_candidates():
@@ -330,7 +335,9 @@ def test_setup_origin_dropdown_uses_portal_overlay_and_hs_selection_clears_candi
     assert "position:fixed!important" in styles
     assert "setOpen(false);setItems([]);onChange(x.name)" in setup
     assert "onChange={v=>{setHsCandidates([]);setHsCandidatesOpen(false);setForm({...form,hs_code:v})}}" in setup
-    assert "function useHs(item){ setForm({...form,hs_code:item.code}); setHsCandidates([]); setHsCandidatesOpen(false) }" in setup
+    assert "function useHs(item){" in setup
+    assert "selected_code:item.code" in setup
+    assert "setForm({...form,hs_code:item.code}); setHsCandidates([]); setHsCandidatesOpen(false); setHsRankMeta(null)" in setup
 
 
 def test_v538_r2_layout_and_numeric_display_guards():

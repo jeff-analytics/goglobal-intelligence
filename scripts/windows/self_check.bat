@@ -2,10 +2,10 @@
 setlocal
 for %%I in ("%~dp0..\..") do set "ROOT=%%~fI"
 cd /d "%ROOT%"
-title BorderMargin V5.3.8 Self Check
+title GoGlobal Intelligence V5.4.1 Self Check
 
 echo ==========================================
-echo       BorderMargin V5.3.8 Self Check
+echo       GoGlobal Intelligence V5.4.1 Self Check
 echo ==========================================
 
 if not exist "backend\.venv\Scripts\python.exe" (

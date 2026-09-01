@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 echo "==============================================="
-echo " BorderMargin V5.3.x -> V5.3.8 Data Migration macOS"
+echo " BorderMargin V5.3.x -> GoGlobal Intelligence V5.4.1 Data Migration macOS"
 echo "==============================================="
 read -r -p "Drag your existing BorderMargin V5.3.x folder here, then press Enter: " OLD_DIR
 OLD_DIR=${OLD_DIR%\'}; OLD_DIR=${OLD_DIR#\'}; OLD_DIR=${OLD_DIR%\"}; OLD_DIR=${OLD_DIR#\"}

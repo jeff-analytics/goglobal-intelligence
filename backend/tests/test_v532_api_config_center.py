@@ -241,3 +241,32 @@ def test_evidence_brief_uses_configured_generic_provider(tmp_path, monkeypatch):
     assert output["model"] == "custom-model"
     assert output["result"]["headline"] == "H"
     assert seen["url"] == "https://custom.example/v1/chat/completions"
+
+
+def test_deepseek_display_model_id_is_normalized_for_validation(monkeypatch):
+    from app import ai_layer
+
+    class _FakeResponse:
+        status_code = 200
+        text = ""
+        def raise_for_status(self):
+            return None
+        def json(self):
+            return {"data": [{"id": "deepseek-v4-flash"}, {"id": "deepseek-v4-pro"}]}
+
+    monkeypatch.setattr(ai_layer.requests, "get", lambda *args, **kwargs: _FakeResponse())
+    out = ai_layer.test_connection({
+        "provider": "DeepSeek",
+        "protocol": "openai_responses",
+        "base_url": "https://api.deepseek.com",
+        "api_key": "k",
+        "model": "DeepSeek-V4-Flash",
+    })
+    assert out["verified"] is True
+    assert out["model"] == "deepseek-v4-flash"
+
+
+def test_deepseek_model_normalizer_accepts_display_separators():
+    from app.ai_layer import normalize_ai_model_id
+    assert normalize_ai_model_id(provider="DeepSeek", base_url="https://api.deepseek.com", model=" DeepSeek V4_Flash ") == "deepseek-v4-flash"
+    assert normalize_ai_model_id(provider="OpenAI", base_url="https://api.openai.com/v1", model="CaseSensitiveModel") == "CaseSensitiveModel"

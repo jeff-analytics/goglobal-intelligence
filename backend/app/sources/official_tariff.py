@@ -19,7 +19,7 @@ def _official_json(url: str, *, params: dict[str, Any] | None = None) -> Any:
     safe_params = params or {}
     key = cache_key(url, safe_params, "json")
     def fetcher():
-        response = requests.get(url, params=safe_params or None, timeout=15, headers={"Accept": "application/json", "User-Agent": "BorderMargin/5.3.8"})
+        response = requests.get(url, params=safe_params or None, timeout=15, headers={"Accept": "application/json", "User-Agent": "GoGlobalIntelligence/5.4.0"})
         response.raise_for_status()
         return response.json()
     payload, _meta = cached_call(provider="Official Tariff", key=key, fetcher=fetcher, ttl_seconds=6*60*60, stale_ttl_seconds=7*24*60*60)
@@ -31,7 +31,7 @@ def _official_text(url: str, *, params: dict[str, Any] | None = None) -> tuple[s
     key = cache_key(url, safe_params, "text")
     resolved_url = [url]
     def fetcher():
-        response = requests.get(url, params=safe_params or None, timeout=15, headers={"User-Agent": "BorderMargin/5.3.8"})
+        response = requests.get(url, params=safe_params or None, timeout=15, headers={"User-Agent": "GoGlobalIntelligence/5.4.0"})
         response.raise_for_status()
         resolved_url[0] = response.url
         return {"text": response.text, "url": response.url}

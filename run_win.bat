@@ -1,10 +1,10 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title BorderMargin Setup
+title GoGlobal Intelligence Setup
 
 echo ==========================================
-echo          BorderMargin V5.3.8 Starter
+echo          GoGlobal Intelligence V5.4.1 Starter
 echo ==========================================
 echo.
 
@@ -28,7 +28,7 @@ for /f "usebackq delims=" %%V in (`node -p "process.versions.node"`) do set "NOD
 powershell -NoProfile -Command "if([version]'%NODE_VERSION%' -ge [version]'22.12.0'){exit 0}else{exit 1}"
 if errorlevel 1 (
   echo [ERROR] Node.js %NODE_VERSION% is too old.
-  echo BorderMargin requires Node.js 22.12 or newer.
+  echo GoGlobal Intelligence requires Node.js 22.12 or newer.
   echo Install Node.js 22 LTS, reopen Command Prompt, then run this file again.
   pause
   exit /b 1
@@ -79,12 +79,12 @@ echo [2/6] Python version:
 "backend\.venv\Scripts\python.exe" --version
 "backend\.venv\Scripts\python.exe" -c "import sys; raise SystemExit(0 if sys.version_info >= (3,11) else 1)"
 if errorlevel 1 (
-  echo [ERROR] BorderMargin requires Python 3.11 or newer.
+  echo [ERROR] GoGlobal Intelligence requires Python 3.11 or newer.
   pause
   exit /b 1
 )
 
-if exist "backend\.venv\.bordermargin_v538_deps" (
+if exist "backend\.venv\.goglobal_v540_deps" (
   echo [3/6] Backend dependencies already installed.
 ) else (
   echo [3/6] Installing backend dependencies...
@@ -92,7 +92,7 @@ if exist "backend\.venv\.bordermargin_v538_deps" (
   if errorlevel 1 goto :failed
   "backend\.venv\Scripts\python.exe" -m pip install --prefer-binary -r "backend\requirements.txt"
   if errorlevel 1 goto :failed
-  type nul > "backend\.venv\.bordermargin_v538_deps"
+  type nul > "backend\.venv\.goglobal_v540_deps"
 )
 
 if exist "frontend\node_modules" (
@@ -108,7 +108,7 @@ if exist "frontend\node_modules" (
   popd
 )
 
-if exist "frontend\.bordermargin_v538_build_ok" (
+if exist "frontend\.goglobal_v540_build_ok" (
   echo [5/6] Frontend build already validated.
 ) else (
   echo [5/6] Validating frontend production build...
@@ -117,10 +117,10 @@ if exist "frontend\.bordermargin_v538_build_ok" (
   if errorlevel 1 (
     popd
     echo.
-    echo [ERROR] Frontend build validation failed. BorderMargin will not start with a broken UI.
+    echo [ERROR] Frontend build validation failed. GoGlobal Intelligence will not start with a broken UI.
     goto :failed
   )
-  type nul > ".bordermargin_v538_build_ok"
+  type nul > ".goglobal_v540_build_ok"
   popd
 )
 
@@ -128,35 +128,35 @@ echo [6/6] Preparing local ports...
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\windows\prepare_ports.ps1"
 if errorlevel 1 (
   echo.
-  echo [ERROR] BorderMargin could not safely claim ports 8000 and 5173.
+  echo [ERROR] GoGlobal Intelligence could not safely claim ports 8000 and 5173.
   echo Close the application reported above, then run this file again.
   pause
   exit /b 1
 )
 
-echo [6/6] Starting BorderMargin API...
-start "BorderMargin API" cmd /k call "%~dp0scripts\windows\start_backend.bat"
-echo Waiting for the exact V5.3.8 backend build...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$ok=$false; for($i=0;$i -lt 45;$i++){ try { $h=Invoke-RestMethod -Uri 'http://127.0.0.1:8000/api/health' -TimeoutSec 1; if($h.service -eq 'BorderMargin API' -and $h.build -eq 'v538-20260829-final-polish-r2'){$ok=$true;break} } catch {}; Start-Sleep -Seconds 1 }; if($ok){exit 0}else{exit 1}"
+echo [6/6] Starting GoGlobal Intelligence API...
+start "GoGlobal Intelligence API" cmd /k call "%~dp0scripts\windows\start_backend.bat"
+echo Waiting for the exact V5.4.1 backend build...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$ok=$false; for($i=0;$i -lt 45;$i++){ try { $h=Invoke-RestMethod -Uri 'http://127.0.0.1:8000/api/health' -TimeoutSec 1; if($h.service -eq 'GoGlobal Intelligence API' -and $h.build -eq 'v541-20260901-algorithms-ai-config-r1'){$ok=$true;break} } catch {}; Start-Sleep -Seconds 1 }; if($ok){exit 0}else{exit 1}"
 if errorlevel 1 (
-  echo [ERROR] The expected BorderMargin API build did not become ready.
-  echo Check the BorderMargin API window.
+  echo [ERROR] The expected GoGlobal Intelligence API build did not become ready.
+  echo Check the GoGlobal Intelligence API window.
   pause
   exit /b 1
 )
 
-echo Starting BorderMargin UI...
-start "BorderMargin UI" cmd /k call "%~dp0scripts\windows\start_frontend.bat"
+echo Starting GoGlobal Intelligence UI...
+start "GoGlobal Intelligence UI" cmd /k call "%~dp0scripts\windows\start_frontend.bat"
 
 echo.
-echo BorderMargin is starting in two windows.
+echo GoGlobal Intelligence is starting in two windows.
 echo UI:  http://127.0.0.1:5173
 echo API: http://localhost:8000/docs
 echo.
 echo Waiting for the UI server to become ready...
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$ok=$false; for($i=0;$i -lt 45;$i++){ try { $r=Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:5173' -TimeoutSec 1; if($r.StatusCode -ge 200 -and $r.StatusCode -lt 500){$ok=$true;break} } catch {}; Start-Sleep -Seconds 1 }; if($ok){exit 0}else{exit 1}"
 if errorlevel 1 (
-  echo [WARN] UI did not answer within 45 seconds. Check the BorderMargin UI window.
+  echo [WARN] UI did not answer within 45 seconds. Check the GoGlobal Intelligence UI window.
   pause
   exit /b 1
 )

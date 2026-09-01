@@ -235,6 +235,25 @@ def init_db() -> None:
         )
         conn.execute(
             """
+            CREATE TABLE IF NOT EXISTS hs_ranking_feedback (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                project_id INTEGER NOT NULL DEFAULT 0,
+                query_text TEXT NOT NULL,
+                selected_code TEXT NOT NULL,
+                candidate_codes_json TEXT NOT NULL DEFAULT '[]',
+                created_at TEXT NOT NULL
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_hs_ranking_feedback_created
+            ON hs_ranking_feedback(created_at DESC)
+            """
+        )
+
+        conn.execute(
+            """
             CREATE TABLE IF NOT EXISTS ai_recovery_runs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 project_id INTEGER NOT NULL,
@@ -865,5 +884,34 @@ def list_ai_recovery_runs(project_id: int, market: str | None = None, limit: int
         for k in ("requested_json","result_json"):
             try:item[k[:-5]]=json.loads(item.pop(k))
             except Exception:item[k[:-5]]={};item.pop(k,None)
+        out.append(item)
+    return out
+
+
+def save_hs_ranking_feedback(*, project_id: int = 0, query_text: str, selected_code: str, candidate_codes: list[str]) -> dict[str, Any]:
+    init_db(); now = _now()
+    payload = {
+        "project_id": int(project_id or 0), "query_text": str(query_text or "")[:2000],
+        "selected_code": str(selected_code or "")[:20],
+        "candidate_codes": [str(x)[:20] for x in (candidate_codes or [])[:30]], "created_at": now,
+    }
+    with _connect() as conn:
+        cur = conn.execute(
+            "INSERT INTO hs_ranking_feedback(project_id,query_text,selected_code,candidate_codes_json,created_at) VALUES(?,?,?,?,?)",
+            (payload["project_id"], payload["query_text"], payload["selected_code"], json.dumps(payload["candidate_codes"], ensure_ascii=False), now),
+        )
+        conn.commit(); payload["id"] = int(cur.lastrowid)
+    return payload
+
+
+def list_hs_ranking_feedback(limit: int = 200) -> list[dict[str, Any]]:
+    init_db(); cap=max(1,min(int(limit or 200),1000))
+    with _connect() as conn:
+        rows=conn.execute("SELECT * FROM hs_ranking_feedback ORDER BY id DESC LIMIT ?", (cap,)).fetchall()
+    out=[]
+    for row in rows:
+        item=dict(row)
+        try:item["candidate_codes"]=json.loads(item.pop("candidate_codes_json"))
+        except Exception:item["candidate_codes"]=[];item.pop("candidate_codes_json",None)
         out.append(item)
     return out

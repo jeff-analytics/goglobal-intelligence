@@ -1,45 +1,48 @@
-# BorderMargin
+# GoGlobal Intelligence
 
 **AI 驱动的市场进入与盈利决策平台**
 
-BorderMargin 是一套中英文双语的产品市场决策工具。它把贸易数据、关税与税费、供应结构、Marketplace 研究、成本测算和联网研究放在同一套决策流程中，用于判断一个产品进入目标市场的商业可行性。
+GoGlobal Intelligence 是一套中英文双语的产品市场决策工具。它把贸易数据、关税与税费、供应结构、Marketplace 研究、成本测算和联网研究放在同一套决策流程中，用于判断一个产品进入目标市场的商业可行性。
 
 系统将确定性计算与 AI 研究分开处理。用户确认的数据和业务假设保持最高优先级，AI 获取的外部证据和建议保留来源并明确标识。
 
-**当前版本：** `v5.3.8`
+**当前版本：** `v5.4.1`
 
 [English README](README.md) · [更新记录](CHANGELOG.md) · [文档](docs/README.md)
 
 ## 核心能力
 
 - **项目设置**：商品、原产地、HS / 海关编码、目标市场和 Marketplace 分类。
-- **市场扫描**：按统一指标比较多个候选市场。
-- **贸易与供应研究**：UN Comtrade 进口额、原产地份额、CR3、CR5、HHI 和贸易历史。
+- **市场扫描**：按统一指标比较多个候选市场，并使用非支配排序形成 Pareto 多目标前沿。
+- **贸易与供应研究**：UN Comtrade 进口额、原产地份额、CR3、CR5、HHI、贸易历史和全球供应网络风险。
 - **关税与税费研究**：HS6 关税参考、官方来源证据、VAT/GST 和关税矩阵。
 - **Marketplace 研究**：eBay Taxonomy、Listing 研究、Comparable Engine 和价格基准。
-- **成本与利润**：成本假设、目标利润、反推售价和价格缺口分析。
+- **成本与利润**：成本假设、目标利润、反推售价、Monte Carlo / 拉丁超立方模拟和 Sobol 敏感性分析。
 - **决策案例**：根据已有证据和经济性计算形成确定性 Decision Case。
 - **Decision Research Agent**：根据当前中英文设置生成研究分析，支持市场、定价、风险、来源和行动视图。
-- **产品组合**：使用一致口径比较多个商品与市场机会。
+- **产品组合**：使用 MILP 和 Bertsimas-Sim 风格预算不确定集进行多产品、多市场资源配置。
+- **HS 候选排序**：BM25 + 本地 Dense Embedding + 否定语义特征 + Pairwise Learning-to-Rank，用户确认结果会形成排序反馈。
 
 ## 决策流程
 
 ```text
 项目设置
   ↓
-市场扫描
+市场扫描 + Pareto 前沿
   ↓
-贸易与供应
+贸易与供应 + 网络风险
   ↓
 关税 / 税费 / 汇率
   ↓
 Marketplace 研究
   ↓
-成本与利润
+成本与利润 + LHS / Sobol
   ↓
 决策案例
   ↓
 Decision Research Agent
+  ↓
+MILP / 鲁棒资源配置
 ```
 
 ## 产品原则
@@ -69,6 +72,7 @@ AI 与外部服务均为可选配置。即使没有配置模型，项目存储�
 - 前端：React 19、Vite 8、Recharts、Lucide
 - 后端：FastAPI、Pydantic、Uvicorn
 - 数据库：SQLite
+- 高级分析：NumPy、SciPy / HiGHS、scikit-learn、NetworkX
 - 数据处理：Python、requests、openpyxl
 - 测试：pytest + 前端 production build 校验
 - 系统：Windows / macOS
@@ -126,7 +130,7 @@ chmod +x scripts/macos/migrate_from_existing.command
 ## 仓库结构
 
 ```text
-BorderMargin/
+GoGlobal Intelligence/
 ├── backend/                 FastAPI、研究引擎、测试
 ├── frontend/                React / Vite 前端
 ├── docs/                    方法、数据和 Agent 文档
@@ -161,4 +165,4 @@ macOS：
 
 ## 版本管理
 
-仓库目录保持 `BorderMargin`，不在文件夹名称中加入版本号。版本通过 Git Tag 管理，例如 `v5.3.8`，具体改动见 [CHANGELOG.md](CHANGELOG.md)。
+仓库目录保持 `GoGlobal Intelligence`，不在文件夹名称中加入版本号。版本通过 Git Tag 管理，例如 `v5.4.1`，具体改动见 [CHANGELOG.md](CHANGELOG.md)。

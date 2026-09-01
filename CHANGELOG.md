@@ -1,41 +1,47 @@
-# BorderMargin V5.3.8
+# Changelog
 
-## UI / UX
-- Unified model and web-research configuration surfaces.
-- Content-sized status badges across the product.
-- Refined cards, buttons, inputs, spacing, hover and focus states.
-- Removed non-essential explanatory copy from AI/research settings.
+## v5.4.1 — Advanced Algorithms + AI Provider Reliability
 
-## Decision Research Agent
-- Rebuilt Decision Cases AI output as an interactive research workbench.
-- Added Overview, Market, Pricing, Risks, Sources and Actions tabs.
-- Added evidence coverage, market structure and pricing comparison charts.
-- Added source filtering, expandable evidence, interactive action checklists and summary copy.
-- Report language follows the current Chinese / English UI locale.
-- Strengthened the research prompt for management-grade summaries, specific risks and prioritized actions.
+Build: `v541-20260901-algorithms-ai-config-r1`
 
-## Tariff & Supply
-- Rebuilt Global Tariff Reference Scan controls and progress presentation.
-- Added current matrix count and clearer scan status.
+- Keeps the full V5.4 advanced analytics stack: Pareto non-dominated sorting, Monte Carlo/LHS/Sobol uncertainty analysis, MILP + Bertsimas-Sim robust allocation, hybrid HS BM25 + dense embedding + pairwise learning-to-rank, and global trade-network risk analysis.
+- DeepSeek preset now uses the official Responses API with `https://api.deepseek.com` and canonical model ID `deepseek-v4-flash`.
+- DeepSeek display-style model names such as `DeepSeek-V4-Flash` are normalized before model-list validation and persistence, preventing false “model not available” failures caused by capitalization or separator differences.
+- Retains the hardened macOS startup path introduced after V5.4.0.
 
-## Runtime
-- macOS startup now finds a compatible Python 3.11+ installation automatically.
-- Old Python virtual environments are rebuilt automatically when too old.
-- macOS startup reuses `/etc/ssl/cert.pem` for verified pip/requests HTTPS when available.
-- Windows startup also rebuilds an outdated virtual environment and prefers Python 3.12 / 3.11.
-- Node.js 22.12+ remains required on both platforms.
+## v5.4.0 — Advanced Decision Analytics
 
-## Build
-`v538-20260829-final-polish-r2`
+Build: `v540-20260831-advanced-decision-analytics-r2`
 
-## V5.3.8 final polish r2
+### Advanced analytics
+- Added NSGA-II-style non-dominated sorting, Pareto fronts, crowding distance and dominance explanations to Market Scan.
+- Added Monte Carlo and Latin Hypercube profit simulation with quantiles, loss probability, target-margin probability, CVaR and Sobol first-order / total-effect sensitivity.
+- Added multi-product / multi-market MILP resource allocation with budget, concentration, mandatory/prohibited and high-risk constraints.
+- Added Bertsimas-Sim budgeted-uncertainty robust-profit mode with configurable Gamma.
+- Added graph-based global supply-risk analysis using supplier concentration, market reach, weighted betweenness and supplier-removal stress tests.
 
-- Decision Research now enforces the current UI language. Chinese projects request Simplified Chinese at planning and generation time; a localization pass automatically corrects a model response that returns in the wrong language while preserving facts, numbers, decision enums and source URLs.
-- Origin-country supplier rows use responsive columns and safe overflow rules so the rightmost values no longer get clipped at narrower widths or browser zoom.
-- Cost & Margin numeric inputs normalize floating-point display values. Percentage inputs such as 13.6% no longer surface binary artifacts such as 13.600000000000001; the same normalization applies to other editable cost/rate fields.
-- Global tariff reference scan has a compact two-column control layout inside its narrower card and stacks progress content safely, eliminating clipped controls.
-- Public version remains 5.3.8. Build: `v538-20260829-final-polish-r2`.
+### HS ranking
+- Upgraded HS candidate ranking to BM25 + local dense LSA embedding + pairwise logistic Learning-to-Rank.
+- Confirmed HS selections are stored as pairwise ranking feedback.
+- Added general negation-aware nomenclature features so phrases such as `not knitted` do not incorrectly improve a positive `knitted` query match.
+- Added word/bigram and character semantic features while keeping the ranker local-first and model-download free.
 
-### Final layout polish
-- Kept the eBay default marketplace field fully inside the data-source card at desktop and narrower widths.
-- Rebalanced the four-column OAuth form and added safer responsive breakpoints.
+### Product and runtime
+- Kept the V5.3.8 Decision Research workbench, bilingual report enforcement, tariff scan layout, numeric input normalization and eBay layout fixes.
+- Unified public runtime branding as GoGlobal Intelligence.
+- Updated Windows/macOS launchers to validate the exact V5.4.0 build and use V5.4-specific dependency/build markers.
+- Added SciPy, NumPy, scikit-learn and NetworkX analytics dependencies.
+
+## v5.3.8 — Decision Research and UI finalization
+- Rebuilt Decision Research into an interactive bilingual workbench.
+- Added AI/web-research provider separation, evidence views and source-aware actions.
+- Refined tariff scan, eBay configuration, supplier layout and numeric input behavior.
+- Added Windows/macOS cross-platform launch and self-check flows.
+
+## V5.4.0 macOS startup reliability fix
+- macOS localhost health checks now bypass HTTP/VPN proxies explicitly.
+- Broken/stale virtual environments are rebuilt when their base Python was removed.
+- Backend dependency cache invalidates automatically when `requirements.txt` changes.
+- Backend startup uses an absolute interpreter path and persists a readable startup log.
+- Readiness checks parse health JSON and wait up to 90 seconds for scientific-Python imports.
+- Backend startup failures now print the actual traceback instead of only a generic readiness error.

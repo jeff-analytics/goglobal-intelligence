@@ -7,7 +7,7 @@ try {
         [string]$_.CommandLine -match "(?i)start_(backend|frontend)_win\.bat"
     })
     foreach ($proc in $staleWrappers) {
-        Write-Host "[PORT] Closing previous BorderMargin service window (PID $($proc.ProcessId))..."
+        Write-Host "[PORT] Closing previous GoGlobal/BorderMargin service window (PID $($proc.ProcessId))..."
         & taskkill /PID $proc.ProcessId /T /F *> $null
     }
     if ($staleWrappers.Count -gt 0) { Start-Sleep -Milliseconds 2400 }
@@ -30,21 +30,21 @@ function Get-ProcessCommand([int]$OwnerPid) {
     try { return [string](Get-CimInstance Win32_Process -Filter "ProcessId=$OwnerPid").CommandLine } catch { return "" }
 }
 
-function Test-BorderMarginListener([int]$Port, [int]$OwnerPid) {
+function Test-GoGlobalListener([int]$Port, [int]$OwnerPid) {
     if ($Port -eq 8000) {
         try {
             $h = Invoke-RestMethod -Uri "http://127.0.0.1:8000/api/health" -TimeoutSec 1
-            if ($h.service -eq "BorderMargin API") { return $true }
+            if ($h.service -eq "GoGlobal Intelligence API" -or $h.service -eq "BorderMargin API") { return $true }
         } catch {}
     }
     if ($Port -eq 5173) {
         try {
             $r = Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:5173" -TimeoutSec 1
-            if ([string]$r.Content -match "<title>BorderMargin</title>") { return $true }
+            if ([string]$r.Content -match "<title>(GoGlobal Intelligence|BorderMargin)</title>") { return $true }
         } catch {}
     }
     $cmd = Get-ProcessCommand $OwnerPid
-    if ($cmd -match "(?i)BorderMargin") {
+    if ($cmd -match "(?i)(GoGlobal Intelligence|BorderMargin)") {
         if ($Port -eq 8000 -and $cmd -match "(?i)(uvicorn|app\.main:app)") { return $true }
         if ($Port -eq 5173 -and $cmd -match "(?i)(vite|npm)") { return $true }
     }
@@ -54,8 +54,8 @@ function Test-BorderMarginListener([int]$Port, [int]$OwnerPid) {
 foreach ($port in @(8000,5173)) {
     $listeners = @(Get-ListeningPids $port)
     foreach ($ownerPid in $listeners) {
-        if (Test-BorderMarginListener $port $ownerPid) {
-            Write-Host "[PORT] Closing previous BorderMargin listener on port $port (PID $ownerPid)..."
+        if (Test-GoGlobalListener $port $ownerPid) {
+            Write-Host "[PORT] Closing previous GoGlobal/BorderMargin listener on port $port (PID $ownerPid)..."
             Stop-Process -Id $ownerPid -Force -ErrorAction SilentlyContinue
             Start-Sleep -Milliseconds 350
         } else {

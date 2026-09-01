@@ -119,7 +119,7 @@ export default function App(){
   async function exportProject(){
     if(!activeProject)return
     try{
-      await downloadFile(`/api/projects/${activeProject.id}/export.xlsx`,`BorderMargin_${activeProject.id}_${activeProject.title.replace(/[^a-z0-9]+/gi,'_')}.xlsx`)
+      await downloadFile(`/api/projects/${activeProject.id}/export.xlsx`,`GoGlobal Intelligence_${activeProject.id}_${activeProject.title.replace(/[^a-z0-9]+/gi,'_')}.xlsx`)
       setToast({tone:'success',text:locale==='zh'?'分析工作簿已导出':'Excel analysis export downloaded'})
     } catch(e){setToast({tone:'danger',text:e.message})}
   }
@@ -141,18 +141,18 @@ export default function App(){
     return null
   }
 
-  if(loading && !projects.length && !dashboard) return <div className="boot"><div className="boot-mark"><Layers3 size={22}/></div><div><b>BorderMargin</b></div></div>
+  if(loading && !projects.length && !dashboard) return <div className="boot"><div className="boot-mark"><Layers3 size={22}/></div><div><b>GoGlobal Intelligence</b></div></div>
 
   return <div className="app-shell">
     <aside className="sidebar">
-      <div className="brand"><div className="brand-mark"><Layers3 size={18}/></div><div><b>BorderMargin</b></div></div>
+      <div className="brand"><div className="brand-mark"><Layers3 size={18}/></div><div><b>GoGlobal Intelligence</b></div></div>
       <nav className="nav-groups">
         {NAV_GROUPS.map(group=><div className="nav-group" key={group.key}>
           <div className="nav-group-title">{locale==='zh'?group.zh:group.en}</div>
           {group.items.map(item=>{const Icon=item.icon;return <button key={item.key} className={page===item.key?'active':''} onMouseEnter={()=>PAGE_LOADERS[item.key]?.()} onFocus={()=>PAGE_LOADERS[item.key]?.()} onClick={()=>setPage(item.key)}><Icon size={16}/><span>{t(item.labelKey)}</span></button>})}
         </div>)}
       </nav>
-      <div className="sidebar-foot"><span>v5.3.8</span><Badge tone="neutral">{t('local')}</Badge></div>
+      <div className="sidebar-foot"><span>v5.4.1</span><Badge tone="neutral">{t('local')}</Badge></div>
     </aside>
 
     <div className="main-shell">

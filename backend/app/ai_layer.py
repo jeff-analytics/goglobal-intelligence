@@ -49,6 +49,7 @@ def _require_core(cfg: dict[str, str], *, need_model: bool = True) -> dict[str, 
     # so /v1/responses or /v1/models is never produced accidentally.
     if _is_deepseek(cfg) and cfg["base_url"].endswith("/v1"):
         cfg["base_url"] = cfg["base_url"][:-3]
+    cfg["model"] = normalize_ai_model_id(provider=cfg["provider"], base_url=cfg["base_url"], model=cfg["model"])
     if need_model and not cfg["model"]:
         raise RuntimeError("Model ID is not configured")
     return cfg
@@ -63,6 +64,25 @@ def _is_deepseek(cfg: dict[str, str]) -> bool:
     model = _clean(cfg.get("model")).lower()
     return "deepseek" in host or "deepseek" in provider or model.startswith("deepseek-")
 
+
+
+
+def normalize_ai_model_id(*, provider: str = "", base_url: str = "", model: str = "") -> str:
+    """Return the provider-canonical model ID used for persistence and validation.
+
+    DeepSeek model IDs are lowercase hyphenated identifiers. The UI may show a
+    human-readable label such as ``DeepSeek-V4-Flash``; normalize that display
+    form so validation is performed against the canonical ``/models`` IDs.
+    Other providers are left untouched because their IDs may be case-sensitive.
+    """
+    raw = _clean(model)
+    probe = {"provider": _clean(provider), "base_url": _clean(base_url), "model": raw}
+    if not raw or not _is_deepseek(probe):
+        return raw
+    raw = raw.translate(str.maketrans({"–": "-", "—": "-", "−": "-"}))
+    raw = re.sub(r"[\s_]+", "-", raw.strip().lower())
+    raw = re.sub(r"-+", "-", raw)
+    return raw
 
 def ai_status() -> dict[str, Any]:
     cfg = _config()

@@ -69,7 +69,7 @@ def _strip_html(text: str) -> str:
 def fetch_public_source(url: str, *, max_chars: int = 42000) -> dict[str, Any]:
     if not _is_public_url(url):
         raise RuntimeError("Source URL is not a public HTTP(S) address")
-    r=requests.get(url,timeout=18,allow_redirects=True,headers={"User-Agent":"BorderMargin/5.3.8","Accept":"text/html,text/plain,application/json;q=0.8,*/*;q=0.2"},stream=True)
+    r=requests.get(url,timeout=18,allow_redirects=True,headers={"User-Agent":"GoGlobalIntelligence/5.4.0","Accept":"text/html,text/plain,application/json;q=0.8,*/*;q=0.2"},stream=True)
     r.raise_for_status()
     ctype=(r.headers.get("content-type") or "").lower()
     if "pdf" in ctype:
@@ -261,7 +261,7 @@ def _responses_web_research(
 
     DeepSeek is intentionally two-stage: first let the server-side web-search
     agent research in plain text, then structure only that returned research into
-    the BorderMargin schema. This avoids coupling web tool execution to JSON
+    the GoGlobal Intelligence schema. This avoids coupling web tool execution to JSON
     formatting, which was the source of the previous `MODEL_INVALID_JSON` user
     failures. The second stage has no web tool and is forbidden from adding facts.
     """
@@ -278,7 +278,7 @@ def _responses_web_research(
         )
         discovered_urls = sorted(_collect_urls(search_data))
         structure_system = (
-            "Convert ONLY the supplied web-research notes into the requested BorderMargin JSON schema. "
+            "Convert ONLY the supplied web-research notes into the requested GoGlobal Intelligence JSON schema. "
             "Do not browse, do not use model memory, and do not add facts that are absent from the notes. "
             "Every numeric evidence row must have a directly supporting full source_url from the notes or discovered URL list. "
             "If a field is not directly supported, put its category/field in gaps. "
@@ -316,7 +316,7 @@ def _native_web_research(project: dict[str,Any], market: str, snapshot: dict[str
     if mode=="none":
         return None
     system=(
-        "You are BorderMargin's evidence recovery engine. Search the live web for ONLY the requested missing fields. "
+        "You are GoGlobal Intelligence's evidence recovery engine. Search the live web for ONLY the requested missing fields. "
         "Prefer official government, customs, tax, central-bank, UN/WTO/World Bank sources. For market prices, use exact public retailer or marketplace product pages. "
         "Never fill a numeric field from model memory. Every returned numeric value must have a directly supporting source_url. "
         "Do not alter user-entered costs, margins, uploaded observations, manual tariff/tax overrides, or confirmed HS/local tariff codes. "

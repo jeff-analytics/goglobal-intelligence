@@ -132,7 +132,7 @@ def reverse_cost(
         "current_factory_cost": current_factory_cost,
         "factory_cost_headroom": gap,
         "economically_within_target": None if gap is None else gap >= 0,
-        "method": "reverse solution of the deterministic BorderMargin pricing formula",
+        "method": "reverse solution of the deterministic GoGlobal Intelligence pricing formula",
     }
 
 

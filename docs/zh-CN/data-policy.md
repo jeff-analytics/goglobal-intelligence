@@ -1,4 +1,4 @@
-# BorderMargin V5.3.8 数据规则
+# GoGlobal Intelligence V5.4.0 数据规则
 
 ## 数据优先级
 

@@ -2,10 +2,10 @@
 setlocal EnableExtensions
 for %%I in ("%~dp0..\..") do set "ROOT=%%~fI"
 cd /d "%ROOT%"
-title BorderMargin V5.3.x -> V5.3.8 Data Migration
+title BorderMargin V5.3.x -> GoGlobal Intelligence V5.4.1 Data Migration
 
 echo ================================================
-echo   BorderMargin V5.3.x -> V5.3.8 Data Migration
+echo   BorderMargin V5.3.x -> GoGlobal Intelligence V5.4.1 Data Migration
 echo ================================================
 echo.
 set /p OLD_DIR=Enter the existing BorderMargin V5.3.x folder path: 
