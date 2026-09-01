@@ -171,7 +171,7 @@ def favicon():
     return Response(status_code=204)
 
 
-RELEASE_BUILD_ID = "v541-20260901-algorithms-ai-config-r1"
+RELEASE_BUILD_ID = "v541-20260901-algorithms-ai-config-r2"
 
 
 @app.get("/api/health")

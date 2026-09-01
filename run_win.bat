@@ -84,7 +84,7 @@ if errorlevel 1 (
   exit /b 1
 )
 
-if exist "backend\.venv\.goglobal_v540_deps" (
+if exist "backend\.venv\.goglobal_v541_r2_deps" (
   echo [3/6] Backend dependencies already installed.
 ) else (
   echo [3/6] Installing backend dependencies...
@@ -92,7 +92,7 @@ if exist "backend\.venv\.goglobal_v540_deps" (
   if errorlevel 1 goto :failed
   "backend\.venv\Scripts\python.exe" -m pip install --prefer-binary -r "backend\requirements.txt"
   if errorlevel 1 goto :failed
-  type nul > "backend\.venv\.goglobal_v540_deps"
+  type nul > "backend\.venv\.goglobal_v541_r2_deps"
 )
 
 if exist "frontend\node_modules" (
@@ -108,7 +108,7 @@ if exist "frontend\node_modules" (
   popd
 )
 
-if exist "frontend\.goglobal_v540_build_ok" (
+if exist "frontend\.goglobal_v541_r2_build_ok" (
   echo [5/6] Frontend build already validated.
 ) else (
   echo [5/6] Validating frontend production build...
@@ -120,7 +120,7 @@ if exist "frontend\.goglobal_v540_build_ok" (
     echo [ERROR] Frontend build validation failed. GoGlobal Intelligence will not start with a broken UI.
     goto :failed
   )
-  type nul > ".goglobal_v540_build_ok"
+  type nul > ".goglobal_v541_r2_build_ok"
   popd
 )
 
@@ -137,7 +137,7 @@ if errorlevel 1 (
 echo [6/6] Starting GoGlobal Intelligence API...
 start "GoGlobal Intelligence API" cmd /k call "%~dp0scripts\windows\start_backend.bat"
 echo Waiting for the exact V5.4.1 backend build...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$ok=$false; for($i=0;$i -lt 45;$i++){ try { $h=Invoke-RestMethod -Uri 'http://127.0.0.1:8000/api/health' -TimeoutSec 1; if($h.service -eq 'GoGlobal Intelligence API' -and $h.build -eq 'v541-20260901-algorithms-ai-config-r1'){$ok=$true;break} } catch {}; Start-Sleep -Seconds 1 }; if($ok){exit 0}else{exit 1}"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$ok=$false; for($i=0;$i -lt 45;$i++){ try { $h=Invoke-RestMethod -Uri 'http://127.0.0.1:8000/api/health' -TimeoutSec 1; if($h.service -eq 'GoGlobal Intelligence API' -and $h.build -eq 'v541-20260901-algorithms-ai-config-r2'){$ok=$true;break} } catch {}; Start-Sleep -Seconds 1 }; if($ok){exit 0}else{exit 1}"
 if errorlevel 1 (
   echo [ERROR] The expected GoGlobal Intelligence API build did not become ready.
   echo Check the GoGlobal Intelligence API window.

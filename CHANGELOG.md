@@ -2,7 +2,9 @@
 
 ## v5.4.1 — Advanced Algorithms + AI Provider Reliability
 
-Build: `v541-20260901-algorithms-ai-config-r1`
+Build: `v541-20260901-algorithms-ai-config-r2`
+
+- HS ranking cross-platform stability: calibrated dense LSA scores, bounded small-corpus SVD dimensions, and pinned analytical dependencies.
 
 - Keeps the full V5.4 advanced analytics stack: Pareto non-dominated sorting, Monte Carlo/LHS/Sobol uncertainty analysis, MILP + Bertsimas-Sim robust allocation, hybrid HS BM25 + dense embedding + pairwise learning-to-rank, and global trade-network risk analysis.
 - DeepSeek preset now uses the official Responses API with `https://api.deepseek.com` and canonical model ID `deepseek-v4-flash`.

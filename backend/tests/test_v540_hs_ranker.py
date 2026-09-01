@@ -60,3 +60,24 @@ def test_hybrid_ranker_preserves_exact_numeric_hs_prefix_signal(monkeypatch):
     result = ranker.hybrid_hs_candidates(query="850760", limit=5)
     assert result["candidates"][0]["code"] == "850760"
     assert result["candidates"][0]["score_breakdown"]["code_prefix"] == 1.0
+
+
+def test_dense_embedding_does_not_amplify_unsupported_projection_noise(monkeypatch):
+    reset(monkeypatch)
+    result = ranker.hybrid_hs_candidates(query="cotton knitted t shirt", limit=7)
+    by_code = {x["code"]: x for x in result["candidates"]}
+    unrelated = by_code["850760"]["score_breakdown"]
+    assert unrelated["bm25"] == 0.0
+    assert unrelated["token_coverage"] == 0.0
+    assert unrelated["embedding"] < 0.25
+    assert by_code["610910"]["score_breakdown"]["embedding"] > unrelated["embedding"]
+
+
+def test_dense_calibration_caps_semantic_only_outlier():
+    import numpy as np
+
+    raw = np.asarray([0.9965, 0.82], dtype=float)
+    support = np.asarray([0.0, 0.64], dtype=float)
+    calibrated = ranker._calibrate_dense_scores(raw, support)
+    assert calibrated[0] < 0.13
+    assert calibrated[1] > 0.65

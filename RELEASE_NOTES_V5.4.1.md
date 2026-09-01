@@ -1,6 +1,6 @@
 # GoGlobal Intelligence v5.4.1
 
-Build: `v541-20260901-algorithms-ai-config-r1`
+Build: `v541-20260901-algorithms-ai-config-r2`
 
 ## Advanced decision algorithms
 
@@ -19,3 +19,11 @@ Build: `v541-20260901-algorithms-ai-config-r1`
 
 - Windows and macOS launchers validate the V5.4.1 build.
 - macOS retains proxy-safe local health checks and backend runtime logging.
+
+## Cross-platform HS ranking stability
+
+- Calibrates dense LSA similarity with direct TF-IDF support so unsupported projection noise cannot dominate candidate ranking.
+- Removes per-query min-max amplification from the embedding feature.
+- Caps SVD dimensionality on small corpora for more stable Linux/macOS/Windows behavior.
+- Pins NumPy, SciPy, scikit-learn and NetworkX versions used by the analytical stack.
+- Adds regression coverage for the CI-only dense-similarity outlier observed on Ubuntu.

@@ -158,9 +158,15 @@ def _build_index(rows: list[dict[str, Any]]) -> dict[str, Any]:
         ("char", TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5), min_df=1, max_features=32000, sublinear_tf=True)),
     ], transformer_weights={"word": 1.15, "char": 0.85})
     X = vectorizer.fit_transform(semantic_docs)
-    max_comp = min(96, max(1, X.shape[0] - 1), max(1, X.shape[1] - 1))
+    # Avoid near-full-rank decompositions on small corpora.  They can turn
+    # floating-point projection noise into near-perfect cosine similarities on
+    # a different BLAS / scikit-learn build.  The full HS reference still gets
+    # a useful latent space, while tiny test or cached corpora stay compact.
+    doc_cap = max(2, int(round(math.sqrt(max(4, X.shape[0])) * 2)))
+    max_comp = min(64, doc_cap, max(1, X.shape[0] - 1), max(1, X.shape[1] - 1))
     svd = TruncatedSVD(n_components=max_comp, random_state=42)
     dense = normalize(svd.fit_transform(X))
+    semantic_sparse = normalize(X.copy())
     code_idx = {str(r["code"]): i for i, r in enumerate(leaves)}
     return {
         "rows": leaves,
@@ -172,6 +178,7 @@ def _build_index(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "vectorizer": vectorizer,
         "svd": svd,
         "dense": dense,
+        "semantic_sparse": semantic_sparse,
         "code_idx": code_idx,
     }
 
@@ -217,14 +224,40 @@ def _bm25_scores(index: dict[str, Any], query: str, k1: float = 1.5, b: float = 
     return scores
 
 
+def _calibrate_dense_scores(dense_scores: np.ndarray, sparse_support: np.ndarray) -> np.ndarray:
+    """Calibrate latent cosine similarity with direct TF-IDF evidence.
+
+    Truncated SVD is intentionally retained as the dense semantic signal, but
+    latent spaces can produce unstable high cosine scores for candidates that
+    have essentially no direct textual support, especially on tiny corpora or
+    across different BLAS implementations.  A small semantic-only floor keeps
+    synonym discovery possible while preventing unsupported projection noise
+    from dominating the hybrid ranker.
+    """
+    dense = np.clip(np.asarray(dense_scores, dtype=float), 0.0, 1.0)
+    support = np.clip(np.asarray(sparse_support, dtype=float), 0.0, 1.0)
+    reliability = 0.12 + 0.88 * np.sqrt(support)
+    return np.clip(dense * reliability, 0.0, 1.0)
+
+
 def _semantic_scores(index: dict[str, Any], query: str) -> np.ndarray:
     analysis = _analyze_text(query)
     semantic_query = analysis["semantic_text"]
     if not semantic_query.strip():
         return np.zeros(len(index["rows"]), dtype=float)
     q = index["vectorizer"].transform([semantic_query])
-    qv = normalize(index["svd"].transform(q))[0]
-    return np.asarray(index["dense"] @ qv, dtype=float)
+    if getattr(q, "nnz", 0) == 0:
+        return np.zeros(len(index["rows"]), dtype=float)
+
+    q_sparse = normalize(q.copy())
+    sparse_support = (index["semantic_sparse"] @ q_sparse.T).toarray().reshape(-1).astype(float, copy=False)
+
+    q_latent = index["svd"].transform(q)
+    if not np.any(np.isfinite(q_latent)) or float(np.linalg.norm(q_latent)) < 1e-12:
+        return np.zeros(len(index["rows"]), dtype=float)
+    qv = normalize(q_latent)[0]
+    dense_raw = np.asarray(index["dense"] @ qv, dtype=float)
+    return _calibrate_dense_scores(dense_raw, sparse_support)
 
 
 def _minmax(x: np.ndarray) -> np.ndarray:
@@ -244,7 +277,10 @@ def _feature_matrix(index: dict[str, Any], query: str) -> tuple[np.ndarray, np.n
     bm = _bm25_scores(index, query)
     sem = _semantic_scores(index, query)
     bmn = _minmax(bm)
-    semn = _minmax(sem)
+    # Semantic scores are already calibrated to [0,1].  Do not min-max them:
+    # min-max would amplify tiny cross-platform numerical noise into a 1.0
+    # feature and can reorder candidates on clean CI machines.
+    semn = np.clip(sem, 0.0, 1.0)
 
     q_analysis = _analyze_text(query)
     qtok = q_analysis["positive_unique"]
@@ -404,7 +440,7 @@ def hybrid_hs_candidates(
         "count": len(top),
         "source": "UN Comtrade HS reference",
         "method": (
-            "BM25 lexical retrieval + local dense LSA embedding (word/bigram and character TF-IDF projected with SVD) "
+            "BM25 lexical retrieval + calibrated local dense LSA embedding (word/bigram and character TF-IDF projected with SVD) "
             "+ negation-aware nomenclature features + pairwise logistic Learning-to-Rank from confirmed HS selections."
         ),
         "ranking_model": model_name,
