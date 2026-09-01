@@ -306,13 +306,13 @@ def test_launcher_prevents_stale_backend_and_ui_port_reuse():
     preflight=(root/"scripts/windows/prepare_ports.ps1").read_text(encoding="utf-8")
     mac=(root/"run_mac.command").read_text(encoding="utf-8")
     assert "scripts\\windows\\prepare_ports.ps1" in run
-    assert "v541-20260901-algorithms-ai-config-r4" in run
+    assert "v541-20260901-final-ci-r5" in run
     assert run.index('start "GoGlobal Intelligence API"') < run.index('start "GoGlobal Intelligence UI"')
     assert "--port 5173 --strictPort" in frontend
     assert "Get-NetTCPConnection" in preflight
     assert "Stop-Process" in preflight
     assert "another application" in preflight
-    assert "v541-20260901-algorithms-ai-config-r4" in mac
+    assert "v541-20260901-final-ci-r5" in mac
     assert "--port 5173 --strictPort" in mac
 
 
@@ -321,7 +321,7 @@ def test_health_exposes_exact_release_build_id():
     client=TestClient(main.app)
     body=client.get("/api/health").json()
     assert body["version"] == "5.4.1"
-    assert body["build"] == "v541-20260901-algorithms-ai-config-r4"
+    assert body["build"] == "v541-20260901-final-ci-r5"
 
 
 def test_setup_origin_dropdown_uses_portal_overlay_and_hs_selection_clears_candidates():

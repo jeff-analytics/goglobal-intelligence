@@ -43,3 +43,6 @@ Build: `v541-20260901-algorithms-ai-config-r4`
 The HS ranker no longer uses BLAS-backed matrix multiplication anywhere in ranking or pairwise LTR scoring. Dense feature-hash similarities and final ranking scores are reduced in a fixed Python order with `math.fsum`. Candidates with zero BM25 and zero exact positive-token support are hard-capped to an embedding contribution of 0.04. This converts the CI regression from a numeric heuristic into an explicit ranking invariant.
 
 GitHub Actions is pinned to Python 3.12.10 and the analytical dependency versions are printed before the test stage for reproducibility.
+
+### FINAL CI R5
+The HS candidate ranker now uses a pure-Python deterministic ranking path for BM25, dense feature-hash embedding scoring, and pairwise logistic Learning-to-Rank. CI verifies the source revision and repeats the HS suite under multiple `PYTHONHASHSEED` values before the full backend regression.

@@ -54,3 +54,10 @@ Build: `v540-20260831-advanced-decision-analytics-r2`
 - Added a regression test for that invariant so an unsupported dense collision cannot reappear as a CI-only failure.
 - GitHub Actions now pins Python `3.12.10` exactly and prints the analytical dependency versions before tests.
 - Full backend regression after the change: 129/129 passed; HS ranker regression: 9/9 passed across multiple `PYTHONHASHSEED` values.
+
+## V5.4.1 FINAL CI R5
+- Replaced the HS ranking numerical path with a pure-Python deterministic implementation.
+- BM25, dense feature-hash embedding, negation-aware features, and pairwise Learning-to-Rank remain active.
+- Removed NumPy/BLAS from the HS ranking path entirely.
+- Added hard invariant for unsupported dense evidence and multi-seed CI regression.
+- CI now verifies the exact HS ranker revision before running tests.
