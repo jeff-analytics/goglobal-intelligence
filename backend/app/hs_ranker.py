@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import math
 import re
 from collections import Counter
@@ -7,18 +8,13 @@ from threading import RLock
 from typing import Any
 
 import numpy as np
-from sklearn.decomposition import TruncatedSVD
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.pipeline import FeatureUnion
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import normalize
 
 from .sources.hs_reference import get_hs_reference
 from .storage import list_hs_ranking_feedback
 
 # HS descriptions contain classification-critical negations (for example
-# "not knitted or crocheted").  Treating "not" as an ordinary stop word can
-# invert the meaning of a candidate, so negation is handled separately below.
+# "not knitted or crocheted"). Treating "not" as an ordinary stop word can
+# invert candidate meaning, so negation is modelled explicitly.
 _STOP = {
     "and", "or", "the", "a", "an", "of", "for", "with", "to", "in", "on", "by", "from",
     "item", "items", "product", "products", "other", "including", "whether", "elsewhere",
@@ -37,19 +33,19 @@ _FEATURE_NAMES = [
     "negation_conflict",
     "code_prefix",
 ]
-# Cold-start prior.  The negative coefficient is intentional: a candidate
-# that explicitly negates a user requirement should be demoted.  This is a
-# domain-semantic feature, not an HS-code-specific rule.
+
+# Cold-start prior. The negative coefficient is intentional: a candidate that
+# explicitly negates a user requirement should be demoted. This is a generic
+# nomenclature feature and does not encode any specific HS code.
 _SEED_WEIGHTS = np.asarray([0.32, 0.24, 0.18, 0.10, 0.05, -0.30, 0.03], dtype=float)
+
+# The dense representation is a deterministic feature-hash embedding. Unlike
+# a fitted SVD, it has no BLAS-dependent latent rotation, so the same query and
+# HS reference yield the same ranking on macOS, Windows and GitHub Linux.
+_EMBED_DIM = 384
 
 
 def _expand_phrases(text: str) -> str:
-    """Normalize a small set of orthographic variants without class rules.
-
-    The replacement keeps both a phrase token and the generic noun so that
-    "T-shirt" can match "t shirt" while still retaining ordinary "shirt"
-    evidence.  No HS codes or chapter-specific decisions are embedded here.
-    """
     out = str(text or "").lower().replace("’", "'")
     out = re.sub(r"\bt\s*[- ]\s*shirts?\b", " tshirt shirt ", out)
     out = re.sub(r"\btshirts?\b", " tshirt shirt ", out)
@@ -60,14 +56,11 @@ def _normalize_token(token: str) -> str:
     token = str(token or "").lower().strip("-'_")
     if not token:
         return ""
-    # Conservative plural normalization helps user wording match official HS
-    # descriptions (shirt/shirts, battery/batteries) without a heavyweight NLP
-    # runtime or internet model download.
+    # Conservative plural normalization improves matching without a heavyweight
+    # NLP runtime or model download.
     if len(token) > 4 and token.endswith("ies") and not token.endswith("eies"):
         token = token[:-3] + "y"
     elif len(token) > 4 and token.endswith("es") and not token.endswith(("ses", "xes", "zes")):
-        # Keep words such as glasses/boxes stable; plain trailing-s handling
-        # below covers most commodity nouns.
         token = token[:-1]
     elif len(token) > 3 and token.endswith("s") and not token.endswith(("ss", "us", "is")):
         token = token[:-1]
@@ -77,15 +70,19 @@ def _normalize_token(token: str) -> str:
 def _raw_tokens(text: str) -> list[str]:
     expanded = _expand_phrases(text)
     raw = re.findall(r"[a-z0-9]+", expanded)
-    return [_normalize_token(t) for t in raw if _normalize_token(t)]
+    out: list[str] = []
+    for t in raw:
+        norm = _normalize_token(t)
+        if norm:
+            out.append(norm)
+    return out
 
 
 def _analyze_text(text: str) -> dict[str, Any]:
     raw = _raw_tokens(text)
     negated: set[str] = set()
 
-    # Capture "not X", "not X or Y", "without X", "non X" and similar short
-    # coordinated descriptions that frequently occur in tariff nomenclature.
+    # Capture short coordinated negations such as "not knitted or crocheted".
     for i, token in enumerate(raw):
         if token not in _NEGATION_CUES:
             continue
@@ -101,15 +98,13 @@ def _analyze_text(text: str) -> dict[str, Any]:
             if current not in _STOP and current not in _NEGATION_CUES and len(current) >= 2:
                 negated.add(current)
                 seen_content += 1
-                # One content term is enough unless it is followed by a short
-                # coordination such as "knitted or crocheted".
                 if seen_content >= 2:
                     break
             j += 1
 
     positive: list[str] = []
     negative_query: list[str] = []
-    for i, token in enumerate(raw):
+    for token in raw:
         if token in _NEGATION_CUES or token in _STOP or len(token) < 2:
             continue
         if token in negated:
@@ -117,23 +112,115 @@ def _analyze_text(text: str) -> dict[str, Any]:
         else:
             positive.append(token)
 
-    # Preserve order while removing duplicates only for coverage calculations;
-    # BM25 still uses the full positive token list and therefore term frequency.
-    unique_positive = list(dict.fromkeys(positive))
-    unique_negative = list(dict.fromkeys(negative_query))
     return {
         "raw": raw,
         "positive": positive,
-        "positive_unique": unique_positive,
+        "positive_unique": list(dict.fromkeys(positive)),
         "negated": negated,
-        "negative_unique": unique_negative,
-        "semantic_text": " ".join(positive + [f"neg_{x}" for x in sorted(negated)]),
+        "negative_unique": list(dict.fromkeys(negative_query)),
     }
 
 
 def _tokens(text: str) -> list[str]:
-    """Backwards-compatible positive-token helper used by tests/consumers."""
+    """Backwards-compatible positive-token helper."""
     return list(_analyze_text(text)["positive"])
+
+
+def _bigrams(tokens: list[str]) -> set[tuple[str, str]]:
+    return {(tokens[i], tokens[i + 1]) for i in range(max(0, len(tokens) - 1))}
+
+
+def _embedding_feature_counts(text: str) -> Counter[str]:
+    """Create deterministic lexical/orthographic features for dense embedding.
+
+    The result is still embedded into a compact dense vector below, but the
+    source features are explicit and stable. Character n-grams provide robust
+    spelling/morphology matching while word/bigram features retain commodity
+    meaning. Negated terms are namespaced so they cannot masquerade as positive
+    evidence.
+    """
+    analysis = _analyze_text(text)
+    feats: Counter[str] = Counter()
+    pos = analysis["positive"]
+
+    for token in pos:
+        feats[f"w:{token}"] += 1.0
+        padded = f"^{token}$"
+        for n in (3, 4, 5):
+            if len(padded) < n:
+                continue
+            for i in range(len(padded) - n + 1):
+                feats[f"c{n}:{padded[i:i+n]}"] += 0.18
+
+    for a, b in zip(pos, pos[1:]):
+        feats[f"b:{a}_{b}"] += 1.25
+
+    for token in sorted(analysis["negated"]):
+        feats[f"neg:{token}"] += 1.0
+
+    return feats
+
+
+def _feature_idf(rows_features: list[Counter[str]]) -> dict[str, float]:
+    n = max(1, len(rows_features))
+    df: Counter[str] = Counter()
+    for feats in rows_features:
+        for key in feats.keys():
+            df[key] += 1
+    return {k: math.log((1.0 + n) / (1.0 + v)) + 1.0 for k, v in df.items()}
+
+
+def _weighted_feature_map(
+    feats: Counter[str],
+    idf: dict[str, float],
+    n_docs: int,
+) -> dict[str, float]:
+    unseen_idf = math.log(1.0 + max(1, n_docs)) + 1.0
+    out: dict[str, float] = {}
+    for key, value in feats.items():
+        # Sublinear TF avoids one repeated token dominating the embedding.
+        tf = 1.0 + math.log(max(float(value), 1e-12)) if value > 1.0 else float(value)
+        out[key] = tf * float(idf.get(key, unseen_idf))
+    return out
+
+
+def _stable_hash_slots(feature: str) -> tuple[int, float, int, float]:
+    digest = hashlib.blake2b(feature.encode("utf-8"), digest_size=16).digest()
+    a = int.from_bytes(digest[0:4], "little") % _EMBED_DIM
+    b = int.from_bytes(digest[4:8], "little") % _EMBED_DIM
+    sa = 1.0 if (digest[8] & 1) == 0 else -1.0
+    sb = 1.0 if (digest[9] & 1) == 0 else -1.0
+    return a, sa, b, sb
+
+
+def _dense_hash_embedding(weighted: dict[str, float]) -> np.ndarray:
+    vec = np.zeros(_EMBED_DIM, dtype=np.float64)
+    for feature, value in weighted.items():
+        a, sa, b, sb = _stable_hash_slots(feature)
+        # Two independently signed slots reduce collision variance while
+        # remaining fully deterministic across Python/OS versions.
+        vec[a] += sa * value
+        vec[b] += sb * value * 0.7071067811865476
+    norm = math.sqrt(math.fsum(float(x) * float(x) for x in vec))
+    if norm > 0:
+        vec /= norm
+    return vec
+
+
+def _sparse_cosine(
+    left: dict[str, float],
+    left_norm: float,
+    right: dict[str, float],
+    right_norm: float,
+) -> float:
+    if left_norm <= 0 or right_norm <= 0:
+        return 0.0
+    # Iterate over the smaller map for deterministic and efficient direct
+    # evidence support.
+    if len(left) > len(right):
+        left, right = right, left
+    dot = math.fsum(float(v) * float(right.get(k, 0.0)) for k, v in left.items())
+    return max(0.0, min(1.0, dot / (left_norm * right_norm)))
 
 
 def _build_index(rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -141,32 +228,20 @@ def _build_index(rows: list[dict[str, Any]]) -> dict[str, Any]:
     docs = [str(r.get("description") or "") for r in leaves]
     analyses = [_analyze_text(x) for x in docs]
     token_docs = [a["positive"] for a in analyses]
-    semantic_docs = [a["semantic_text"] or "empty" for a in analyses]
     n = len(leaves)
     avgdl = sum(len(x) for x in token_docs) / max(1, n)
+
     df = Counter()
     for toks in token_docs:
         for t in set(toks):
             df[t] += 1
 
-    # Local dense embedding: lexical word/bigram and character n-gram TF-IDF
-    # are projected into a compact latent semantic space via TruncatedSVD.
-    # This keeps the desktop app offline/local-first and avoids silently
-    # downloading a transformer model while still providing a dense signal.
-    vectorizer = FeatureUnion([
-        ("word", TfidfVectorizer(analyzer="word", ngram_range=(1, 2), min_df=1, max_features=24000, sublinear_tf=True)),
-        ("char", TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5), min_df=1, max_features=32000, sublinear_tf=True)),
-    ], transformer_weights={"word": 1.15, "char": 0.85})
-    X = vectorizer.fit_transform(semantic_docs)
-    # Avoid near-full-rank decompositions on small corpora.  They can turn
-    # floating-point projection noise into near-perfect cosine similarities on
-    # a different BLAS / scikit-learn build.  The full HS reference still gets
-    # a useful latent space, while tiny test or cached corpora stay compact.
-    doc_cap = max(2, int(round(math.sqrt(max(4, X.shape[0])) * 2)))
-    max_comp = min(64, doc_cap, max(1, X.shape[0] - 1), max(1, X.shape[1] - 1))
-    svd = TruncatedSVD(n_components=max_comp, random_state=42)
-    dense = normalize(svd.fit_transform(X))
-    semantic_sparse = normalize(X.copy())
+    raw_semantic = [_embedding_feature_counts(x) for x in docs]
+    semantic_idf = _feature_idf(raw_semantic)
+    weighted_semantic = [_weighted_feature_map(x, semantic_idf, n) for x in raw_semantic]
+    semantic_norms = [math.sqrt(math.fsum(v * v for v in x.values())) for x in weighted_semantic]
+    dense = np.vstack([_dense_hash_embedding(x) for x in weighted_semantic]) if leaves else np.zeros((0, _EMBED_DIM))
+
     code_idx = {str(r["code"]): i for i, r in enumerate(leaves)}
     return {
         "rows": leaves,
@@ -175,18 +250,16 @@ def _build_index(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "tokens": token_docs,
         "df": df,
         "avgdl": avgdl,
-        "vectorizer": vectorizer,
-        "svd": svd,
+        "semantic_idf": semantic_idf,
+        "semantic_weighted": weighted_semantic,
+        "semantic_norms": semantic_norms,
         "dense": dense,
-        "semantic_sparse": semantic_sparse,
         "code_idx": code_idx,
     }
 
 
 def _index() -> dict[str, Any]:
     rows = get_hs_reference()
-    # Include descriptions in the cache signature so tests/reference refreshes
-    # with identical first/last codes cannot accidentally reuse an old index.
     key = (
         len(rows),
         str(rows[0].get("code") if rows else ""),
@@ -202,7 +275,7 @@ def _index() -> dict[str, Any]:
         return _CACHE["index"]
 
 
-def _bm25_scores(index: dict[str, Any], query: str, k1: float = 1.5, b: float = .75) -> np.ndarray:
+def _bm25_scores(index: dict[str, Any], query: str, k1: float = 1.5, b: float = 0.75) -> np.ndarray:
     q = _analyze_text(query)["positive"]
     n = len(index["rows"])
     scores = np.zeros(n, dtype=float)
@@ -217,7 +290,7 @@ def _bm25_scores(index: dict[str, Any], query: str, k1: float = 1.5, b: float = 
             if not f:
                 continue
             df = index["df"].get(term, 0)
-            idf = math.log(1 + (n - df + .5) / (df + .5))
+            idf = math.log(1 + (n - df + 0.5) / (df + 0.5))
             denom = f + k1 * (1 - b + b * dl / max(index["avgdl"], 1e-9))
             s += idf * (f * (k1 + 1) / denom)
         scores[i] = s
@@ -225,61 +298,59 @@ def _bm25_scores(index: dict[str, Any], query: str, k1: float = 1.5, b: float = 
 
 
 def _calibrate_dense_scores(dense_scores: np.ndarray, sparse_support: np.ndarray) -> np.ndarray:
-    """Calibrate latent cosine similarity with direct TF-IDF evidence.
+    """Calibrate dense cosine by direct text support.
 
-    Truncated SVD is intentionally retained as the dense semantic signal, but
-    latent spaces can produce unstable high cosine scores for candidates that
-    have essentially no direct textual support, especially on tiny corpora or
-    across different BLAS implementations.  A small semantic-only floor keeps
-    synonym discovery possible while preventing unsupported projection noise
-    from dominating the hybrid ranker.
+    A dense-only score is allowed a small floor for discovery, but it cannot
+    dominate candidates when there is no direct word/character evidence. This
+    prevents projection/hash-collision noise from producing CI-only ranking
+    inversions while preserving the embedding signal for genuine overlap.
     """
     dense = np.clip(np.asarray(dense_scores, dtype=float), 0.0, 1.0)
     support = np.clip(np.asarray(sparse_support, dtype=float), 0.0, 1.0)
-    reliability = 0.12 + 0.88 * np.sqrt(support)
+    reliability = 0.04 + 0.96 * np.sqrt(support)
     return np.clip(dense * reliability, 0.0, 1.0)
 
 
 def _semantic_scores(index: dict[str, Any], query: str) -> np.ndarray:
-    analysis = _analyze_text(query)
-    semantic_query = analysis["semantic_text"]
-    if not semantic_query.strip():
+    if not index["rows"]:
+        return np.zeros(0, dtype=float)
+
+    raw = _embedding_feature_counts(query)
+    if not raw:
         return np.zeros(len(index["rows"]), dtype=float)
-    q = index["vectorizer"].transform([semantic_query])
-    if getattr(q, "nnz", 0) == 0:
+    weighted = _weighted_feature_map(raw, index["semantic_idf"], len(index["rows"]))
+    q_norm = math.sqrt(math.fsum(v * v for v in weighted.values()))
+    if q_norm <= 0:
         return np.zeros(len(index["rows"]), dtype=float)
 
-    q_sparse = normalize(q.copy())
-    sparse_support = (index["semantic_sparse"] @ q_sparse.T).toarray().reshape(-1).astype(float, copy=False)
+    q_vec = _dense_hash_embedding(weighted)
+    # Matrix-vector multiplication is only used for the compact deterministic
+    # embedding. Direct support below prevents tiny platform-specific floating
+    # differences from changing unsupported candidates into strong matches.
+    dense_raw = np.asarray(index["dense"] @ q_vec, dtype=float)
+    dense_raw = np.clip(dense_raw, 0.0, 1.0)
 
-    q_latent = index["svd"].transform(q)
-    if not np.any(np.isfinite(q_latent)) or float(np.linalg.norm(q_latent)) < 1e-12:
-        return np.zeros(len(index["rows"]), dtype=float)
-    qv = normalize(q_latent)[0]
-    dense_raw = np.asarray(index["dense"] @ qv, dtype=float)
-    return _calibrate_dense_scores(dense_raw, sparse_support)
+    support = np.asarray([
+        _sparse_cosine(weighted, q_norm, doc, doc_norm)
+        for doc, doc_norm in zip(index["semantic_weighted"], index["semantic_norms"])
+    ], dtype=float)
+    return _calibrate_dense_scores(dense_raw, support)
 
 
 def _minmax(x: np.ndarray) -> np.ndarray:
     if len(x) == 0:
         return x
-    lo = float(np.min(x)); hi = float(np.max(x))
+    lo = float(np.min(x))
+    hi = float(np.max(x))
     if hi - lo < 1e-12:
         return np.zeros_like(x)
     return (x - lo) / (hi - lo)
-
-
-def _bigrams(tokens: list[str]) -> set[tuple[str, str]]:
-    return {(tokens[i], tokens[i + 1]) for i in range(max(0, len(tokens) - 1))}
 
 
 def _feature_matrix(index: dict[str, Any], query: str) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     bm = _bm25_scores(index, query)
     sem = _semantic_scores(index, query)
     bmn = _minmax(bm)
-    # Semantic scores are already calibrated to [0,1].  Do not min-max them:
-    # min-max would amplify tiny cross-platform numerical noise into a 1.0
-    # feature and can reorder candidates on clean CI machines.
     semn = np.clip(sem, 0.0, 1.0)
 
     q_analysis = _analyze_text(query)
@@ -302,17 +373,12 @@ def _feature_matrix(index: dict[str, Any], query: str) -> tuple[np.ndarray, np.n
         positive_text = " ".join(analysis["positive"])
         phrase = 1.0 if qphrase and qphrase in positive_text else 0.0
 
-        # Penalize semantic contradictions rather than deleting the evidence.
-        # This is especially important for legal/tariff phrases such as
-        # "not knitted", "without cocoa" or "excluding ...".
         positive_conflict = len(set(qtok) & doc_neg) / max(1, len(qtok))
         negative_conflict = len(qneg & toks) / max(1, len(qneg)) if qneg else 0.0
         negation_conflict = min(1.0, positive_conflict + negative_conflict)
 
         chapter_match = 0.0
         if digits and str(row.get("code") or "").startswith(digits[:6]):
-            # Longer numeric prefixes are much more informative; feature stays
-            # in [0,1] and remains generic across all HS chapters.
             chapter_match = min(1.0, len(digits[:6]) / 6.0)
 
         feats.append([
@@ -332,10 +398,45 @@ def _normalize_weights(weights: np.ndarray) -> np.ndarray:
     return np.asarray(weights, dtype=float) / denom
 
 
+def _pairwise_logistic_fit(diffs: list[np.ndarray], seed: np.ndarray) -> np.ndarray:
+    """Deterministic pairwise logistic Learning-to-Rank.
+
+    The previous implementation delegated to a native solver. Fixed-iteration
+    gradient updates avoid solver/BLAS-dependent coefficient drift while still
+    learning from confirmed selected > rejected pairs.
+    """
+    w = np.asarray(seed, dtype=float).copy()
+    if not diffs:
+        return _normalize_weights(w)
+
+    lr = 0.22
+    l2 = 0.06
+    prior = np.asarray(seed, dtype=float)
+    ordered = [np.asarray(d, dtype=float) for d in diffs]
+
+    for step in range(220):
+        grad = np.zeros_like(w)
+        for d in ordered:
+            z = float(np.dot(w, d))
+            z = max(-30.0, min(30.0, z))
+            # derivative of log(sigmoid(w·d))
+            gain = 1.0 / (1.0 + math.exp(z))
+            grad += gain * d
+        grad /= max(1, len(ordered))
+        grad -= l2 * (w - prior)
+        w += (lr / math.sqrt(1.0 + step * 0.03)) * grad
+
+    # Preserve the generic semantic safety sign even with sparse/misaligned
+    # feedback; users can learn relative strength, but explicit contradiction
+    # should never become a positive feature.
+    neg_idx = _FEATURE_NAMES.index("negation_conflict")
+    w[neg_idx] = min(float(w[neg_idx]), -0.02)
+    return _normalize_weights(w)
+
+
 def _ltr_weights(index: dict[str, Any]) -> tuple[np.ndarray, str, int]:
     feedback = list_hs_ranking_feedback(limit=300)
-    X: list[np.ndarray] = []
-    y: list[int] = []
+    diffs: list[np.ndarray] = []
     for item in feedback:
         query = str(item.get("query_text") or "").strip()
         selected = str(item.get("selected_code") or "")
@@ -350,33 +451,16 @@ def _ltr_weights(index: dict[str, Any]) -> tuple[np.ndarray, str, int]:
         for code in candidates[:16]:
             oi = index["code_idx"][code]
             diff = feats[si] - feats[oi]
-            if float(np.max(np.abs(diff))) < 1e-12:
-                continue
-            # Pairwise logistic ranking: selected > alternative.
-            X.append(diff); y.append(1)
-            X.append(-diff); y.append(0)
+            if float(np.max(np.abs(diff))) >= 1e-12:
+                diffs.append(diff)
 
     seed = _normalize_weights(_SEED_WEIGHTS)
-    if len(X) >= 12 and len(set(y)) == 2:
-        try:
-            model = LogisticRegression(
-                C=0.75,
-                fit_intercept=False,
-                solver="liblinear",
-                random_state=42,
-                max_iter=1000,
-            )
-            model.fit(np.asarray(X), np.asarray(y))
-            learned = _normalize_weights(model.coef_[0])
-            # Sparse user feedback should adapt the ranking without erasing
-            # safety semantics learned from the nomenclature itself.  Blend a
-            # diminishing cold-start prior with the pairwise LTR weights.
-            pair_count = len(X) // 2
-            prior_share = max(0.20, min(0.50, 12.0 / (12.0 + pair_count)))
-            blended = _normalize_weights(prior_share * seed + (1.0 - prior_share) * learned)
-            return blended, "pairwise_logistic_ltr", len(feedback)
-        except Exception:
-            pass
+    if len(diffs) >= 6:
+        learned = _pairwise_logistic_fit(diffs, seed)
+        pair_count = len(diffs)
+        prior_share = max(0.20, min(0.50, 12.0 / (12.0 + pair_count)))
+        blended = _normalize_weights(prior_share * seed + (1.0 - prior_share) * learned)
+        return blended, "pairwise_logistic_ltr", len(feedback)
     return seed, "seeded_pairwise_ranker", len(feedback)
 
 
@@ -396,25 +480,35 @@ def hybrid_hs_candidates(
             if v not in (None, "", False):
                 parts.extend([str(k), str(v)])
     context = " ".join(parts).strip()
+
     feats, bm, sem = _feature_matrix(index, context)
     weights, model_name, feedback_count = _ltr_weights(index)
     score = feats @ weights
 
-    # Candidate generation is high-recall: union strong sparse, dense and
-    # current-ranker hits before pairwise reranking.  Exact/prefix code queries
-    # are also retained through the score feature rather than a hard-coded code.
     pool = (
         set(np.argsort(bm)[-100:].tolist())
         | set(np.argsort(sem)[-100:].tolist())
         | set(np.argsort(score)[-120:].tolist())
     )
-    ranked = sorted(pool, key=lambda i: (float(score[i]), float(feats[i, 2]), float(feats[i, 0])), reverse=True)
+    # Fully deterministic tie-breaking: ranking score, lexical evidence,
+    # coverage, then code ascending. The final code key removes set-order
+    # dependence when several candidates are exactly tied at zero.
+    ranked = sorted(
+        pool,
+        key=lambda i: (
+            -float(score[i]),
+            -float(feats[i, 0]),
+            -float(feats[i, 2]),
+            str(index["rows"][i].get("code") or ""),
+        ),
+    )
 
-    top = []
+    top: list[dict[str, Any]] = []
     max_score = float(score[ranked[0]]) if ranked else 1.0
     anchor_index = min(len(ranked) - 1, max(limit * 3, 1)) if ranked else 0
     min_score = float(score[ranked[anchor_index]]) if ranked else 0.0
     span = max(max_score - min_score, 1e-9)
+
     for i in ranked[:max(1, min(limit, 20))]:
         row = index["rows"][i]
         rel = max(0.0, min(1.0, (float(score[i]) - min_score) / span))
@@ -440,8 +534,9 @@ def hybrid_hs_candidates(
         "count": len(top),
         "source": "UN Comtrade HS reference",
         "method": (
-            "BM25 lexical retrieval + calibrated local dense LSA embedding (word/bigram and character TF-IDF projected with SVD) "
-            "+ negation-aware nomenclature features + pairwise logistic Learning-to-Rank from confirmed HS selections."
+            "BM25 lexical retrieval + deterministic local dense feature-hash embedding "
+            "(word/bigram and character n-gram features) + negation-aware nomenclature features "
+            "+ deterministic pairwise logistic Learning-to-Rank from confirmed HS selections."
         ),
         "ranking_model": model_name,
         "feedback_count": feedback_count,

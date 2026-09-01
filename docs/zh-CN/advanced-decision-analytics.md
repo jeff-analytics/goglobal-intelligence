@@ -47,7 +47,7 @@ V5.4.0 把原有的贸易研究、成本测算和 AI Decision Research 扩展到
 HS 候选流程分三层：
 
 1. **BM25**：对官方 HS6 描述做稀疏词项检索。
-2. **Dense Embedding**：word/bigram + character TF-IDF 经 TruncatedSVD 投影到本地 dense latent space；无需下载在线 Transformer 模型。
+2. **Dense Embedding**：word/bigram + character n-gram 通过稳定哈希投影形成固定维度本地 dense embedding；不依赖在线 Transformer，也避免不同 BLAS / OS 下的 SVD 数值漂移。
 3. **Pairwise Learning-to-Rank**：用户确认 HS 后保存 `selected > alternatives` 偏好，使用 pairwise logistic ranking 更新特征权重。
 
 排序还显式处理 HS 描述中的否定语义，例如 `not knitted or crocheted`。候选如果否定了用户查询中的关键特征，会得到 `negation_conflict` 惩罚。该机制是通用语言特征，不针对某个 HS 代码写规则。

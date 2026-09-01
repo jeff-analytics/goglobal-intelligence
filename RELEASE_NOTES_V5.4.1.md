@@ -1,6 +1,6 @@
 # GoGlobal Intelligence v5.4.1
 
-Build: `v541-20260901-algorithms-ai-config-r2`
+Build: `v541-20260901-algorithms-ai-config-r3`
 
 ## Advanced decision algorithms
 
@@ -22,8 +22,18 @@ Build: `v541-20260901-algorithms-ai-config-r2`
 
 ## Cross-platform HS ranking stability
 
-- Calibrates dense LSA similarity with direct TF-IDF support so unsupported projection noise cannot dominate candidate ranking.
+- Replaces BLAS-sensitive LSA/SVD with a deterministic local dense feature-hash embedding calibrated by direct word/character evidence.
 - Removes per-query min-max amplification from the embedding feature.
-- Caps SVD dimensionality on small corpora for more stable Linux/macOS/Windows behavior.
+- Uses deterministic pairwise logistic Learning-to-Rank and deterministic tie-breaking so Linux/macOS/Windows produce the same ordering for identical inputs.
 - Pins NumPy, SciPy, scikit-learn and NetworkX versions used by the analytical stack.
 - Adds regression coverage for the CI-only dense-similarity outlier observed on Ubuntu.
+
+
+## CI / HS deterministic ranking hotfix r3
+
+- Replaced fitted TruncatedSVD ranking embeddings with deterministic local feature-hash dense embeddings.
+- Added direct evidence calibration so unsupported dense collisions remain bounded.
+- Replaced native-solver pairwise LTR with deterministic fixed-iteration pairwise logistic updates.
+- Added deterministic code tie-breaking to remove set-order dependence.
+- Added repeated cache-rebuild and direct-support regression tests for CI reproducibility.
+- Build: `v541-20260901-algorithms-ai-config-r3`.

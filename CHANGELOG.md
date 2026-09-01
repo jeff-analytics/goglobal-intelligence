@@ -2,9 +2,9 @@
 
 ## v5.4.1 — Advanced Algorithms + AI Provider Reliability
 
-Build: `v541-20260901-algorithms-ai-config-r2`
+Build: `v541-20260901-algorithms-ai-config-r3`
 
-- HS ranking cross-platform stability: calibrated dense LSA scores, bounded small-corpus SVD dimensions, and pinned analytical dependencies.
+- HS ranking cross-platform stability: deterministic dense feature-hash embeddings, deterministic pairwise LTR, explicit direct-support calibration, stable tie-breaking, and pinned analytical dependencies.
 
 - Keeps the full V5.4 advanced analytics stack: Pareto non-dominated sorting, Monte Carlo/LHS/Sobol uncertainty analysis, MILP + Bertsimas-Sim robust allocation, hybrid HS BM25 + dense embedding + pairwise learning-to-rank, and global trade-network risk analysis.
 - DeepSeek preset now uses the official Responses API with `https://api.deepseek.com` and canonical model ID `deepseek-v4-flash`.
@@ -23,7 +23,7 @@ Build: `v540-20260831-advanced-decision-analytics-r2`
 - Added graph-based global supply-risk analysis using supplier concentration, market reach, weighted betweenness and supplier-removal stress tests.
 
 ### HS ranking
-- Upgraded HS candidate ranking to BM25 + local dense LSA embedding + pairwise logistic Learning-to-Rank.
+- Upgraded HS candidate ranking to BM25 + deterministic local dense embedding + pairwise logistic Learning-to-Rank.
 - Confirmed HS selections are stored as pairwise ranking feedback.
 - Added general negation-aware nomenclature features so phrases such as `not knitted` do not incorrectly improve a positive `knitted` query match.
 - Added word/bigram and character semantic features while keeping the ranker local-first and model-download free.

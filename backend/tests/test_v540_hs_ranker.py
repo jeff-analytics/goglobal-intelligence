@@ -81,3 +81,25 @@ def test_dense_calibration_caps_semantic_only_outlier():
     calibrated = ranker._calibrate_dense_scores(raw, support)
     assert calibrated[0] < 0.13
     assert calibrated[1] > 0.65
+
+
+def test_hybrid_ranker_is_deterministic_across_rebuilds(monkeypatch):
+    reset(monkeypatch)
+    baseline = ranker.hybrid_hs_candidates(query="cotton knitted t shirt", limit=7)
+    expected = [(x["code"], x["score"], x["score_breakdown"]["embedding"]) for x in baseline["candidates"]]
+    for _ in range(20):
+        ranker._CACHE.clear()
+        current = ranker.hybrid_hs_candidates(query="cotton knitted t shirt", limit=7)
+        observed = [(x["code"], x["score"], x["score_breakdown"]["embedding"]) for x in current["candidates"]]
+        assert observed == expected
+
+
+def test_dense_embedding_requires_direct_support_for_strong_score(monkeypatch):
+    reset(monkeypatch)
+    result = ranker.hybrid_hs_candidates(query="cotton knitted t shirt", limit=7)
+    by_code = {x["code"]: x for x in result["candidates"]}
+    for code in ("850760", "420222"):
+        breakdown = by_code[code]["score_breakdown"]
+        assert breakdown["bm25"] == 0.0
+        assert breakdown["token_coverage"] == 0.0
+        assert breakdown["embedding"] <= 0.05
