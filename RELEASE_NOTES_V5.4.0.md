@@ -24,7 +24,7 @@ Build: `v540-20260831-advanced-decision-analytics-r2`
 
 ### 4. Hybrid HS candidate ranking
 - BM25 lexical retrieval.
-- Local dense LSA embedding built from word/bigram and character n-gram features.
+- Local dense embedding built from deterministic word/bigram and character n-gram feature hashing.
 - Negation-aware classification features and numeric HS-prefix handling.
 - Pairwise logistic Learning-to-Rank trained from confirmed HS selections.
 - High-recall candidate pool combining sparse, dense, and learned ranking signals.

@@ -118,7 +118,13 @@ def test_direct_recover_route_has_local_gap_guard(tmp_path, monkeypatch):
 
 
 def test_normal_hs_suggest_never_silently_calls_ai(monkeypatch):
-    monkeypatch.setattr(main,"suggest_hs_candidates",lambda **kwargs:{"query":"x","candidates":[],"count":0,"source":"official"})
+    # Keep this regression fully offline. The production HS endpoint now tries the
+    # local hybrid ranker before the deterministic fallback, so allowing either
+    # implementation to load the live UN Comtrade reference makes CI depend on
+    # network availability and can change the returned candidate list.
+    empty={"query":"x","candidates":[],"count":0,"source":"official"}
+    monkeypatch.setattr(main,"hybrid_hs_candidates",lambda **kwargs:dict(empty))
+    monkeypatch.setattr(main,"suggest_hs_candidates",lambda **kwargs:dict(empty))
     monkeypatch.setattr(main,"recover_hs_candidates",lambda *a,**k: (_ for _ in ()).throw(AssertionError("ordinary HS search must not spend model tokens")))
-    out=main.hs_suggest(q="keyboard",project_id=None,limit=8)
+    out=main.hs_suggest(q="product",project_id=None,limit=8)
     assert out["candidates"]==[]
